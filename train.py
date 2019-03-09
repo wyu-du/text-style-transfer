@@ -14,7 +14,7 @@ import glob
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from tensorflow import tf
+import tensorflow as tf
 
 import evaluation
 from cuda import CUDA
