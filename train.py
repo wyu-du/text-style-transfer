@@ -9,13 +9,12 @@ import logging
 import argparse
 import os
 import time
-import numpy as np
 import glob
 
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from tensorboardX import SummaryWriter
+from tensorflow import tf
 
 import evaluation
 from cuda import CUDA
@@ -114,7 +113,7 @@ model, start_epoch = models.attempt_load_model(
 if CUDA:
     model = model.cuda()
 
-writer = SummaryWriter(working_dir)
+writer = tf.summary.FileWriter(working_dir)
 
 
 if config['training']['optimizer'] == 'adam':
@@ -190,7 +189,7 @@ for epoch in range(start_epoch, config['training']['epochs']):
         loss.backward()
         norm = nn.utils.clip_grad_norm_(model.parameters(), config['training']['max_norm'])
 
-        writer.add_scalar('stats/grad_norm', norm, STEP)
+        tf.summary.scalar('grad_norm', norm)
 
         optimizer.step()
 
@@ -200,8 +199,8 @@ for epoch in range(start_epoch, config['training']['epochs']):
             wps = (batch_size * config['training']['batches_per_report']) / s
             avg_loss = np.mean(losses_since_last_report)
             info = (epoch, batch_idx, num_batches, wps, avg_loss, cur_metric)
-            writer.add_scalar('stats/WPS', wps, STEP)
-            writer.add_scalar('stats/loss', avg_loss, STEP)
+            tf.summary.scalar('WPS', wps)
+            tf.summary.scalar('avg_loss', avg_loss)
             logging.info('EPOCH: %s ITER: %s/%s WPS: %.2f LOSS: %.4f METRIC: %.4f' % info)
             start_since_last_report = time.time()
             words_since_last_report = 0
@@ -218,7 +217,7 @@ for epoch in range(start_epoch, config['training']['epochs']):
     dev_loss = evaluation.evaluate_lpp(
             model, src_test, tgt_test, config)
 
-    writer.add_scalar('eval/loss', dev_loss, epoch)
+    tf.summary.scalar('dev_loss', dev_loss)
 
     if args.bleu and epoch >= config['training'].get('bleu_start_epoch', 1):
         cur_metric, edit_distance, precision, recall, inputs, preds, golds, auxs = evaluation.inference_metrics(
@@ -233,10 +232,10 @@ for epoch in range(start_epoch, config['training']['epochs']):
         with open(working_dir + '/golds.%s' % epoch, 'w') as f:
             f.write('\n'.join(golds) + '\n')
 
-        writer.add_scalar('eval/precision', precision, epoch)
-        writer.add_scalar('eval/recall', recall, epoch)
-        writer.add_scalar('eval/edit_distance', edit_distance, epoch)
-        writer.add_scalar('eval/bleu', cur_metric, epoch)
+        tf.summary.scalar('eval_precision', precision)
+        tf.summary.scalar('eval_recall', recall)
+        tf.summary.scalar('eval_edit_distance', edit_distance)
+        tf.summary.scalar('eval_bleu', cur_metric)
 
     else:
         cur_metric = dev_loss
@@ -248,7 +247,10 @@ for epoch in range(start_epoch, config['training']['epochs']):
     avg_loss = np.mean(epoch_loss)
     epoch_loss = []
 
-writer.close()
+    merge_summary = tf.summary.merge_all() 
+    writer.add_summary(merge_summary, epoch)
+    
+    
 with open(working_dir + '/stats.csv', 'w') as f:
     f.write(utils.config_val_string(config) + ',%s,%s\n' % (
         best_metric, best_epoch))
