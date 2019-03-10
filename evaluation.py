@@ -237,3 +237,48 @@ def evaluate_lpp(model, src, tgt, config):
         losses.append(loss.data[0])
 
     return np.mean(losses)
+
+
+def evaluate_lpp_val(model, src, tgt, config):
+    """ 
+    evaluate log perplexity WITHOUT decoding
+    (i.e., with teacher forcing)
+    """
+    weight_mask = torch.ones(len(tgt['tok2id']))
+    if CUDA:
+        weight_mask = weight_mask.cuda()
+    weight_mask[tgt['tok2id']['<pad>']] = 0
+    loss_criterion = nn.CrossEntropyLoss(weight=weight_mask)
+    if CUDA:
+        loss_criterion = loss_criterion.cuda()
+
+    losses = []
+    for j in range(0, len(src['data']), config['data']['batch_size']):
+        sys.stdout.write("\r%s/%s..." % (j, len(src['data'])))
+        sys.stdout.flush()
+
+        # batch_size = 1
+        input_content, input_aux, output = data.minibatch(src, tgt, j, 1, config['data']['max_len'], 
+                                                          config['model']['model_type'], is_test=True)
+        input_content_src, _, srclens, srcmask, _ = input_content
+        input_ids_aux, _, auxlens, auxmask, _ = input_aux
+        
+        tgt_dist_measurer = tgt['dist_measurer']
+        related_data_tgt = tgt_dist_measurer.most_similar(input_content_src[0][1:])
+
+        for i, single_data_tgt in enumerate(related_data_tgt):
+            input_data_tgt = [tgt['tok2id']['<s>'] + single_data_tgt]
+            input_data_tgt = Variable(torch.LongTensor(input_data_tgt))
+            output_data_tgt = [single_data_tgt + tgt['tok2id']['</s>']]
+            output_data_tgt = Variable(torch.LongTensor(output_data_tgt))
+            if CUDA:
+                input_data_tgt = input_data_tgt.cuda()
+                output_data_tgt = output_data_tgt.cuda()
+            
+            decoder_logit, decoder_probs = model(input_content_src, input_data_tgt, 
+                                                 srcmask, srclens, input_ids_aux, auxlens, auxmask)
+            loss = loss_criterion(decoder_logit.contiguous().view(-1, len(tgt['tok2id'])), 
+                                  output_data_tgt.view(-1))
+            losses.append(loss.data[0])
+
+    return np.mean(losses)

@@ -22,24 +22,12 @@ from cuda import CUDA
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument(
-    "--config",
-    help="path to json config",
-    required=True
-)
-parser.add_argument(
-    "--bleu",
-    help="do BLEU eval",
-    action='store_true'
-)
-parser.add_argument(
-    "--overfit",
-    help="train continuously on one batch of data",
-    action='store_true'
-)
+parser.add_argument("--config", help="path to json config", required=True)
+parser.add_argument("--bleu", help="do BLEU eval", action='store_true')
+parser.add_argument("--overfit", help="train continuously on one batch of data", action='store_true')
+
 args = parser.parse_args()
 config = json.load(open(args.config, 'r'))
-
 working_dir = config['data']['working_dir']
 
 if not os.path.exists(working_dir):
@@ -64,57 +52,41 @@ console.setFormatter(formatter)
 logging.getLogger('').addHandler(console)
 
 logging.info('Reading data ...')
-src, tgt = data.read_nmt_data(
-    src=config['data']['src'],
-    config=config,
-    tgt=config['data']['tgt'],
-    attribute_vocab=config['data']['attribute_vocab']
-)
-
-src_test, tgt_test = data.read_nmt_data(
-    src=config['data']['src_test'],
-    config=config,
-    tgt=config['data']['tgt_test'],
-    attribute_vocab=config['data']['attribute_vocab'],
-    train_src=src,
-    train_tgt=tgt
-)
+# train time: just pick attributes that are close to the current (using word distance)
+src = data.gen_train_data(src=config['data']['src'], config=config, attribute_vocab=config['data']['attribute_vocab'])
+# dev time: scan through train content (using tfidf) and retrieve corresponding attributes
+src_dev, tgt_dev = data.gen_dev_data(src=config['data']['src_dev'], config=config, tgt=config['data']['tgt_dev'],
+                                     attribute_vocab=config['data']['attribute_vocab'], train_src=src)
 logging.info('...done!')
 
 
 batch_size = config['data']['batch_size']
 max_length = config['data']['max_len']
 src_vocab_size = len(src['tok2id'])
-tgt_vocab_size = len(tgt['tok2id'])
 
 
-weight_mask = torch.ones(tgt_vocab_size)
-weight_mask[tgt['tok2id']['<pad>']] = 0
+weight_mask = torch.ones(src_vocab_size)
+weight_mask[src['tok2id']['<pad>']] = 0
 loss_criterion = nn.CrossEntropyLoss(weight=weight_mask)
 if CUDA:
     weight_mask = weight_mask.cuda()
     loss_criterion = loss_criterion.cuda()
 
+# ensure that the parameter initialization values are the same every time we strat training
 torch.manual_seed(config['training']['random_seed'])
 np.random.seed(config['training']['random_seed'])
 
-model = models.SeqModel(
-    src_vocab_size=src_vocab_size,
-    tgt_vocab_size=tgt_vocab_size,
-    pad_id_src=src['tok2id']['<pad>'],
-    pad_id_tgt=tgt['tok2id']['<pad>'],
-    config=config
-)
-
+model = models.SeqModel(src_vocab_size=src_vocab_size, tgt_vocab_size=src_vocab_size,
+                        pad_id_src=src['tok2id']['<pad>'], pad_id_tgt=src['tok2id']['<pad>'],
+                        config=config)
 logging.info('MODEL HAS %s params' %  model.count_params())
-model, start_epoch = models.attempt_load_model(
-    model=model,
-    checkpoint_dir=working_dir)
+
+# get most recent checkpoint
+model, start_epoch = models.attempt_load_model(model=model, checkpoint_dir=working_dir)
 if CUDA:
     model = model.cuda()
 
 writer = tf.summary.FileWriter(working_dir)
-
 
 if config['training']['optimizer'] == 'adam':
     lr = config['training']['learning_rate']
@@ -135,10 +107,9 @@ losses_since_last_report = []
 best_metric = 0.0
 best_epoch = 0
 cur_metric = 0.0 # log perplexity or BLEU
-num_batches = len(src['content']) / batch_size
+num_batches = len(src['content']) // batch_size
 with open(working_dir + '/stats_labels.csv', 'w') as f:
-    f.write(utils.config_key_string(config) + ',%s,%s\n' % (
-        ('bleu' if args.bleu else 'dev_loss'), 'best_epoch'))
+    f.write(utils.config_key_string(config) + ',%s,%s\n' % (('bleu' if args.bleu else 'dev_loss'), 'best_epoch'))
 
 STEP = 0
 for epoch in range(start_epoch, config['training']['epochs']):
@@ -161,40 +132,33 @@ for epoch in range(start_epoch, config['training']['epochs']):
 
     losses = []
     for i in range(0, len(src['content']), batch_size):
-
         if args.overfit:
-            i = 50
+            i = batch_size
 
         batch_idx = i / batch_size
 
-        input_content, input_aux, output = data.minibatch(
-            src, tgt, i, batch_size, max_length, config['model']['model_type'])
-        input_lines_src, _, srclens, srcmask, _ = input_content
+        input_content, input_aux, output = data.minibatch(src, src, i, batch_size, max_length, 
+                                                          config['model']['model_type'])
+        input_content_src, _, srclens, srcmask, _ = input_content
         input_ids_aux, _, auxlens, auxmask, _ = input_aux
-        input_lines_tgt, output_lines_tgt, _, _, _ = output
+        input_data_tgt, output_lines_tgt, _, _, _ = output
         
-        decoder_logit, decoder_probs = model(
-            input_lines_src, input_lines_tgt, srcmask, srclens,
-            input_ids_aux, auxlens, auxmask)
+        decoder_logit, decoder_probs = model(input_content_src, input_data_tgt, srcmask, srclens,
+                                             input_ids_aux, auxlens, auxmask)
 
         optimizer.zero_grad()
-
-        loss = loss_criterion(
-            decoder_logit.contiguous().view(-1, tgt_vocab_size),
-            output_lines_tgt.view(-1)
-        )
+        loss = loss_criterion(decoder_logit.contiguous().view(-1, src_vocab_size),
+                              output_lines_tgt.view(-1))
         losses.append(loss.data[0])
         losses_since_last_report.append(loss.data[0])
         epoch_loss.append(loss.data[0])
         loss.backward()
+        
         norm = nn.utils.clip_grad_norm_(model.parameters(), config['training']['max_norm'])
-
         tf.summary.scalar('grad_norm', norm)
-
         optimizer.step()
 
         if args.overfit or batch_idx % config['training']['batches_per_report'] == 0:
-
             s = float(time.time() - start_since_last_report)
             wps = (batch_size * config['training']['batches_per_report']) / s
             avg_loss = np.mean(losses_since_last_report)
@@ -214,14 +178,12 @@ for epoch in range(start_epoch, config['training']['epochs']):
     logging.info('EPOCH %s COMPLETE. EVALUATING...' % epoch)
     start = time.time()
     model.eval()
-    dev_loss = evaluation.evaluate_lpp(
-            model, src_test, tgt_test, config)
-
+    dev_loss = evaluation.evaluate_lpp_val(model, src_dev, tgt_dev, config)
     tf.summary.scalar('dev_loss', dev_loss)
 
     if args.bleu and epoch >= config['training'].get('bleu_start_epoch', 1):
         cur_metric, edit_distance, precision, recall, inputs, preds, golds, auxs = evaluation.inference_metrics(
-            model, src_test, tgt_test, config)
+            model, src_dev, tgt_dev, config)
 
         with open(working_dir + '/auxs.%s' % epoch, 'w') as f:
             f.write('\n'.join(auxs) + '\n')
@@ -236,14 +198,12 @@ for epoch in range(start_epoch, config['training']['epochs']):
         tf.summary.scalar('eval_recall', recall)
         tf.summary.scalar('eval_edit_distance', edit_distance)
         tf.summary.scalar('eval_bleu', cur_metric)
-
     else:
         cur_metric = dev_loss
 
     model.train()
 
-    logging.info('METRIC: %s. TIME: %.2fs CHECKPOINTING...' % (
-        cur_metric, (time.time() - start)))
+    logging.info('METRIC: %s. TIME: %.2fs CHECKPOINTING...' % (cur_metric, (time.time() - start)))
     avg_loss = np.mean(epoch_loss)
     epoch_loss = []
 
@@ -252,6 +212,5 @@ for epoch in range(start_epoch, config['training']['epochs']):
     
     
 with open(working_dir + '/stats.csv', 'w') as f:
-    f.write(utils.config_val_string(config) + ',%s,%s\n' % (
-        best_metric, best_epoch))
+    f.write(utils.config_val_string(config) + ',%s,%s\n' % (best_metric, best_epoch))
 

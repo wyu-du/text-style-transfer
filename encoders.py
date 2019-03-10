@@ -49,7 +49,9 @@ class LSTMEncoder(nn.Module):
             inputs = pack_padded_sequence(src_embedding, srclens, batch_first=True)
         else:
             inputs = src_embedding
-
+            
+        # outputs = (batch, max_len, hidden_size)
+        # h_final, c_final = (num_layers*2, batch, hidden_size/2)
         outputs, (h_final, c_final) = self.lstm(inputs, (h0, c0))
 
         if self.pack:

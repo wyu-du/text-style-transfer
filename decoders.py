@@ -6,25 +6,23 @@ import torch.nn as nn
 from torch.autograd import Variable
 
 
-
-
-
 class BilinearAttention(nn.Module):
-    """ bilinear attention layer: score(H_j, q) = H_j^T W_a q
+    """ 
+    bilinear attention layer: score(H_j, q) = H_j^T W_a q
                 (where W_a = self.in_projection)
     """
-    def __init__(self, hidden):
+    def __init__(self, hidden_dim):
         super(BilinearAttention, self).__init__()
-        self.in_projection = nn.Linear(hidden, hidden, bias=False)
+        self.in_projection = nn.Linear(hidden_dim, hidden_dim, bias=False)
         self.softmax = nn.Softmax()
-        self.out_projection = nn.Linear(hidden * 2, hidden, bias=False)
+        self.out_projection = nn.Linear(hidden_dim * 2, hidden_dim, bias=False)
         self.tanh = nn.Tanh()
 
     def forward(self, query, keys, srcmask=None, values=None):
         """
-            query: [batch, hidden]
-            keys: [batch, len, hidden]
-            values: [batch, len, hidden] (optional, if none will = keys)
+            query: [batch, hidden_dim]
+            keys: [batch, max_len, hidden_dim]
+            values: [batch, len, hidden_dim] (optional, if none will = keys)
 
             compare query to keys, use the scores to do weighted sum of values
             if no value is specified, then values = keys
@@ -32,30 +30,30 @@ class BilinearAttention(nn.Module):
         if values is None:
             values = keys
     
-        # [Batch, Hidden, 1]
+        # [batch, hidden_dim, 1]
         decoder_hidden = self.in_projection(query).unsqueeze(2)
-        # [Batch, Source length]
+        # [batch, max_len]
         attn_scores = torch.bmm(keys, decoder_hidden).squeeze(2)
         if srcmask is not None:
             attn_scores = attn_scores.masked_fill(srcmask, -float('inf'))
             
         attn_probs = self.softmax(attn_scores)
-        # [Batch, 1, source length]
+        # [batch, 1, max_len]
         attn_probs_transposed = attn_probs.unsqueeze(1)
-        # [Batch, hidden]
+        # [batch, hidden_dim]
         weighted_context = torch.bmm(attn_probs_transposed, values).squeeze(1)
-
+        
+        # [batch, hidden_dim*2]
         context_query_mixed = torch.cat((weighted_context, query), 1)
+        # [batch, hidden_dim]
         context_query_mixed = self.tanh(self.out_projection(context_query_mixed))
 
         return weighted_context, context_query_mixed, attn_probs
 
 
 class AttentionalLSTM(nn.Module):
-    r"""A long short-term memory (LSTM) cell with attention."""
-
+    """A long short-term memory (LSTM) cell with attention."""
     def __init__(self, input_dim, hidden_dim, config, attention):
-        """Initialize params."""
         super(AttentionalLSTM, self).__init__()
         self.input_dim = input_dim
         self.hidden_dim = hidden_dim
@@ -68,7 +66,7 @@ class AttentionalLSTM(nn.Module):
             self.attention_layer = BilinearAttention(hidden_dim)
 
 
-    def forward(self, input, hidden, ctx, srcmask, kb=None):
+    def forward(self, input, hidden, ctx, srcmask):
         input = input.transpose(0, 1)
 
         output = []
@@ -76,6 +74,8 @@ class AttentionalLSTM(nn.Module):
         for i in timesteps:
             hy, cy = self.cell(input[i], hidden)
             if self.use_attention:
+                # h_tilde: attention distribution over source seq, shape = (batch, hidden_dim)
+                # alpha: attention weights for each word in source seq, shape = (batch, max_len)
                 _, h_tilde, alpha = self.attention_layer(hy, ctx, srcmask)
                 hidden = h_tilde, cy
                 output.append(h_tilde)
@@ -83,25 +83,20 @@ class AttentionalLSTM(nn.Module):
                 hidden = hy, cy
                 output.append(hy)
 
-        # combine outputs, and get into [time, batch, dim]
-        output = torch.cat(output, 0).view(
-            input.size(0), *output[0].size())
-
+        # combine outputs, and get into [max_len, batch, hidden_dim]
+        output = torch.cat(output, 0).view(input.size(0), *output[0].size())
+        # [batch, max_len, hidden_dim]
         output = output.transpose(0, 1)
 
         return output, hidden
 
 
 class StackedAttentionLSTM(nn.Module):
-    """ stacked lstm with input feeding
-    """
+    """ stacked lstm with input feeding """
     def __init__(self, cell_class=AttentionalLSTM, config=None):
         super(StackedAttentionLSTM, self).__init__()
         self.options=config['model']
-
-
         self.dropout = nn.Dropout(self.options['dropout'])
-
         self.layers = []
         input_dim = self.options['emb_dim']
         hidden_dim = self.options['tgt_hidden_dim']
@@ -112,22 +107,18 @@ class StackedAttentionLSTM(nn.Module):
             input_dim = hidden_dim
 
 
-    def forward(self, input, hidden, ctx, srcmask, kb=None):
+    def forward(self, input, hidden, ctx, srcmask):
         h_final, c_final = [], []
         for i, layer in enumerate(self.layers):
-            output, (h_final_i, c_final_i) = layer(input, hidden, ctx, srcmask, kb)
-
-            input = output
-
-            if i != len(self.layers):
-                input = self.dropout(input)
+            output, (h_final_i, c_final_i) = layer(input, hidden, ctx, srcmask)
+            input = output     # [batch, max_len, hidden_dim]
+            if i != len(self.layers)-1:
+                input = self.dropout(output)
 
             h_final.append(h_final_i)
             c_final.append(c_final_i)
 
-        h_final = torch.stack(h_final)
-        c_final = torch.stack(c_final)
+        h_final = torch.stack(h_final)  # [num_layers, batch, hidden_dim]
+        c_final = torch.stack(c_final)  # [num_layers, batch, hidden_dim]
 
         return input, (h_final, c_final)
-
-

@@ -134,6 +134,76 @@ def read_nmt_data(src, config, tgt, attribute_vocab, train_src=None, train_tgt=N
 
     return src, tgt
 
+
+def gen_train_data(src, config, attribute_vocab):
+    attribute_vocab = set([x.strip() for x in open(attribute_vocab)])
+
+    src_lines = [l.strip().split() for l in open(src, 'r')]
+    src_lines, src_content, src_attribute = list(zip(
+        *[extract_attributes(line, attribute_vocab) for line in src_lines]
+    ))
+    src_tok2id, src_id2tok = build_vocab_maps(config['data']['src_vocab'])
+    # train time: just pick attributes that are close to the current (using word distance)
+    # we never need to do the TFIDF thing with the source because 
+    # test time is strictly in the src => tgt direction
+    src_dist_measurer = CorpusSearcher(
+        query_corpus=[' '.join(x) for x in src_attribute],
+        key_corpus=[' '.join(x) for x in src_attribute],
+        value_corpus=[' '.join(x) for x in src_attribute],
+        vectorizer=CountVectorizer(vocabulary=src_tok2id),
+        make_binary=True
+    )
+    src = {
+        'data': src_lines, 'content': src_content, 'attribute': src_attribute,
+        'tok2id': src_tok2id, 'id2tok': src_id2tok, 'dist_measurer': src_dist_measurer
+    }
+
+    return src
+
+
+def gen_dev_data(src, config, tgt, attribute_vocab, train_src=None):
+    attribute_vocab = set([x.strip() for x in open(attribute_vocab)])
+
+    src_lines = [l.strip().split() for l in open(src, 'r')]
+    src_lines, src_content, src_attribute = list(zip(
+        *[extract_attributes(line, attribute_vocab) for line in src_lines]
+    ))
+    src_tok2id, src_id2tok = build_vocab_maps(config['data']['src_vocab'])
+    # train time: just pick attributes that are close to the current (using word distance)
+    # we never need to do the TFIDF thing with the source because 
+    # test time is strictly in the src => tgt direction
+    src_dist_measurer = CorpusSearcher(
+        query_corpus=[' '.join(x) for x in src_attribute],
+        key_corpus=[' '.join(x) for x in src_attribute],
+        value_corpus=[' '.join(x) for x in src_attribute],
+        vectorizer=CountVectorizer(vocabulary=src_tok2id),
+        make_binary=True
+    )
+    src = {
+        'data': src_lines, 'content': src_content, 'attribute': src_attribute,
+        'tok2id': src_tok2id, 'id2tok': src_id2tok, 'dist_measurer': src_dist_measurer
+    }
+
+    tgt_lines = [l.strip().split() for l in open(tgt, 'r')] if tgt else None
+    tgt_lines, tgt_content, tgt_attribute = list(zip(
+        *[extract_attributes(line, attribute_vocab) for line in tgt_lines]
+    ))
+    tgt_tok2id, tgt_id2tok = build_vocab_maps(config['data']['tgt_vocab'])
+    tgt_dist_measurer = CorpusSearcher(
+        query_corpus=[' '.join(x) for x in train_src['content']],
+        key_corpus=[' '.join(x) for x in tgt_content],
+        value_corpus=[' '.join(x) for x in tgt_attribute],
+        vectorizer=TfidfVectorizer(vocabulary=tgt_tok2id),
+        make_binary=False
+    )
+    tgt = {
+        'data': tgt_lines, 'content': tgt_content, 'attribute': tgt_attribute,
+        'tok2id': tgt_tok2id, 'id2tok': tgt_id2tok, 'dist_measurer': tgt_dist_measurer
+    }
+
+    return src, tgt
+
+
 def sample_replace(lines, dist_measurer, sample_rate, corpus_idx):
     """
     replace sample_rate * batch_size lines with nearby examples (according to dist_measurer)
@@ -162,8 +232,27 @@ def sample_replace(lines, dist_measurer, sample_rate, corpus_idx):
 
 
 def get_minibatch(lines, tok2id, index, batch_size, max_len, sort=False, idx=None,
-        dist_measurer=None, sample_rate=0.0):
-    """Prepare minibatch."""
+                  dist_measurer=None, sample_rate=0.0):
+    """
+    Prepare minibatch.
+    Input:
+        lines: input sequence list
+        tok2id: token -> id dictionary
+        index: current batch index
+        batch_size: minibatch size
+        max_len: maximum sequence length
+        sort: whether to sort sequence by descending length
+        idx: the index of the sequence
+        dist_measure: replace sample_rate * batch_size lines with nearby examples (don't know which function to use!!)
+        sample_rate: sampling rate for the sample_replace() method
+    Output:
+        input_lines: input sequence_id list (start with <s>), shape = (batch_size, max_len)
+        output_lines: input sequence_id list (end with </s>), shape = (batch_size, max_len)
+        lens: input sequence length list
+        mask: input mask list, shape = (batch_size, max_len)
+        idx: the index of the sequence
+            
+    """
     # FORCE NO SORTING because we care about the order of outputs
     #   to compare across systems
     lines = [
@@ -218,6 +307,30 @@ def get_minibatch(lines, tok2id, index, batch_size, max_len, sort=False, idx=Non
 
 
 def minibatch(src, tgt, idx, batch_size, max_len, model_type, is_test=False):
+    """
+    Generate minibatch.
+    Input:
+        src: {'data': src_lines (input seq list), 'content': src_content (input seq list, no attribute words), 
+              'attribute': src_attribute (list of attribute words, from the dict_att),
+              'tok2id': src_tok2id, 'id2tok': src_id2tok, 
+              'dist_measurer': src_dist_measurer (list of attributes that are close to the current attributes)}
+        tgt:{'data': tgt_lines (target seq list), 'content': tgt_content (target seq list, no attribute words), 
+             'attribute': tgt_attribute (list of attributr words, from the dict_att),
+             'tok2id': tgt_tok2id, 'id2tok': tgt_id2tok, 'dist_measurer': tgt_dist_measurer}
+        idx: current batch index
+        batch_size: size of the minibatch
+        max_len: maximum sequence length
+        model_type: type of models
+        is_test: train or test
+    Output:
+        inputs: (src_content_lines (with <s>), src_content_lines (with </s>), lens, mask, idx)
+        attributes:
+            - 'delete': (attribute_ids (all 0 or all 1), None, None, None, None)
+            - 'delete_retrieve': (target_attributes_list, target_attributes_list, lens, mask, idx)
+            - 'seq2seq': (None, None, None, None, None)
+        outputs: (target_data_lines, target_data_lines, lens, mask, idx)
+            
+    """
     if not is_test:
         use_src = random.random() < 0.5
         in_dataset = src if use_src else tgt
