@@ -206,8 +206,8 @@ for epoch in range(start_epoch, config['training']['epochs']):
     avg_loss = np.mean(epoch_loss)
     epoch_loss = []
 
-    merge_summary = tf.summary.merge_all() 
-    writer.add_summary(merge_summary, epoch)
+#    merge_summary = tf.summary.merge_all() 
+#    writer.add_summary(merge_summary, epoch)
     
     
 with open(working_dir + '/stats.csv', 'w') as f:

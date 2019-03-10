@@ -261,24 +261,93 @@ def evaluate_lpp_val(model, src, tgt, config):
         input_content, input_aux, output = data.minibatch(src, tgt, j, 1, config['data']['max_len'], 
                                                           config['model']['model_type'], is_test=True)
         input_content_src, _, srclens, srcmask, content_idx = input_content
-        input_ids_aux, _, auxlens, auxmask, _ = input_aux
         
         tgt_dist_measurer = tgt['dist_measurer']
-        related_data_tgt = tgt_dist_measurer.most_similar(content_idx)
+        related_content_tgt = tgt_dist_measurer.most_similar(content_idx[0])   # list of n seq_str
+        # related_content_tgt = source_content_str, target_content_str, target_att_str, idx, score
+        
 
-        for i, single_data_tgt in enumerate(related_data_tgt):
-            input_data_tgt = [tgt['tok2id']['<s>'] + single_data_tgt[1]]
-            input_data_tgt = Variable(torch.LongTensor(input_data_tgt))
-            output_data_tgt = [single_data_tgt[1] + tgt['tok2id']['</s>']]
+        for i, single_data_tgt in enumerate(related_content_tgt):
+            input_content_tgt, tgtlens, tgtmask = word2id(single_data_tgt[1], '<s>', tgt, config['data']['max_len'])
+            input_content_tgt = Variable(torch.LongTensor(input_content_tgt))
+            tgtlens = Variable(torch.LongTensor(tgtlens))
+            tgtmask = Variable(torch.LongTensor(tgtmask))
+            input_ids_aux, auxlens, auxmask = word2id(single_data_tgt[2], None, tgt, config['data']['max_len'])
+            input_ids_aux = Variable(torch.LongTensor(input_ids_aux))
+            auxlens = Variable(torch.LongTensor(auxlens))
+            auxmask = Variable(torch.LongTensor(auxmask))
+            output_data_tgt, _, _ = word2id(tgt['data'][single_data_tgt[3]], '</s>', tgt, config['data']['max_len'])
             output_data_tgt = Variable(torch.LongTensor(output_data_tgt))
             if CUDA:
-                input_data_tgt = input_data_tgt.cuda()
+                input_content_tgt = input_content_tgt.cuda()
+                tgtlens = tgtlens.cuda()
+                tgtmask = tgtmask.cuda()
+                input_ids_aux = input_ids_aux.cuda()
+                auxlens = auxlens.cuda()
+                auxmask = auxmask.cuda()
                 output_data_tgt = output_data_tgt.cuda()
             
-            decoder_logit, decoder_probs = model(input_content_src, input_data_tgt, 
-                                                 srcmask, srclens, input_ids_aux, auxlens, auxmask)
+            decoder_logit, decoder_probs = model(input_content_tgt, output_data_tgt, tgtmask, tgtlens, 
+                                                 input_ids_aux, auxlens, auxmask)
             loss = loss_criterion(decoder_logit.contiguous().view(-1, len(tgt['tok2id'])), 
                                   output_data_tgt.view(-1))
-            losses.append(loss.data[0])
+            losses.append(loss.item())
 
     return np.mean(losses)
+
+
+def word2id(seq_str, tag, tgt, max_len):
+    wid_list = []
+    seq_len = 0
+    mask = []
+    if tag == '<s>':
+        wid_list.append(tgt['tok2id']['<s>'])
+        words = seq_str.strip().split()
+        for word in words:
+            if word in tgt['tok2id'].keys():
+                wid = tgt['tok2id'][word]
+            else:
+                wid = tgt['tok2id']['<unk>']
+            wid_list.append(wid)
+        if len(wid_list) < max_len:
+            seq_len = len(wid_list)
+            wid_list += (max_len-len(wid_list))*[tgt['tok2id']['<pad>']]
+            mask = [0]*seq_len + [1]*(max_len-seq_len)
+        else:
+            seq_len = max_len
+            wid_list = wid_list[:max_len]
+            mask = [0]*seq_len
+    elif tag == '</s>':
+#        words = seq_str.strip().split()
+        for word in seq_str:
+            if word in tgt['tok2id'].keys():
+                wid = tgt['tok2id'][word]
+            else:
+                wid = tgt['tok2id']['<unk>']
+            wid_list.append(wid)
+        wid_list.append(tgt['tok2id']['</s>'])
+        if len(wid_list) < max_len:
+            seq_len = len(wid_list)
+            wid_list += (max_len-len(wid_list))*[tgt['tok2id']['<pad>']]
+            mask = [0]*seq_len + [1]*(max_len-seq_len)
+        else:
+            seq_len = max_len
+            wid_list = wid_list[:max_len]
+            mask = [0]*seq_len
+    else:
+#        words = seq_str.strip().split()
+        for word in seq_str:
+            if word in tgt['tok2id'].keys():
+                wid = tgt['tok2id'][word]
+            else:
+                wid = 1
+            wid_list.append(wid)
+        if len(wid_list) < max_len:
+            seq_len = len(wid_list)
+            wid_list += (max_len-len(wid_list))*[tgt['tok2id']['<pad>']]
+            mask = [0]*seq_len + [1]*(max_len-seq_len)
+        else:
+            seq_len = max_len
+            wid_list = wid_list[:max_len]
+            mask = [0]*seq_len
+    return [wid_list], [seq_len], [mask]
