@@ -260,16 +260,16 @@ def evaluate_lpp_val(model, src, tgt, config):
         # batch_size = 1
         input_content, input_aux, output = data.minibatch(src, tgt, j, 1, config['data']['max_len'], 
                                                           config['model']['model_type'], is_test=True)
-        input_content_src, _, srclens, srcmask, _ = input_content
+        input_content_src, _, srclens, srcmask, content_idx = input_content
         input_ids_aux, _, auxlens, auxmask, _ = input_aux
         
         tgt_dist_measurer = tgt['dist_measurer']
-        related_data_tgt = tgt_dist_measurer.most_similar(input_content_src[0][1:])
+        related_data_tgt = tgt_dist_measurer.most_similar(content_idx)
 
         for i, single_data_tgt in enumerate(related_data_tgt):
-            input_data_tgt = [tgt['tok2id']['<s>'] + single_data_tgt]
+            input_data_tgt = [tgt['tok2id']['<s>'] + single_data_tgt[1]]
             input_data_tgt = Variable(torch.LongTensor(input_data_tgt))
-            output_data_tgt = [single_data_tgt + tgt['tok2id']['</s>']]
+            output_data_tgt = [single_data_tgt[1] + tgt['tok2id']['</s>']]
             output_data_tgt = Variable(torch.LongTensor(output_data_tgt))
             if CUDA:
                 input_data_tgt = input_data_tgt.cuda()

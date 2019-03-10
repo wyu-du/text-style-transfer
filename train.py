@@ -20,7 +20,6 @@ import evaluation
 from cuda import CUDA
 
 
-
 parser = argparse.ArgumentParser()
 parser.add_argument("--config", help="path to json config", required=True)
 parser.add_argument("--bleu", help="do BLEU eval", action='store_true')

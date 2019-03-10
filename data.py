@@ -359,7 +359,7 @@ def minibatch(src, tgt, idx, batch_size, max_len, model_type, is_test=False):
     elif model_type == 'delete_retrieve':
         inputs =  get_minibatch(
             in_dataset['content'], in_dataset['tok2id'], idx, batch_size, max_len, sort=True)
-        attributes =  get_minibatch(
+        attributes = get_minibatch(
             out_dataset['attribute'], out_dataset['tok2id'], idx, batch_size, max_len, idx=inputs[-1],
             dist_measurer=out_dataset['dist_measurer'], sample_rate=0.25)
         outputs = get_minibatch(
