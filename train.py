@@ -106,6 +106,8 @@ losses_since_last_report = []
 best_metric = 0.0
 best_epoch = 0
 cur_metric = 0.0 # log perplexity or BLEU
+dev_loss = 0.0
+dev_perform = 0.0
 num_batches = len(src['content']) // batch_size
 with open(working_dir + '/stats_labels.csv', 'w') as f:
     f.write(utils.config_key_string(config) + ',%s,%s\n' % (('bleu' if args.bleu else 'dev_loss'), 'best_epoch'))
@@ -161,10 +163,10 @@ for epoch in range(start_epoch, config['training']['epochs']):
             s = float(time.time() - start_since_last_report)
             wps = (batch_size * config['training']['batches_per_report']) / s
             avg_loss = np.mean(losses_since_last_report)
-            info = (epoch, batch_idx, num_batches, wps, avg_loss, cur_metric)
+            info = (epoch, batch_idx, num_batches, wps, avg_loss, dev_loss, dev_perform)
             tf.summary.scalar('WPS', wps)
             tf.summary.scalar('avg_loss', avg_loss)
-            logging.info('EPOCH: %s ITER: %s/%s WPS: %.2f LOSS: %.4f METRIC: %.4f' % info)
+            logging.info('EPOCH: %s ITER: %s/%s WPS: %.2f LOSS: %.4f DEV_LOSS: %.4f DEV_PERFORM: %.4f' % info)
             start_since_last_report = time.time()
             words_since_last_report = 0
             losses_since_last_report = []
@@ -177,7 +179,8 @@ for epoch in range(start_epoch, config['training']['epochs']):
     logging.info('EPOCH %s COMPLETE. EVALUATING...' % epoch)
     start = time.time()
     model.eval()
-    dev_loss = evaluation.evaluate_lpp_val(model=model, src=tgt_dev, tgt=src_dev, config=config)
+    dev_loss = evaluation.evaluate_lpp(model=model, src=src_dev, tgt=src_dev, config=config)
+    dev_perform = evaluation.evaluate_lpp_val(model=model, src=tgt_dev, tgt=src_dev, config=config)
     tf.summary.scalar('dev_loss', dev_loss)
 
     if args.bleu and epoch >= config['training'].get('bleu_start_epoch', 1):
@@ -202,7 +205,8 @@ for epoch in range(start_epoch, config['training']['epochs']):
 
     model.train()
 
-    logging.info('METRIC: %s. TIME: %.2fs CHECKPOINTING...' % (cur_metric, (time.time() - start)))
+    logging.info('DEV_LOSS: %s. DEV_PERFORMANCE: %s. TIME: %.2fs CHECKPOINTING...' 
+                 % (dev_loss, dev_perform, (time.time() - start)))
     avg_loss = np.mean(epoch_loss)
     epoch_loss = []
 
