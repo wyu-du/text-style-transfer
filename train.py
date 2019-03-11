@@ -55,7 +55,7 @@ logging.info('Reading data ...')
 src = data.gen_train_data(src=config['data']['src'], config=config, attribute_vocab=config['data']['attribute_vocab'])
 # dev time: scan through train content (using tfidf) and retrieve corresponding attributes
 src_dev, tgt_dev = data.gen_dev_data(src=config['data']['src_dev'], config=config, tgt=config['data']['tgt_dev'],
-                                     attribute_vocab=config['data']['attribute_vocab'], train_src=src)
+                                     attribute_vocab=config['data']['attribute_vocab'], train_src=config['data']['src_dev'])
 logging.info('...done!')
 
 
@@ -177,7 +177,7 @@ for epoch in range(start_epoch, config['training']['epochs']):
     logging.info('EPOCH %s COMPLETE. EVALUATING...' % epoch)
     start = time.time()
     model.eval()
-    dev_loss = evaluation.evaluate_lpp_val(model, src_dev, tgt_dev, config)
+    dev_loss = evaluation.evaluate_lpp_val(model=model, src=tgt_dev, tgt=src_dev, config=config)
     tf.summary.scalar('dev_loss', dev_loss)
 
     if args.bleu and epoch >= config['training'].get('bleu_start_epoch', 1):

@@ -1,6 +1,3 @@
-
-
-
 def nested_iter(d):
     for k, v in sorted(d.items()):
         if isinstance(v, dict):
