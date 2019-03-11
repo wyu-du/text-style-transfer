@@ -55,7 +55,7 @@ logging.info('Reading data ...')
 src = data.gen_train_data(src=config['data']['src'], config=config, attribute_vocab=config['data']['attribute_vocab'])
 # dev time: scan through train content (using tfidf) and retrieve corresponding attributes
 src_dev, tgt_dev = data.gen_dev_data(src=config['data']['src_dev'], config=config, tgt=config['data']['tgt_dev'],
-                                     attribute_vocab=config['data']['attribute_vocab'], train_src=config['data']['src_dev'])
+                                     attribute_vocab=config['data']['attribute_vocab'])
 logging.info('...done!')
 
 

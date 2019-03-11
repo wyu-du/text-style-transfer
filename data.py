@@ -161,7 +161,7 @@ def gen_train_data(src, config, attribute_vocab):
     return src
 
 
-def gen_dev_data(src, config, tgt, attribute_vocab, train_src=None):
+def gen_dev_data(src, config, tgt, attribute_vocab):
     attribute_vocab = set([x.strip() for x in open(attribute_vocab)])
 
     src_lines = [l.strip().split() for l in open(src, 'r')]
@@ -190,7 +190,7 @@ def gen_dev_data(src, config, tgt, attribute_vocab, train_src=None):
     ))
     tgt_tok2id, tgt_id2tok = build_vocab_maps(config['data']['tgt_vocab'])
     tgt_dist_measurer = CorpusSearcher(
-        query_corpus=[' '.join(x) for x in train_src['content']],
+        query_corpus=[' '.join(x) for x in src['content']],
         key_corpus=[' '.join(x) for x in tgt_content],
         value_corpus=[' '.join(x) for x in tgt_attribute],
         vectorizer=TfidfVectorizer(vocabulary=tgt_tok2id),

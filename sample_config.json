@@ -16,7 +16,7 @@
     "src_vocab": "data/yelp/dict.dev.20k",
     "tgt_vocab": "data/yelp/dict.dev.20k",
     "share_vocab": true,
-    "attribute_vocab": "data/yelp/dict_att.dev.20k",
+    "attribute_vocab": "data/yelp/dict_attr.dev.20k",
     "batch_size": 10,
     "max_len": 50,
     "working_dir": "sample_run"
