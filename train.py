@@ -160,7 +160,7 @@ def train(config, working_dir):
             cur_metric, decoded_results = evaluation.evaluate_lpp_val(model=model, src=src_dev, tgt=tgt_dev, config=config)
             # generate decode dataset
             with open(working_dir + '/preds.%s' % epoch, 'w') as f:
-                f.write('\n'.join(decoded_results) + '\n')
+                f.writelines(decoded_results)
     
         logging.info('DEV_LOSS: %s. DEV_PERFORMANCE: %s. TIME: %.2fs CHECKPOINTING...' 
                      % (dev_loss, cur_metric, (time.time() - start)))
