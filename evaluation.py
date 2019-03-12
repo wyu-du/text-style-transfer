@@ -306,7 +306,7 @@ def evaluate_lpp_val(model, src, tgt, config):
 
 
 def id2word(decoded_tensor, tgt):
-    decoded_array = decoded_tensor.numpy()
+    decoded_array = decoded_tensor.cpu().numpy()
     sent = []
     for i in range(len(decoded_array[0])):
         word = tgt['id2tok'][decoded_array[0, i]]
