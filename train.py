@@ -32,6 +32,8 @@ def train(config, working_dir):
     # load data
     logging.info('Reading data ...')
     src = data.gen_train_data(src=config['data']['src'], attribute_vocab=config['data']['attribute_vocab'], config=config)
+    src_dev, tgt_dev = data.gen_dev_data(src=config['data']['src_dev'], tgt=config['data']['tgt_dev'],
+                                             attribute_vocab=config['data']['attribute_vocab'], config=config)
     logging.info('...done!')
     
     # build model
@@ -125,14 +127,8 @@ def train(config, working_dir):
         logging.info('EPOCH %s COMPLETE. VALIDATING...' % epoch)
         model.eval()
         
-        # load dev data
-        logging.info('Reading validation data ...')
-        src_dev, tgt_dev = data.gen_dev_data(src=config['data']['src_dev'], tgt=config['data']['tgt_dev'],
-                                             attribute_vocab=config['data']['attribute_vocab'], config=config)
-        logging.info('...done!')
-        
-        start = time.time()
         # compute validation loss
+        start = time.time()
         logging.info('Computing dev_loss on validation data ...')
         dev_loss = evaluation.evaluate_lpp(model=model, src=tgt_dev, tgt=tgt_dev, config=config)
         logging.info('...done!')

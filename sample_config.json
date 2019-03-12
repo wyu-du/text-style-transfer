@@ -3,7 +3,7 @@
     "optimizer": "adadelta",
     "learning_rate": 1.0,
     "max_norm": 2.0,
-    "epochs": 70,
+    "epochs": 20,
     "batches_per_report": 100,
     "batches_per_sampling": 500,
     "random_seed": 1
