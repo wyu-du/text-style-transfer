@@ -8,6 +8,7 @@ import sys
 import os
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 import numpy as np
+import nltk
 
 class SalienceCalculator(object):
     def __init__(self, pre_corpus, post_corpus):
@@ -48,30 +49,40 @@ class SalienceCalculator(object):
 dir_path = os.path.abspath(os.path.dirname(os.getcwd()))
 print(dir_path)
 
-with open(dir_path+'\\data\yelp\dict.20k', 'r', encoding='utf8') as f:
+with open('./data/yelp/dict.20k', 'r', encoding='utf8') as f:
     vocab_corpus = f.read().split('\n')
 vocab = set([w.strip() for i, w in enumerate(vocab_corpus)])
 
 
-corpus0 = dir_path+'\\data\yelp\sentiment.train.0'
-corpus0 = [
-    w if w in vocab else '<unk>' 
-    for l in open(corpus0)
-    for w in l.strip().split()
-]
+corpus0 = './data/yelp/sentiment.train.0'
+corpus0_vocab = []
+for line in open(corpus0):
+    pos_tags = nltk.pos_tag(nltk.word_tokenize(line))
 
-corpus1 = dir_path+'\\data\yelp\sentiment.train.1'
-corpus1 = [
-    w if w in vocab else '<unk>' 
-    for l in open(corpus1)
-    for w in l.strip().split()
-]
+    for (word, tag) in pos_tags:
+        if not tag.startswith("NN"):
+            corpus0_vocab.append(word)
+
+print("Get corpus0 vocab.")
+
+corpus1 = './data/yelp/sentiment.train.1'
+corpus1_vocab = []
+for line in open(corpus1):
+    pos_tags = nltk.pos_tag(nltk.word_tokenize(line))
+
+    for (word, tag) in pos_tags:
+        if not tag.startswith("NN"):
+            corpus1_vocab.append(word)
+
+print("Get corpus1 vocab.")
 
 r = 15.0
-sc = SalienceCalculator(corpus0, corpus1)
-with open(dir_path+'\\data\yelp\dict_attr.20k', 'w', encoding='utf8') as f:
+sc = SalienceCalculator(corpus0_vocab, corpus1_vocab)
+with open('./data/yelp/dict_attr.20k', 'w', encoding='utf8') as f:
     for tok in vocab:
-    #    print(tok, sc.salience(tok))
+        if(len(tok) == 0):
+            continue
+        #print(tok, sc.salience(tok))
         if max(sc.salience(tok, attribute='0'), sc.salience(tok, attribute='1')) > r:
             f.write(tok+'\n')
 
