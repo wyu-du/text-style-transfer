@@ -27,7 +27,6 @@ class CorpusSearcher(object):
         
     def most_similar(self, key_idx, n=10):
         query = self.query_corpus[key_idx]
-
         query_vec = self.vectorizer.transform([query])
 
         scores = np.dot(self.key_corpus_matrix, query_vec.T)
@@ -37,7 +36,7 @@ class CorpusSearcher(object):
 
         # use the retrieved i to pick examples from the VALUE corpus
         selected = [
-            (self.query_corpus[i], self.key_corpus[i], self.value_corpus[i], i, score) 
+            (self.query_corpus[key_idx], self.key_corpus[i], self.value_corpus[i], i, score) 
             for (score, i) in selected
         ]
 
@@ -135,7 +134,7 @@ def read_nmt_data(src, config, tgt, attribute_vocab, train_src=None, train_tgt=N
     return src, tgt
 
 
-def gen_train_data(src, config, attribute_vocab):
+def gen_train_data(src, attribute_vocab, config):
     attribute_vocab = set([x.strip() for x in open(attribute_vocab)])
 
     src_lines = [l.strip().split() for l in open(src, 'r')]
@@ -161,7 +160,7 @@ def gen_train_data(src, config, attribute_vocab):
     return src
 
 
-def gen_dev_data(src, config, tgt, attribute_vocab):
+def gen_dev_data(src, tgt, attribute_vocab, config):
     attribute_vocab = set([x.strip() for x in open(attribute_vocab)])
 
     src_lines = [l.strip().split() for l in open(src, 'r')]
@@ -190,7 +189,7 @@ def gen_dev_data(src, config, tgt, attribute_vocab):
     ))
     tgt_tok2id, tgt_id2tok = build_vocab_maps(config['data']['tgt_vocab'])
     tgt_dist_measurer = CorpusSearcher(
-        query_corpus=[' '.join(x) for x in src['content']],
+        query_corpus=[' '.join(x) for x in src_content],
         key_corpus=[' '.join(x) for x in tgt_content],
         value_corpus=[' '.join(x) for x in tgt_attribute],
         vectorizer=TfidfVectorizer(vocabulary=tgt_tok2id),

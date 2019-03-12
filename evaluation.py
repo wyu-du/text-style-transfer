@@ -50,6 +50,7 @@ def get_bleu(hypotheses, reference):
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
+
 def get_edit_distance(hypotheses, reference):
     ed = 0
     for hyp, ref in zip(hypotheses, reference):
@@ -119,6 +120,7 @@ def decode_minibatch(max_len, start_id, model, src_input, srclens, srcmask,
         tgt_input = torch.cat((tgt_input, next_preds.unsqueeze(1)), dim=1)
 
     return tgt_input
+
 
 def decode_dataset(model, src, tgt, config):
     """Evaluate model."""
@@ -212,9 +214,6 @@ def evaluate_lpp(model, src, tgt, config):
 
     losses = []
     for j in range(0, len(src['data']), config['data']['batch_size']):
-        sys.stdout.write("\r%s/%s..." % (j, len(src['data'])))
-        sys.stdout.flush()
-
         # get batch
         input_content, input_aux, output = data.minibatch(
             src, tgt, j, 
@@ -234,7 +233,7 @@ def evaluate_lpp(model, src, tgt, config):
             decoder_logit.contiguous().view(-1, len(tgt['tok2id'])),
             output_lines_tgt.view(-1)
         )
-        losses.append(loss.data[0])
+        losses.append(loss.item())
 
     return np.mean(losses)
 
@@ -243,6 +242,10 @@ def evaluate_lpp_val(model, src, tgt, config):
     """ 
     evaluate log perplexity WITHOUT decoding
     (i.e., with teacher forcing)
+    
+    args:
+        src: src data object (i.e. data 0, learnt by the model)
+        tgt: target data object (i.e. data 1, not learnt by the model)
     """
     weight_mask = torch.ones(len(tgt['tok2id']))
     if CUDA:
@@ -253,29 +256,29 @@ def evaluate_lpp_val(model, src, tgt, config):
         loss_criterion = loss_criterion.cuda()
 
     losses = []
+    decoded_results = []
     for j in range(0, len(src['data']), config['data']['batch_size']):
-        sys.stdout.write("\r%s/%s..." % (j, len(src['data'])))
-        sys.stdout.flush()
-
         # batch_size = 1
-        input_content, input_aux, output = data.minibatch(src, tgt, j, 1, config['data']['max_len'], 
+        input_content, _, _ = data.minibatch(src, tgt, j, 1, config['data']['max_len'], 
                                                           config['model']['model_type'], is_test=True)
-        input_content_src, _, srclens, srcmask, content_idx = input_content
+        input_content_src, _, _, _, content_idx = input_content
         
         tgt_dist_measurer = tgt['dist_measurer']
         related_content_tgt = tgt_dist_measurer.most_similar(content_idx[0])   # list of n seq_str
         # related_content_tgt = source_content_str, target_content_str, target_att_str, idx, score
         
-
+        n_decoded_sents = []
         for i, single_data_tgt in enumerate(related_content_tgt):
             input_content_tgt, tgtlens, tgtmask = word2id(single_data_tgt[1], '<s>', tgt, config['data']['max_len'])
             input_content_tgt = Variable(torch.LongTensor(input_content_tgt))
             tgtlens = Variable(torch.LongTensor(tgtlens))
             tgtmask = Variable(torch.LongTensor(tgtmask))
+            
             input_ids_aux, auxlens, auxmask = word2id(single_data_tgt[2], None, tgt, config['data']['max_len'])
             input_ids_aux = Variable(torch.LongTensor(input_ids_aux))
             auxlens = Variable(torch.LongTensor(auxlens))
             auxmask = Variable(torch.LongTensor(auxmask))
+            
             output_data_tgt, _, _ = word2id(tgt['data'][single_data_tgt[3]], '</s>', tgt, config['data']['max_len'])
             output_data_tgt = Variable(torch.LongTensor(output_data_tgt))
             if CUDA:
@@ -292,8 +295,25 @@ def evaluate_lpp_val(model, src, tgt, config):
             loss = loss_criterion(decoder_logit.contiguous().view(-1, len(tgt['tok2id'])), 
                                   output_data_tgt.view(-1))
             losses.append(loss.item())
+            
+            decoded_data_tgt = decode_minibatch(20, tgt['tok2id']['<s>'], 
+                                        model, input_content_tgt, tgtlens, tgtmask,
+                                        input_ids_aux, auxlens, auxmask)
+            n_decoded_sents.append(id2word(decoded_data_tgt, tgt))
+        decoded_results.append(n_decoded_sents)
 
-    return np.mean(losses)
+    return np.mean(losses), decoded_results
+
+
+def id2word(decoded_tensor, tgt):
+    decoded_array = decoded_tensor.numpy()
+    sent = []
+    for i in range(len(decoded_array[0])):
+        word = tgt['id2tok'][decoded_array[0, i]]
+        sent.append(word)
+        if word == '</s>':
+            break
+    return ' '.join(sent[1:-1])
 
 
 def word2id(seq_str, tag, tgt, max_len):
@@ -317,7 +337,7 @@ def word2id(seq_str, tag, tgt, max_len):
             seq_len = max_len
             wid_list = wid_list[:max_len]
             mask = [0]*seq_len
-    elif tag == '</s>':
+    if tag == '</s>':
 #        words = seq_str.strip().split()
         for word in seq_str:
             if word in tgt['tok2id'].keys():
@@ -334,8 +354,8 @@ def word2id(seq_str, tag, tgt, max_len):
             seq_len = max_len
             wid_list = wid_list[:max_len]
             mask = [0]*seq_len
-    else:
-#        words = seq_str.strip().split()
+    if tag == None:
+        words = seq_str.strip().split()
         for word in seq_str:
             if word in tgt['tok2id'].keys():
                 wid = tgt['tok2id'][word]

@@ -11,8 +11,8 @@
   "data": {
     "src": "data/yelp/sentiment.dev.0",
     "tgt": "data/yelp/sentiment.dev.1",
-    "src_dev": "data/yelp/sentiment.dev.0",
-    "tgt_dev": "data/yelp/sentiment.dev.1",
+    "src_dev": "data/yelp/sentiment.dev.1",
+    "tgt_dev": "data/yelp/sentiment.dev.0",
     "src_vocab": "data/yelp/dict.dev.20k",
     "tgt_vocab": "data/yelp/dict.dev.20k",
     "share_vocab": true,
