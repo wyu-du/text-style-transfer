@@ -1,2 +1,6 @@
-# text-style-transfer
-a simple text style transfer model
+# Usage
+
+### Training
+
+`python train.py --config sample_config.json`
+

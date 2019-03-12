@@ -4,7 +4,7 @@
     "learning_rate": 1.0,
     "max_norm": 2.0,
     "epochs": 70,
-    "batches_per_report": 10,
+    "batches_per_report": 100,
     "batches_per_sampling": 500,
     "random_seed": 1
   },
@@ -16,7 +16,7 @@
     "src_vocab": "data/yelp/dict.20k",
     "tgt_vocab": "data/yelp/dict.20k",
     "share_vocab": true,
-    "attribute_vocab": "data/yelp/dict_attr.20k",
+    "attribute_vocab": "data/yelp/dict_att.20k",
     "batch_size": 10,
     "max_len": 50,
     "working_dir": "sample_run"
