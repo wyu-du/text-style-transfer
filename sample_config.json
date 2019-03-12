@@ -9,10 +9,12 @@
     "random_seed": 1
   },
   "data": {
-    "src": "data/yelp/sentiment.train.0",
-    "tgt": "data/yelp/sentiment.train.1",
+    "src": "data/yelp/sentiment.dev.0",
+    "tgt": "data/yelp/sentiment.dev.1",
     "src_dev": "data/yelp/sentiment.dev.1",
     "tgt_dev": "data/yelp/sentiment.dev.0",
+    "src_truth": "data/yelp/sentiment.truth.1",
+    "tgt_truth": "data/yelp/sentiment.truth.0",
     "src_vocab": "data/yelp/dict.20k",
     "tgt_vocab": "data/yelp/dict.20k",
     "share_vocab": true,
@@ -26,11 +28,11 @@
         "emb_dim": 128,
         "attention": false,
         "encoder": "lstm",
-        "src_hidden_dim": 512,
-        "src_layers": 1,
+        "enc_hidden_dim": 512,
+        "enc_layers": 1,
         "bidirectional": true,
-        "tgt_hidden_dim": 512,
-        "tgt_layers": 1,
+        "dec_hidden_dim": 512,
+        "dec_layers": 1,
         "decode": "greedy",
         "dropout": 0.2
     }

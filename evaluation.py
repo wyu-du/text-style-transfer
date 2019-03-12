@@ -9,6 +9,8 @@ import torch.nn as nn
 import editdistance
 
 import data
+import models
+from utils import word2id, id2word
 from cuda import CUDA
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -97,7 +99,7 @@ def get_precisions_recalls(inputs, preds, ground_truths):
 
 
 def decode_minibatch(max_len, start_id, model, src_input, srclens, srcmask,
-        aux_input, auxlens, auxmask):
+                     aux_input, auxlens, auxmask):
     """ argmax decoding """
     # Initialize target with <s> for every sentence
     tgt_input = Variable(torch.LongTensor([[start_id] for i in range(src_input.size(0))]))
@@ -178,8 +180,7 @@ def decode_dataset(model, src, tgt, config):
 
 def inference_metrics(model, src, tgt, config):
     """ decode and evaluate bleu """
-    inputs, preds, ground_truths, auxs = decode_dataset(
-        model, src, tgt, config)
+    inputs, preds, ground_truths, auxs = decode_dataset(model, src, tgt, config)
 
     bleu = get_bleu(preds, ground_truths)
     edit_distance = get_edit_distance(preds, ground_truths)
@@ -211,33 +212,27 @@ def evaluate_lpp(model, src, tgt, config):
     losses = []
     for j in range(0, len(src['data']), config['data']['batch_size']):
         # get batch
-        input_content, input_aux, output = data.minibatch(
-            src, tgt, j, 
-            config['data']['batch_size'], 
-            config['data']['max_len'], 
-            config['model']['model_type'],
-            is_test=True)
-        input_lines_src, _, srclens, srcmask, _ = input_content
+        input_content, input_aux, output = data.minibatch(src, tgt, j, config['data']['batch_size'], 
+                                                          config['data']['max_len'], 
+                                                          config['model']['model_type'],
+                                                          is_test=True)
+        input_content_src, _, srclens, srcmask, _ = input_content
         input_ids_aux, _, auxlens, auxmask, _ = input_aux
-        input_lines_tgt, output_lines_tgt, _, _, _ = output
+        input_data_tgt, output_data_tgt, _, _, _ = output
 
-        decoder_logit, decoder_probs = model(
-            input_lines_src, input_lines_tgt, srcmask, srclens,
-            input_ids_aux, auxlens, auxmask)
+        decoder_logit, decoder_probs = model(input_content_src, srcmask, srclens,
+                                             input_ids_aux, auxmask, auxlens, input_data_tgt)
 
-        loss = loss_criterion(
-            decoder_logit.contiguous().view(-1, len(tgt['tok2id'])),
-            output_lines_tgt.view(-1)
-        )
+        loss = loss_criterion(decoder_logit.contiguous().view(-1, len(tgt['tok2id'])),
+                              output_data_tgt.view(-1))
         losses.append(loss.item())
 
     return np.mean(losses)
 
 
-def evaluate_lpp_val(model, src, tgt, config):
+def evaluate_lpp_perform(model, src, tgt, config):
     """ 
-    evaluate log perplexity WITHOUT decoding
-    (i.e., with teacher forcing)
+    evaluate log perplexity WITH decoding
     
     args:
         src: src data object (i.e. data 0, learnt by the model)
@@ -250,122 +245,48 @@ def evaluate_lpp_val(model, src, tgt, config):
     loss_criterion = nn.CrossEntropyLoss(weight=weight_mask)
     if CUDA:
         loss_criterion = loss_criterion.cuda()
+        
+    searcher = models.GreedySearchDecoder(model)
 
     losses = []
     decoded_results = []
     for j in range(0, len(src['data'])):
         # batch_size = 1
-        input_content, _, _ = data.minibatch(src, tgt, j, 1, config['data']['max_len'], 
-                                                          config['model']['model_type'], is_test=True)
-        input_content_src, _, _, _, _ = input_content
+        inputs, _, outputs = data.minibatch(src, tgt, j, 1, 
+                                             config['data']['max_len'], 
+                                             config['model']['model_type'], 
+                                             is_test=True)
+        input_content_src, _, srclens, srcmask, _ = inputs
+        _, output_data_tgt, tgtlens, tgtmask, _ = outputs
         
         tgt_dist_measurer = tgt['dist_measurer']
-        related_content_tgt = tgt_dist_measurer.most_similar(j)   # list of n seq_str
+        related_content_tgt = tgt_dist_measurer.most_similar(j, 1)   # list of n seq_str
         # related_content_tgt = source_content_str, target_content_str, target_att_str, idx, score
         
         n_decoded_sents = []
         for i, single_data_tgt in enumerate(related_content_tgt):
-            input_content_tgt, tgtlens, tgtmask = word2id(single_data_tgt[1], '<s>', tgt, config['data']['max_len'])
-            input_content_tgt = Variable(torch.LongTensor(input_content_tgt))
-            tgtlens = Variable(torch.LongTensor(tgtlens))
-            tgtmask = Variable(torch.LongTensor(tgtmask))
-            
+            # retrieve related attributes
             input_ids_aux, auxlens, auxmask = word2id(single_data_tgt[2], None, tgt, config['data']['max_len'])
             input_ids_aux = Variable(torch.LongTensor(input_ids_aux))
             auxlens = Variable(torch.LongTensor(auxlens))
             auxmask = Variable(torch.LongTensor(auxmask))
             
-            output_data_tgt, _, _ = word2id(tgt['data'][single_data_tgt[3]], '</s>', tgt, config['data']['max_len'])
-            output_data_tgt = Variable(torch.LongTensor(output_data_tgt))
             if CUDA:
-                input_content_tgt = input_content_tgt.cuda()
-                tgtlens = tgtlens.cuda()
-                tgtmask = tgtmask.cuda()
                 input_ids_aux = input_ids_aux.cuda()
                 auxlens = auxlens.cuda()
                 auxmask = auxmask.cuda()
-                output_data_tgt = output_data_tgt.cuda()
             
-            decoder_logit, decoder_probs = model(input_content_tgt, output_data_tgt, tgtmask, tgtlens, 
-                                                 input_ids_aux, auxlens, auxmask)
+            decoder_logit, decoded_data_tgt = searcher(input_content_src, srcmask, srclens,
+                                                       input_ids_aux, auxmask, auxlens,
+                                                       20, tgt['tok2id']['<s>'])
+            decoder_logit = decoder_logit[0, :tgtlens[0], :]
+            
             loss = loss_criterion(decoder_logit.contiguous().view(-1, len(tgt['tok2id'])), 
                                   output_data_tgt.view(-1))
             losses.append(loss.item())
-            
-            decoded_data_tgt = decode_minibatch(20, tgt['tok2id']['<s>'], 
-                                                model, input_content_tgt, tgtlens, tgtmask,
-                                                input_ids_aux, auxlens, auxmask)
             n_decoded_sents.append(id2word(decoded_data_tgt, tgt))
         decoded_results.append(n_decoded_sents)
 #        print('Source content sentence:'+' '.join(related_content_tgt[0][1]))
 #        print('Decoded data sentence:'+n_decoded_sents[0])
 
     return np.mean(losses), decoded_results
-
-
-def id2word(decoded_tensor, tgt):
-    decoded_array = decoded_tensor.cpu().numpy()
-    sent = []
-    for i in range(len(decoded_array[0])):
-        word = tgt['id2tok'][decoded_array[0, i]]
-        sent.append(word)
-        if word == '</s>':
-            break
-    return ' '.join(sent[1:-1])
-
-
-def word2id(seq_str, tag, tgt, max_len):
-    wid_list = []
-    seq_len = 0
-    mask = []
-    if tag == '<s>':
-        wid_list.append(tgt['tok2id']['<s>'])
-        words = seq_str.strip().split()
-        for word in words:
-            if word in tgt['tok2id'].keys():
-                wid = tgt['tok2id'][word]
-            else:
-                wid = tgt['tok2id']['<unk>']
-            wid_list.append(wid)
-        if len(wid_list) < max_len:
-            seq_len = len(wid_list)
-            wid_list += (max_len-len(wid_list))*[tgt['tok2id']['<pad>']]
-            mask = [0]*seq_len + [1]*(max_len-seq_len)
-        else:
-            seq_len = max_len
-            wid_list = wid_list[:max_len]
-            mask = [0]*seq_len
-    if tag == '</s>':
-#        words = seq_str.strip().split()
-        for word in seq_str:
-            if word in tgt['tok2id'].keys():
-                wid = tgt['tok2id'][word]
-            else:
-                wid = tgt['tok2id']['<unk>']
-            wid_list.append(wid)
-        wid_list.append(tgt['tok2id']['</s>'])
-        if len(wid_list) < max_len:
-            seq_len = len(wid_list)
-            wid_list += (max_len-len(wid_list))*[tgt['tok2id']['<pad>']]
-            mask = [0]*seq_len + [1]*(max_len-seq_len)
-        else:
-            seq_len = max_len
-            wid_list = wid_list[:max_len]
-            mask = [0]*seq_len
-    if tag == None:
-        words = seq_str.strip().split()
-        for word in seq_str:
-            if word in tgt['tok2id'].keys():
-                wid = tgt['tok2id'][word]
-            else:
-                wid = 1
-            wid_list.append(wid)
-        if len(wid_list) < max_len:
-            seq_len = len(wid_list)
-            wid_list += (max_len-len(wid_list))*[tgt['tok2id']['<pad>']]
-            mask = [0]*seq_len + [1]*(max_len-seq_len)
-        else:
-            seq_len = max_len
-            wid_list = wid_list[:max_len]
-            mask = [0]*seq_len
-    return [wid_list], [seq_len], [mask]

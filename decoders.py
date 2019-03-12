@@ -1,9 +1,5 @@
-import math
-import numpy as np
-
 import torch
 import torch.nn as nn
-from torch.autograd import Variable
 
 
 class BilinearAttention(nn.Module):
@@ -99,8 +95,8 @@ class StackedAttentionLSTM(nn.Module):
         self.dropout = nn.Dropout(self.options['dropout'])
         self.layers = []
         input_dim = self.options['emb_dim']
-        hidden_dim = self.options['tgt_hidden_dim']
-        for i in range(self.options['tgt_layers']):
+        hidden_dim = self.options['dec_hidden_dim']
+        for i in range(self.options['dec_layers']):
             layer = cell_class(input_dim, hidden_dim, config, config['model']['attention'])
             self.add_module('layer_%d' % i, layer)
             self.layers.append(layer)

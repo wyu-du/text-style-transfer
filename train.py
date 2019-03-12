@@ -1,6 +1,4 @@
 import json
-import data
-import models
 import numpy as np
 import logging
 import argparse
@@ -11,7 +9,11 @@ import glob
 import torch
 import torch.nn as nn
 import torch.optim as optim
+from torch.autograd import Variable
 
+import data
+import models
+from utils import attempt_load_model, word2id, id2word
 import evaluation
 from cuda import CUDA
 
@@ -21,27 +23,28 @@ def build_model(src, config):
     torch.manual_seed(config['training']['random_seed'])
     np.random.seed(config['training']['random_seed'])
     
-    src_vocab_size = len(src['tok2id'])
-    model = models.SeqModel(src_vocab_size=src_vocab_size, tgt_vocab_size=src_vocab_size,
-                            pad_id_src=src['tok2id']['<pad>'], pad_id_tgt=src['tok2id']['<pad>'],
-                            config=config)
+    if config['model']['model_type'] == 'delete_retrieve':
+        model = models.DeleteRetrieveModel(vocab_size=len(src['tok2id']), pad_id=src['tok2id']['<pad>'], config=config)
+    else:
+        model = models.DeleteModel(vocab_size=len(src['tok2id']), pad_id=src['tok2id']['<pad>'], config=config)
     return model
 
 
 def train(config, working_dir):
     # load data
-    logging.info('Reading data ...')
     src = data.gen_train_data(src=config['data']['src'], attribute_vocab=config['data']['attribute_vocab'], config=config)
     src_dev, tgt_dev = data.gen_dev_data(src=config['data']['src_dev'], tgt=config['data']['tgt_dev'],
+                                         attribute_vocab=config['data']['attribute_vocab'], config=config)
+    src_truth, tgt_truth = data.gen_dev_data(src=config['data']['src_truth'], tgt=config['data']['tgt_truth'],
                                              attribute_vocab=config['data']['attribute_vocab'], config=config)
-    logging.info('...done!')
+    logging.info('Reading data done!')
     
     # build model
     model = build_model(src, config)
     logging.info('MODEL HAS %s params' %  model.count_params())
     
     # get most recent checkpoint
-    model, start_epoch = models.attempt_load_model(model=model, checkpoint_dir=working_dir)
+    model, start_epoch = attempt_load_model(model=model, checkpoint_dir=working_dir)
     
     # initialize loss criterion
     weight_mask = torch.ones(len(src['tok2id']))
@@ -93,15 +96,15 @@ def train(config, working_dir):
                                                               config['data']['max_len'], config['model']['model_type'])
             input_content_src, _, srclens, srcmask, _ = input_content
             input_ids_aux, _, auxlens, auxmask, _ = input_aux
-            input_data_tgt, output_lines_tgt, _, _, _ = output
+            input_data_tgt, output_data_tgt, _, _, _ = output
             
             # train the model with current training data batch
-            decoder_logit, decoder_probs = model(input_content_src, input_data_tgt, srcmask, srclens,
-                                                 input_ids_aux, auxlens, auxmask)
+            decoder_logit, decoder_probs = model(input_content_src, srcmask, srclens,
+                                                 input_ids_aux, auxmask, auxlens, input_data_tgt)
             # setup the optimizer
             optimizer.zero_grad()
             loss = loss_criterion(decoder_logit.contiguous().view(-1, len(src['tok2id'])),
-                                  output_lines_tgt.view(-1))
+                                  output_data_tgt.view(-1))
             losses_since_last_report.append(loss.item())
             
             # perform backpropagation
@@ -135,7 +138,7 @@ def train(config, working_dir):
     
         if args.bleu and epoch >= config['training'].get('bleu_start_epoch', 1):
             cur_metric, edit_distance, precision, recall, inputs, preds, golds, auxs = evaluation.inference_metrics(
-                                                            model, src_dev, tgt_dev, config)
+                                                            model, src_truth, tgt_truth, config)
             # generate decode dataset
             with open(working_dir + '/auxs.%s' % epoch, 'w') as f:
                 f.write('\n'.join(auxs) + '\n')
@@ -153,7 +156,8 @@ def train(config, working_dir):
         else:
             # compute model performance on validation set
             logging.info('Computing model performance on validation data ...')
-            cur_metric, decoded_results = evaluation.evaluate_lpp_val(model=model, src=src_dev, tgt=tgt_dev, config=config)
+            cur_metric, decoded_results = evaluation.evaluate_lpp_perform(model=model, src=src_truth, 
+                                                                          tgt=tgt_truth, config=config)
             # generate decode dataset
             with open(working_dir + '/preds.%s' % epoch, 'w') as f:
                 for line in decoded_results:
@@ -165,6 +169,50 @@ def train(config, working_dir):
         
         # switch back to train mode
         model.train()
+        
+
+def predict_unaligned(epoch, model, src, tgt, config, working_dir):
+    searcher = models.GreedySearchDecoder(model)
+    
+    logging.info('Generating alter styled sentences on validation data ...')
+    decoded_results = []
+    for j in range(0, len(src['data'])):
+        # batch_size = 1
+        input_content, _, _ = data.minibatch(src, tgt, j, 1, 
+                                             config['data']['max_len'], 
+                                             config['model']['model_type'], 
+                                             is_test=True)
+        input_content_src, _, srclens, srcmask, _ = input_content
+        
+        tgt_dist_measurer = tgt['dist_measurer']
+        related_content_tgt = tgt_dist_measurer.most_similar(j)   # list of n seq_str
+        # related_content_tgt = source_content_str, target_content_str, target_att_str, idx, score
+        
+        n_decoded_sents = []
+        for i, single_data_tgt in enumerate(related_content_tgt):
+            # retrieve related attributes
+            input_ids_aux, auxlens, auxmask = word2id(single_data_tgt[2], None, tgt, config['data']['max_len'])
+            input_ids_aux = Variable(torch.LongTensor(input_ids_aux))
+            auxlens = Variable(torch.LongTensor(auxlens))
+            auxmask = Variable(torch.LongTensor(auxmask))
+            
+            if CUDA:
+                input_ids_aux = input_ids_aux.cuda()
+                auxlens = auxlens.cuda()
+                auxmask = auxmask.cuda()
+            
+            _, decoded_data_tgt = searcher(model, input_content_src, srcmask, srclens,
+                                           input_ids_aux, auxmask, auxlens,
+                                           20, tgt['tok2id']['<s>'])
+            n_decoded_sents.append(id2word(decoded_data_tgt, tgt))
+        decoded_results.append(n_decoded_sents)
+#        print('Source content sentence:'+' '.join(related_content_tgt[0][1]))
+#        print('Decoded data sentence:'+n_decoded_sents[0])
+        
+    with open(working_dir + '/transfered.%s' % epoch, 'w') as f:
+        for line in decoded_results:
+            f.write(' ||| '.join(line))
+            f.write('\n')
 
     
 if __name__=='__main__':

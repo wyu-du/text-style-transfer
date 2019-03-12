@@ -12,8 +12,7 @@ from cuda import CUDA
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 
 class CorpusSearcher(object):
-    def __init__(self, query_corpus, key_corpus, value_corpus, vectorizer, 
-        make_binary=True, use_doc2vec=False):
+    def __init__(self, query_corpus, key_corpus, value_corpus, vectorizer, make_binary=True, use_doc2vec=False):
         self.use_doc2vec = use_doc2vec
 
         if(use_doc2vec):
