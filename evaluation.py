@@ -253,14 +253,14 @@ def evaluate_lpp_val(model, src, tgt, config):
 
     losses = []
     decoded_results = []
-    for j in range(0, len(src['data']), config['data']['batch_size']):
+    for j in range(0, len(src['data'])):
         # batch_size = 1
         input_content, _, _ = data.minibatch(src, tgt, j, 1, config['data']['max_len'], 
                                                           config['model']['model_type'], is_test=True)
-        input_content_src, _, _, _, content_idx = input_content
+        input_content_src, _, _, _, _ = input_content
         
         tgt_dist_measurer = tgt['dist_measurer']
-        related_content_tgt = tgt_dist_measurer.most_similar(content_idx[0])   # list of n seq_str
+        related_content_tgt = tgt_dist_measurer.most_similar(j)   # list of n seq_str
         # related_content_tgt = source_content_str, target_content_str, target_att_str, idx, score
         
         n_decoded_sents = []
@@ -297,6 +297,8 @@ def evaluate_lpp_val(model, src, tgt, config):
                                                 input_ids_aux, auxlens, auxmask)
             n_decoded_sents.append(id2word(decoded_data_tgt, tgt))
         decoded_results.append(n_decoded_sents)
+#        print('Source content sentence:'+' '.join(related_content_tgt[0][1]))
+#        print('Decoded data sentence:'+n_decoded_sents[0])
 
     return np.mean(losses), decoded_results
 
