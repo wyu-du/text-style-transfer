@@ -9,36 +9,72 @@ from torch.autograd import Variable
 
 from cuda import CUDA
 
+from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 
 class CorpusSearcher(object):
-    def __init__(self, query_corpus, key_corpus, value_corpus, vectorizer, make_binary=True):
-        self.vectorizer = vectorizer
-        self.vectorizer.fit(key_corpus)
+    def __init__(self, query_corpus, key_corpus, value_corpus, vectorizer, 
+        make_binary=True, use_doc2vec=False):
+        self.use_doc2vec = use_doc2vec
+
+        if(use_doc2vec):
+            documents = []
+            cnt = 0
+            for line in key_corpus:
+                documents.append(TaggedDocument(line, [str(cnt)]))
+                cnt += 1
+
+            self.vectorizer = vectorizer(documents, min_count=5, size=100)
+            self.key_corpus = key_corpus
+
+            key_corpus_matrix = []
+            for i in range(len(self.vectorizer.docvecs)):
+                key_corpus_matrix.append(np.array(self.vectorizer.docvecs[str(i)]))
+            self.key_corpus_matrix = np.array(key_corpus_matrix)
+            
+        else:
+            self.vectorizer = vectorizer
+            self.vectorizer.fit(key_corpus)
+            # rows = docs, cols = features
+            self.key_corpus_matrix = self.vectorizer.transform(key_corpus)
+            if make_binary:
+                self.key_corpus_matrix = (self.key_corpus_matrix != 0).astype(int) # make binary
 
         self.query_corpus = query_corpus
         self.key_corpus = key_corpus
         self.value_corpus = value_corpus
         
-        # rows = docs, cols = features
-        self.key_corpus_matrix = self.vectorizer.transform(key_corpus)
-        if make_binary:
-            self.key_corpus_matrix = (self.key_corpus_matrix != 0).astype(int) # make binary
-
-        
     def most_similar(self, key_idx, n=10):
         query = self.query_corpus[key_idx]
-        query_vec = self.vectorizer.transform([query])
 
-        scores = np.dot(self.key_corpus_matrix, query_vec.T)
-        scores = np.squeeze(scores.toarray())
-        scores_indices = zip(scores, range(len(scores)))
-        selected = sorted(scores_indices, reverse=True)[:n]
+        if(self.use_doc2vec):
+            query_vec = query.split()
+            
+            topn_vec = self.vectorizer.docvecs.most_similar([self.vectorizer.infer_vector(query_vec)], topn=n)
 
-        # use the retrieved i to pick examples from the VALUE corpus
-        selected = [
-            (self.query_corpus[key_idx], self.key_corpus[i], self.value_corpus[i], i, score) 
-            for (score, i) in selected
-        ]
+            # Convert tag to integer
+            selected = []
+            for (str_i, score) in topn_vec:
+                i = int(str_i)
+                selected.append((self.query_corpus[i], ' '.join(self.key_corpus[i]), self.value_corpus[i], i, score) )
+
+        else:
+            query_vec = self.vectorizer.transform([query])
+            scores = np.dot(self.key_corpus_matrix, query_vec.T)
+            scores = np.squeeze(scores.toarray()) 
+        
+            scores_indices = zip(scores, range(len(scores)))
+            selected = sorted(scores_indices, reverse=True)[:n]
+            # use the retrieved i to pick examples from the VALUE corpus
+            selected = [
+                (self.query_corpus[i], self.key_corpus[i], self.value_corpus[i], i, score) 
+                for (score, i) in selected
+            ]
+    
+        #if(self.use_doc2vec):
+        #    print("\n\nQuery: " + query)
+        #    print("\n\tSelected: ")
+        #    for select in selected:
+        #        print("\ti: " + str(select[3]) + " key_corpus[i]: " + str(select[1]) + " value_corpus[i]: " + str(select[2]))
 
         return selected
 
@@ -121,10 +157,13 @@ def read_nmt_data(src, config, tgt, attribute_vocab, train_src=None, train_tgt=N
     else:
         tgt_dist_measurer = CorpusSearcher(
             query_corpus=[' '.join(x) for x in train_src['content']],
-            key_corpus=[' '.join(x) for x in train_tgt['content']],
+            #key_corpus=[' '.join(x) for x in train_tgt['content']],
+            key_corpus=train_tgt['content'],
             value_corpus=[' '.join(x) for x in train_tgt['attribute']],
-            vectorizer=TfidfVectorizer(vocabulary=tgt_tok2id),
-            make_binary=False
+            #vectorizer=TfidfVectorizer(vocabulary=tgt_tok2id),
+            vectorizer=Doc2Vec,
+            make_binary=False,
+            use_doc2vec=True,
         )
     tgt = {
         'data': tgt_lines, 'content': tgt_content, 'attribute': tgt_attribute,
@@ -190,10 +229,11 @@ def gen_dev_data(src, tgt, attribute_vocab, config):
     tgt_tok2id, tgt_id2tok = build_vocab_maps(config['data']['tgt_vocab'])
     tgt_dist_measurer = CorpusSearcher(
         query_corpus=[' '.join(x) for x in src_content],
-        key_corpus=[' '.join(x) for x in tgt_content],
+        key_corpus=tgt_content,
         value_corpus=[' '.join(x) for x in tgt_attribute],
-        vectorizer=TfidfVectorizer(vocabulary=tgt_tok2id),
-        make_binary=False
+        vectorizer=Doc2Vec,
+        make_binary=False,
+        use_doc2vec=True,
     )
     tgt = {
         'data': tgt_lines, 'content': tgt_content, 'attribute': tgt_attribute,
