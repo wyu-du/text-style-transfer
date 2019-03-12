@@ -9,14 +9,14 @@
     "random_seed": 1
   },
   "data": {
-    "src": "data/yelp/sentiment.dev.0",
-    "tgt": "data/yelp/sentiment.dev.1",
+    "src": "data/yelp/sentiment.train.0",
+    "tgt": "data/yelp/sentiment.train.1",
     "src_dev": "data/yelp/sentiment.dev.1",
     "tgt_dev": "data/yelp/sentiment.dev.0",
-    "src_vocab": "data/yelp/dict.dev.20k",
-    "tgt_vocab": "data/yelp/dict.dev.20k",
+    "src_vocab": "data/yelp/dict.20k",
+    "tgt_vocab": "data/yelp/dict.20k",
     "share_vocab": true,
-    "attribute_vocab": "data/yelp/dict_attr.dev.20k",
+    "attribute_vocab": "data/yelp/dict_attr.20k",
     "batch_size": 10,
     "max_len": 50,
     "working_dir": "sample_run"

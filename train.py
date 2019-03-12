@@ -134,7 +134,7 @@ def train(config, working_dir):
         start = time.time()
         # compute validation loss
         logging.info('Computing dev_loss on validation data ...')
-        dev_loss = evaluation.evaluate_lpp(model=model, src=src_dev, tgt=src_dev, config=config)
+        dev_loss = evaluation.evaluate_lpp(model=model, src=tgt_dev, tgt=tgt_dev, config=config)
         logging.info('...done!')
     
         if args.bleu and epoch >= config['training'].get('bleu_start_epoch', 1):
@@ -162,6 +162,7 @@ def train(config, working_dir):
             with open(working_dir + '/preds.%s' % epoch, 'w') as f:
                 for line in decoded_results:
                     f.write(' ||| '.join(line))
+                    f.write('\n')
     
         logging.info('DEV_LOSS: %s. DEV_PERFORMANCE: %s. TIME: %.2fs CHECKPOINTING...' 
                      % (dev_loss, cur_metric, (time.time() - start)))

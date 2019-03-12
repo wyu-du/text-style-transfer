@@ -100,11 +100,7 @@ def decode_minibatch(max_len, start_id, model, src_input, srclens, srcmask,
         aux_input, auxlens, auxmask):
     """ argmax decoding """
     # Initialize target with <s> for every sentence
-    tgt_input = Variable(torch.LongTensor(
-        [
-            [start_id] for i in range(src_input.size(0))
-        ]
-    ))
+    tgt_input = Variable(torch.LongTensor([[start_id] for i in range(src_input.size(0))]))
     if CUDA:
         tgt_input = tgt_input.cuda()
 
@@ -297,8 +293,8 @@ def evaluate_lpp_val(model, src, tgt, config):
             losses.append(loss.item())
             
             decoded_data_tgt = decode_minibatch(20, tgt['tok2id']['<s>'], 
-                                        model, input_content_tgt, tgtlens, tgtmask,
-                                        input_ids_aux, auxlens, auxmask)
+                                                model, input_content_tgt, tgtlens, tgtmask,
+                                                input_ids_aux, auxlens, auxmask)
             n_decoded_sents.append(id2word(decoded_data_tgt, tgt))
         decoded_results.append(n_decoded_sents)
 
