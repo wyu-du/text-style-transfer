@@ -76,6 +76,7 @@ def train(config, working_dir):
     best_metric = 0.0
     cur_metric = 0.0    # log perplexity or BLEU
     dev_loss = 0.0
+    dev_rouge = 0.0
     num_batches = len(src['content']) // config['data']['batch_size']
 
     for epoch in range(start_epoch, config['training']['epochs']):
@@ -121,8 +122,8 @@ def train(config, working_dir):
                 s = float(time.time() - start_since_last_report)
                 wps = (config['data']['batch_size'] * config['training']['batches_per_report']) / s
                 avg_loss = np.mean(losses_since_last_report)
-                info = (epoch, batch_idx, num_batches, wps, avg_loss, dev_loss, cur_metric)
-                logging.info('EPOCH: %s ITER: %s/%s WPS: %.2f LOSS: %.4f DEV_LOSS: %.4f DEV_PERFORM: %.4f' % info)
+                info = (epoch, batch_idx, num_batches, wps, avg_loss, dev_loss, dev_rouge)
+                logging.info('EPOCH: %s ITER: %s/%s WPS: %.2f LOSS: %.4f DEV_LOSS: %.4f DEV_ROUGE: %.4f' % info)
                 start_since_last_report = time.time()
                 losses_since_last_report = []
 
