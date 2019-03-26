@@ -361,7 +361,7 @@ def evaluate_rouge(model, src, tgt, config):
         rouge_list.append(rouge)
         decoded_results.append(decoded_sent)
         
-        print('Source content sentence:'+' '.join(gold_sent))
-        print('Decoded data sentence:'+decoded_sent)
+        #print('Source content sentence:'+gold_sent)
+        #print('Decoded data sentence:'+decoded_sent)
 
     return np.mean(rouge_list), decoded_results

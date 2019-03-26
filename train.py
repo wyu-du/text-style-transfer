@@ -123,6 +123,7 @@ def train(config, working_dir):
                 wps = (config['data']['batch_size'] * config['training']['batches_per_report']) / s
                 avg_loss = np.mean(losses_since_last_report)
                 info = (epoch, batch_idx, num_batches, wps, avg_loss, dev_loss, dev_rouge)
+                cur_metric = dev_rouge
                 logging.info('EPOCH: %s ITER: %s/%s WPS: %.2f LOSS: %.4f DEV_LOSS: %.4f DEV_ROUGE: %.4f' % info)
                 start_since_last_report = time.time()
                 losses_since_last_report = []

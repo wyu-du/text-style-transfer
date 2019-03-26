@@ -3,14 +3,14 @@
     "optimizer": "adadelta",
     "learning_rate": 1.0,
     "max_norm": 2.0,
-    "epochs": 20,
+    "epochs": 80,
     "batches_per_report": 100,
     "batches_per_sampling": 500,
     "random_seed": 1
   },
   "data": {
-    "src": "data/yelp/sentiment.dev.0",
-    "tgt": "data/yelp/sentiment.dev.1",
+    "src": "data/yelp/sentiment.train.0",
+    "tgt": "data/yelp/sentiment.train.1",
     "src_dev": "data/yelp/sentiment.dev.1",
     "tgt_dev": "data/yelp/sentiment.dev.0",
     "src_truth": "data/yelp/sentiment.truth.1",
