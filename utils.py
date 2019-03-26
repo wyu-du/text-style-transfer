@@ -60,7 +60,8 @@ def id2word(decoded_tensor, tgt):
         if word == '</s>':
             break
         sent.append(word)
-    sent = sent.strip('<s>')
+    if '<s>' in sent:
+        sent.remove('<s>')
     return ' '.join(sent)
 
 
