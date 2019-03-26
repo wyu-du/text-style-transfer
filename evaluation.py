@@ -356,11 +356,12 @@ def evaluate_rouge(model, src, tgt, config):
                                                    input_ids_aux, auxmask, auxlens,
                                                    20, tgt['tok2id']['<s>'])
         decoded_sent = id2word(decoded_data_tgt, tgt)
-        rouge = rouge_2(output_data_tgt[:-1], decoded_sent)
+        gold_sent = id2word(output_data_tgt, tgt)
+        rouge = rouge_2(gold_sent, decoded_sent)
         rouge_list.append(rouge)
         decoded_results.append(decoded_sent)
         
-        print('Source content sentence:'+' '.join(output_data_tgt[:-1]))
+        print('Source content sentence:'+' '.join(gold_sent))
         print('Decoded data sentence:'+decoded_sent)
 
     return np.mean(rouge_list), decoded_results
