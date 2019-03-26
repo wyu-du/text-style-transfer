@@ -133,9 +133,11 @@ def train(config, working_dir):
         # compute validation loss
         start = time.time()
         logging.info('Computing dev_loss on validation data ...')
-        dev_loss = evaluation.evaluate_lpp(model=model, src=tgt_dev, tgt=tgt_dev, config=config)
+        dev_loss = evaluation.evaluate_lpp(model=model, src=src_dev, tgt=src_dev, config=config)
+        dev_rouge, decoded_sents = evaluation.evaluate_rouge(model=model, src=tgt_dev, tgt=tgt_dev, config=config)
         logging.info('...done!')
     
+        '''
         if args.bleu and epoch >= config['training'].get('bleu_start_epoch', 1):
             cur_metric, edit_distance, precision, recall, inputs, preds, golds, auxs = evaluation.inference_metrics(
                                                             model, src_truth, tgt_truth, config)
@@ -163,9 +165,11 @@ def train(config, working_dir):
                 for line in decoded_results:
                     f.write(' ||| '.join(line))
                     f.write('\n')
-    
-        logging.info('DEV_LOSS: %s. DEV_PERFORMANCE: %s. TIME: %.2fs CHECKPOINTING...' 
-                     % (dev_loss, cur_metric, (time.time() - start)))
+        '''
+        
+        
+        logging.info('DEV_LOSS: %s. DEV_ROUGE: %s. TIME: %.2fs CHECKPOINTING...' 
+                     % (dev_loss, dev_rouge, (time.time() - start)))
         
         # switch back to train mode
         model.train()

@@ -97,6 +97,39 @@ def get_precisions_recalls(inputs, preds, ground_truths):
     return precisions, recalls
 
 
+def gen_ngram(sent, n=2):
+    words = sent.split()
+    ngrams = []
+    for i, token in enumerate(words):
+        if i<=len(words)-n:
+            ngram = '-'.join(words[i:i+n])
+            ngrams.append(ngram)
+    return ngrams
+
+def count_match(ref, dec, n=2):
+    counts = 0.
+    for d_word in dec:
+        if d_word in ref:
+            counts += 1
+    return counts
+
+def rouge_2(gold_sent, decode_sent):
+    bigrams_ref = gen_ngram(gold_sent, 2)
+    bigrams_dec = gen_ngram(decode_sent, 2)
+    if len(bigrams_ref) == 0:
+        recall = 0.
+    else:
+        recall = count_match(bigrams_ref, bigrams_dec, 2)/len(bigrams_ref)
+    if len(bigrams_dec) == 0:
+        precision = 0.
+    else:
+        precision = count_match(bigrams_ref, bigrams_dec, 2)/len(bigrams_dec)
+    if recall+precision == 0:
+        f1_score = 0.
+    else:
+        f1_score = 2*recall*precision/(recall+precision)
+    return f1_score
+
 
 def decode_minibatch(max_len, start_id, model, src_input, srclens, srcmask,
                      aux_input, auxlens, auxmask):
@@ -290,3 +323,44 @@ def evaluate_lpp_perform(model, src, tgt, config):
 #        print('Decoded data sentence:'+n_decoded_sents[0])
 
     return np.mean(losses), decoded_results
+
+
+def evaluate_rouge(model, src, tgt, config):
+    """ 
+    evaluate log perplexity WITH decoding
+    
+    args:
+        src: src data object (i.e. data 0, learnt by the model)
+        tgt: target data object (i.e. data 0, learnt by the model)
+    """
+    weight_mask = torch.ones(len(tgt['tok2id']))
+    if CUDA:
+        weight_mask = weight_mask.cuda()
+    weight_mask[tgt['tok2id']['<pad>']] = 0
+        
+    searcher = models.GreedySearchDecoder(model)
+
+    rouge_list = []
+    decoded_results = []
+    for j in range(0, len(src['data'])):
+        # batch_size = 1
+        input_content, input_aux, output = data.minibatch(src, src, j, 1, 
+                                             config['data']['max_len'], 
+                                             config['model']['model_type'])
+        input_content_src, _, srclens, srcmask, _ = input_content
+        input_ids_aux, _, auxlens, auxmask, _ = input_aux
+        input_data_tgt, output_data_tgt, _, _, _ = output
+        
+        
+        decoder_logit, decoded_data_tgt = searcher(input_content_src, srcmask, srclens,
+                                                   input_ids_aux, auxmask, auxlens,
+                                                   20, tgt['tok2id']['<s>'])
+        decoded_sent = id2word(decoded_data_tgt, tgt)
+        rouge = rouge_2(output_data_tgt[:-1], decoded_sent)
+        rouge_list.append(rouge)
+        decoded_results.append(decoded_sent)
+        
+        print('Source content sentence:'+' '.join(output_data_tgt[:-1]))
+        print('Decoded data sentence:'+decoded_sent)
+
+    return np.mean(rouge_list), decoded_results
