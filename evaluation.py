@@ -305,7 +305,7 @@ def inference_rouge(model, src, tgt, config):
     preds = [' '.join(seq) for seq in preds]
     ground_truths = [' '.join(seq) for seq in ground_truths]
     for i, seq in enumerate(auxs):
-        if len(seq) == 0:
+        if len(seq) == 1:
             auxs[i] = seq[0]
         else:
             auxs[i] = ' '.join(seq)

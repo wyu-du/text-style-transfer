@@ -62,7 +62,12 @@ def id2word(decoded_tensor, tgt):
         sent.append(word)
     if '<s>' in sent:
         sent.remove('<s>')
-    return ' '.join(sent)
+    if '<pad>' in sent:
+        sent.remove('<pad>')
+    if len(sent) == 1:
+        return sent[0]
+    else:
+        return ' '.join(sent)
 
 
 def word2id(seq_str, tag, tgt, max_len):
