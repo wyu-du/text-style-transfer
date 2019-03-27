@@ -304,7 +304,11 @@ def inference_rouge(model, src, tgt, config):
     initial_inputs = [' '.join(seq) for seq in initial_inputs]
     preds = [' '.join(seq) for seq in preds]
     ground_truths = [' '.join(seq) for seq in ground_truths]
-    auxs = [' '.join(seq) for seq in auxs]
+    for i, seq in enumerate(auxs):
+        if len(seq) == 0:
+            auxs[i] = seq[0]
+        else:
+            auxs[i] = ' '.join(seq)
 
     return rouge, edit_distance, precision, recall, initial_inputs, preds, ground_truths, auxs
 
