@@ -57,13 +57,11 @@ def id2word(decoded_tensor, tgt):
     sent = []
     for i in range(len(decoded_array[0])):
         word = tgt['id2tok'][decoded_array[0, i]]
-        if word == '</s>':
+        if word == '</s>' or word == '<pad>':
             break
         sent.append(word)
     if '<s>' in sent:
         sent.remove('<s>')
-    if '<pad>' in sent:
-        sent.remove('<pad>')
     if len(sent) == 1:
         return sent[0]
     else:
