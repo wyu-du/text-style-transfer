@@ -60,10 +60,10 @@ def test(config, working_dir):
         with open(working_dir + '/golds.%s' % epoch, 'w') as f:
             f.write('\n'.join(golds) + '\n')
 
-        logging.info('eval_precision: ', precision)
-        logging.info('eval_recall: ', recall)
-        logging.info('eval_edit_distance: ', edit_distance)
-        logging.info('eval_bleu: ', cur_metric)
+        logging.info('eval_precision: %f' % precision)
+        logging.info('eval_recall: %f' % recall)
+        logging.info('eval_edit_distance: %f' % edit_distance)
+        logging.info('eval_bleu: %f' % cur_metric)
     else:
         # compute model performance on validation set
         cur_metric, edit_distance, precision, recall, inputs, preds, golds, auxs = evaluation.inference_rouge(
@@ -78,10 +78,10 @@ def test(config, working_dir):
         with open(working_dir + '/golds.%s' % epoch, 'w') as f:
             f.write('\n'.join(golds) + '\n')
         
-        logging.info('eval_precision: ', precision)
-        logging.info('eval_recall: ', recall)
-        logging.info('eval_edit_distance: ', edit_distance)
-        logging.info('eval_rouge: ', cur_metric)
+        logging.info('eval_precision: %f' % precision)
+        logging.info('eval_recall: %f' % recall)
+        logging.info('eval_edit_distance: %f' % edit_distance)
+        logging.info('eval_rouge: %f' % cur_metric)
     
 
 def predict_unaligned(epoch, model, src, tgt, config, working_dir):
