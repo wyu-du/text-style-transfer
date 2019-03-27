@@ -81,7 +81,7 @@ def test(config, working_dir):
         logging.info('eval_precision: ', precision)
         logging.info('eval_recall: ', recall)
         logging.info('eval_edit_distance: ', edit_distance)
-        logging.info('eval_bleu: ', cur_metric)
+        logging.info('eval_rouge: ', cur_metric)
     
 
 def predict_unaligned(epoch, model, src, tgt, config, working_dir):

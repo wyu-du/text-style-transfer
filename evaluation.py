@@ -2,6 +2,7 @@ import math
 import numpy as np
 import sys
 from collections import Counter
+import logging
 
 import torch
 from torch.autograd import Variable
@@ -247,6 +248,9 @@ def inference_rouge(model, src, tgt, config):
     ground_truths = []
     auxs = []
     for j in range(0, len(src['data'])):
+        if j%100 == 0:
+            logging.info('Finished decoding data: %d/%d ...'% (j, len(src['data'])))
+        
         # batch_size = 1
         inputs, _, outputs = data.minibatch(src, tgt, j, 1, 
                                             config['data']['max_len'], 
@@ -292,7 +296,7 @@ def inference_rouge(model, src, tgt, config):
         
     rouge = np.mean(rouge_list)
     edit_distance = get_edit_distance(preds, ground_truths)
-    precisions, recalls = get_precisions_recalls(inputs, preds, ground_truths)
+    precisions, recalls = get_precisions_recalls(initial_inputs, preds, ground_truths)
 
     precision = np.average(precisions)
     recall = np.average(recalls)
