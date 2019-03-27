@@ -133,98 +133,18 @@ def train(config, working_dir):
         model.eval()
         
         # compute validation loss
-        start = time.time()
         logging.info('Computing dev_loss on validation data ...')
         dev_loss = evaluation.evaluate_lpp(model=model, src=src_dev, tgt=src_dev, config=config)
         dev_rouge, decoded_sents = evaluation.evaluate_rouge(model=model, src=tgt_dev, tgt=tgt_dev, config=config)
         logging.info('...done!')
     
-        '''
-        if args.bleu and epoch >= config['training'].get('bleu_start_epoch', 1):
-            cur_metric, edit_distance, precision, recall, inputs, preds, golds, auxs = evaluation.inference_metrics(
-                                                            model, src_truth, tgt_truth, config)
-            # generate decode dataset
-            with open(working_dir + '/auxs.%s' % epoch, 'w') as f:
-                f.write('\n'.join(auxs) + '\n')
-            with open(working_dir + '/inputs.%s' % epoch, 'w') as f:
-                f.write('\n'.join(inputs) + '\n')
-            with open(working_dir + '/preds.%s' % epoch, 'w') as f:
-                f.write('\n'.join(preds) + '\n')
-            with open(working_dir + '/golds.%s' % epoch, 'w') as f:
-                f.write('\n'.join(golds) + '\n')
-    
-            logging.info('eval_precision: ', precision)
-            logging.info('eval_recall: ', recall)
-            logging.info('eval_edit_distance: ', edit_distance)
-            logging.info('eval_bleu: ', cur_metric)
-        else:
-            # compute model performance on validation set
-            logging.info('Computing model performance on validation data ...')
-            cur_metric, decoded_results = evaluation.evaluate_lpp_perform(model=model, src=src_truth, 
-                                                                          tgt=tgt_truth, config=config)
-            # generate decode dataset
-            with open(working_dir + '/preds.%s' % epoch, 'w') as f:
-                for line in decoded_results:
-                    f.write(' ||| '.join(line))
-                    f.write('\n')
-        '''
-        
-        
-        logging.info('DEV_LOSS: %s. DEV_ROUGE: %s. TIME: %.2fs CHECKPOINTING...' 
-                     % (dev_loss, dev_rouge, (time.time() - start)))
-        
         # switch back to train mode
         model.train()
-        
-
-def predict_unaligned(epoch, model, src, tgt, config, working_dir):
-    searcher = models.GreedySearchDecoder(model)
-    
-    logging.info('Generating alter styled sentences on validation data ...')
-    decoded_results = []
-    for j in range(0, len(src['data'])):
-        # batch_size = 1
-        input_content, _, _ = data.minibatch(src, tgt, j, 1, 
-                                             config['data']['max_len'], 
-                                             config['model']['model_type'], 
-                                             is_test=True)
-        input_content_src, _, srclens, srcmask, _ = input_content
-        
-        tgt_dist_measurer = tgt['dist_measurer']
-        related_content_tgt = tgt_dist_measurer.most_similar(j)   # list of n seq_str
-        # related_content_tgt = source_content_str, target_content_str, target_att_str, idx, score
-        
-        n_decoded_sents = []
-        for i, single_data_tgt in enumerate(related_content_tgt):
-            # retrieve related attributes
-            input_ids_aux, auxlens, auxmask = word2id(single_data_tgt[2], None, tgt, config['data']['max_len'])
-            input_ids_aux = Variable(torch.LongTensor(input_ids_aux))
-            auxlens = Variable(torch.LongTensor(auxlens))
-            auxmask = Variable(torch.LongTensor(auxmask))
-            
-            if CUDA:
-                input_ids_aux = input_ids_aux.cuda()
-                auxlens = auxlens.cuda()
-                auxmask = auxmask.cuda()
-            
-            _, decoded_data_tgt = searcher(model, input_content_src, srcmask, srclens,
-                                           input_ids_aux, auxmask, auxlens,
-                                           20, tgt['tok2id']['<s>'])
-            n_decoded_sents.append(id2word(decoded_data_tgt, tgt))
-        decoded_results.append(n_decoded_sents)
-#        print('Source content sentence:'+' '.join(related_content_tgt[0][1]))
-#        print('Decoded data sentence:'+n_decoded_sents[0])
-        
-    with open(working_dir + '/transfered.%s' % epoch, 'w') as f:
-        for line in decoded_results:
-            f.write(' ||| '.join(line))
-            f.write('\n')
 
     
 if __name__=='__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", help="path to json config", required=True)
-    parser.add_argument("--bleu", help="do BLEU eval", action='store_true')
 
     args = parser.parse_args()
     config = json.load(open(args.config, 'r'))
