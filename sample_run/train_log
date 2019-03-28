@@ -34,3 +34,1071 @@
 2019-03-27 16:41:28,064 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
 2019-03-27 16:41:28,067 - INFO - Reading data done!
 2019-03-27 16:41:28,184 - INFO - MODEL HAS 10364933 params
+2019-03-28 00:40:17,542 - INFO - collecting all words and their counts
+2019-03-28 00:40:17,543 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 00:40:17,550 - INFO - collected 2073 word types and 2000 unique tags from a corpus of 2000 examples and 17631 words
+2019-03-28 00:40:17,550 - INFO - Loading a fresh vocabulary
+2019-03-28 00:40:17,552 - INFO - effective_min_count=5 retains 429 unique words (20% of original 2073, drops 1644)
+2019-03-28 00:40:17,553 - INFO - effective_min_count=5 leaves 14983 word corpus (84% of original 17631, drops 2648)
+2019-03-28 00:40:17,554 - INFO - deleting the raw counts dictionary of 2073 items
+2019-03-28 00:40:17,556 - INFO - sample=0.001 downsamples 70 most-common words
+2019-03-28 00:40:17,556 - INFO - downsampling leaves estimated 8232 word corpus (54.9% of prior 14983)
+2019-03-28 00:40:17,557 - INFO - estimated required memory for 429 words and 100 dimensions: 1757700 bytes
+2019-03-28 00:40:17,558 - INFO - resetting layer weights
+2019-03-28 00:40:17,589 - INFO - training model with 3 workers on 429 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 00:40:17,593 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 00:40:17,639 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 00:40:17,645 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 00:40:17,646 - INFO - EPOCH - 1 : training on 17631 raw words (10269 effective words) took 0.1s, 193867 effective words/s
+2019-03-28 00:40:17,650 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 00:40:17,696 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 00:40:17,703 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 00:40:17,703 - INFO - EPOCH - 2 : training on 17631 raw words (10210 effective words) took 0.1s, 190264 effective words/s
+2019-03-28 00:40:17,707 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 00:40:17,756 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 00:40:17,762 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 00:40:17,763 - INFO - EPOCH - 3 : training on 17631 raw words (10203 effective words) took 0.1s, 181957 effective words/s
+2019-03-28 00:40:17,767 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 00:40:17,812 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 00:40:17,818 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 00:40:17,819 - INFO - EPOCH - 4 : training on 17631 raw words (10235 effective words) took 0.1s, 197380 effective words/s
+2019-03-28 00:40:17,823 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 00:40:17,868 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 00:40:17,874 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 00:40:17,875 - INFO - EPOCH - 5 : training on 17631 raw words (10186 effective words) took 0.1s, 194951 effective words/s
+2019-03-28 00:40:17,877 - INFO - training on a 88155 raw words (51103 effective words) took 0.3s, 177934 effective words/s
+2019-03-28 00:40:17,877 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 00:40:17,908 - INFO - collecting all words and their counts
+2019-03-28 00:40:17,908 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 00:40:17,911 - INFO - collected 1077 word types and 500 unique tags from a corpus of 500 examples and 3974 words
+2019-03-28 00:40:17,912 - INFO - Loading a fresh vocabulary
+2019-03-28 00:40:17,913 - INFO - effective_min_count=5 retains 124 unique words (11% of original 1077, drops 953)
+2019-03-28 00:40:17,913 - INFO - effective_min_count=5 leaves 2582 word corpus (64% of original 3974, drops 1392)
+2019-03-28 00:40:17,914 - INFO - deleting the raw counts dictionary of 1077 items
+2019-03-28 00:40:17,915 - INFO - sample=0.001 downsamples 91 most-common words
+2019-03-28 00:40:17,915 - INFO - downsampling leaves estimated 1079 word corpus (41.8% of prior 2582)
+2019-03-28 00:40:17,916 - INFO - estimated required memory for 124 words and 100 dimensions: 461200 bytes
+2019-03-28 00:40:17,916 - INFO - resetting layer weights
+2019-03-28 00:40:17,929 - INFO - training model with 3 workers on 124 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 00:40:17,931 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 00:40:17,932 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 00:40:17,940 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 00:40:17,941 - INFO - EPOCH - 1 : training on 3974 raw words (1582 effective words) took 0.0s, 162070 effective words/s
+2019-03-28 00:40:17,943 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 00:40:17,944 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 00:40:17,952 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 00:40:17,953 - INFO - EPOCH - 2 : training on 3974 raw words (1590 effective words) took 0.0s, 165033 effective words/s
+2019-03-28 00:40:17,955 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 00:40:17,956 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 00:40:17,965 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 00:40:17,965 - INFO - EPOCH - 3 : training on 3974 raw words (1582 effective words) took 0.0s, 156758 effective words/s
+2019-03-28 00:40:17,969 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 00:40:17,970 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 00:40:17,978 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 00:40:17,978 - INFO - EPOCH - 4 : training on 3974 raw words (1572 effective words) took 0.0s, 160687 effective words/s
+2019-03-28 00:40:17,981 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 00:40:17,982 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 00:40:17,990 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 00:40:17,991 - INFO - EPOCH - 5 : training on 3974 raw words (1587 effective words) took 0.0s, 156316 effective words/s
+2019-03-28 00:40:17,991 - INFO - training on a 19870 raw words (7913 effective words) took 0.1s, 127381 effective words/s
+2019-03-28 00:40:17,992 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 00:40:17,997 - INFO - Reading data done!
+2019-03-28 00:40:18,180 - INFO - MODEL HAS 10364933 params
+2019-03-28 00:40:24,465 - INFO - EPOCH: 68 ITER: 0/17721 WPS: 3219.40 LOSS: 0.0124 DEV_LOSS: 0.0000 DEV_ROUGE: 0.0000
+2019-03-28 00:40:37,068 - INFO - EPOCH: 68 ITER: 100/17721 WPS: 79.35 LOSS: 0.0217 DEV_LOSS: 0.0000 DEV_ROUGE: 0.0000
+2019-03-28 00:41:10,537 - INFO - collecting all words and their counts
+2019-03-28 00:41:10,538 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 00:41:10,541 - INFO - collected 1077 word types and 500 unique tags from a corpus of 500 examples and 3974 words
+2019-03-28 00:41:10,541 - INFO - Loading a fresh vocabulary
+2019-03-28 00:41:10,542 - INFO - effective_min_count=5 retains 124 unique words (11% of original 1077, drops 953)
+2019-03-28 00:41:10,543 - INFO - effective_min_count=5 leaves 2582 word corpus (64% of original 3974, drops 1392)
+2019-03-28 00:41:10,544 - INFO - deleting the raw counts dictionary of 1077 items
+2019-03-28 00:41:10,545 - INFO - sample=0.001 downsamples 91 most-common words
+2019-03-28 00:41:10,545 - INFO - downsampling leaves estimated 1079 word corpus (41.8% of prior 2582)
+2019-03-28 00:41:10,546 - INFO - estimated required memory for 124 words and 100 dimensions: 461200 bytes
+2019-03-28 00:41:10,547 - INFO - resetting layer weights
+2019-03-28 00:41:10,557 - INFO - training model with 3 workers on 124 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 00:41:10,562 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 00:41:10,563 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 00:41:10,571 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 00:41:10,571 - INFO - EPOCH - 1 : training on 3974 raw words (1582 effective words) took 0.0s, 159576 effective words/s
+2019-03-28 00:41:10,574 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 00:41:10,575 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 00:41:10,583 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 00:41:10,583 - INFO - EPOCH - 2 : training on 3974 raw words (1590 effective words) took 0.0s, 159543 effective words/s
+2019-03-28 00:41:10,585 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 00:41:10,586 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 00:41:10,595 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 00:41:10,595 - INFO - EPOCH - 3 : training on 3974 raw words (1582 effective words) took 0.0s, 156212 effective words/s
+2019-03-28 00:41:10,597 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 00:41:10,598 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 00:41:10,607 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 00:41:10,607 - INFO - EPOCH - 4 : training on 3974 raw words (1572 effective words) took 0.0s, 158433 effective words/s
+2019-03-28 00:41:10,610 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 00:41:10,610 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 00:41:10,619 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 00:41:10,619 - INFO - EPOCH - 5 : training on 3974 raw words (1587 effective words) took 0.0s, 160511 effective words/s
+2019-03-28 00:41:10,620 - INFO - training on a 19870 raw words (7913 effective words) took 0.1s, 131254 effective words/s
+2019-03-28 00:41:10,620 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 00:41:10,625 - INFO - Reading data done!
+2019-03-28 00:41:10,804 - INFO - MODEL HAS 10364933 params
+2019-03-28 00:41:16,796 - INFO - Computing model performance on validation data ...
+2019-03-28 00:41:16,797 - INFO - Finished decoding data: 0/500 ...
+2019-03-28 00:41:16,799 - INFO - precomputing L2-norms of doc weight vectors
+2019-03-28 00:41:36,676 - INFO - Finished decoding data: 100/500 ...
+2019-03-28 00:41:56,857 - INFO - Finished decoding data: 200/500 ...
+2019-03-28 00:42:16,402 - INFO - Finished decoding data: 300/500 ...
+2019-03-28 00:42:36,843 - INFO - Finished decoding data: 400/500 ...
+2019-03-28 00:42:56,136 - INFO - eval_precision: 0.012346
+2019-03-28 00:42:56,137 - INFO - eval_recall: 0.014196
+2019-03-28 00:42:56,138 - INFO - eval_edit_distance: 7.346000
+2019-03-28 00:42:56,138 - INFO - eval_rouge: 0.180796
+2019-03-28 00:49:12,430 - INFO - collecting all words and their counts
+2019-03-28 00:49:12,432 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 00:49:12,435 - INFO - collected 1077 word types and 500 unique tags from a corpus of 500 examples and 3974 words
+2019-03-28 00:49:12,435 - INFO - Loading a fresh vocabulary
+2019-03-28 00:49:12,437 - INFO - effective_min_count=5 retains 124 unique words (11% of original 1077, drops 953)
+2019-03-28 00:49:12,438 - INFO - effective_min_count=5 leaves 2582 word corpus (64% of original 3974, drops 1392)
+2019-03-28 00:49:12,439 - INFO - deleting the raw counts dictionary of 1077 items
+2019-03-28 00:49:12,440 - INFO - sample=0.001 downsamples 91 most-common words
+2019-03-28 00:49:12,441 - INFO - downsampling leaves estimated 1079 word corpus (41.8% of prior 2582)
+2019-03-28 00:49:12,442 - INFO - estimated required memory for 124 words and 100 dimensions: 461200 bytes
+2019-03-28 00:49:12,443 - INFO - resetting layer weights
+2019-03-28 00:49:12,454 - INFO - training model with 3 workers on 124 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 00:49:12,462 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 00:49:12,464 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 00:49:12,473 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 00:49:12,474 - INFO - EPOCH - 1 : training on 3974 raw words (1582 effective words) took 0.0s, 131278 effective words/s
+2019-03-28 00:49:12,477 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 00:49:12,478 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 00:49:12,488 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 00:49:12,489 - INFO - EPOCH - 2 : training on 3974 raw words (1590 effective words) took 0.0s, 128924 effective words/s
+2019-03-28 00:49:12,492 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 00:49:12,493 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 00:49:12,503 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 00:49:12,504 - INFO - EPOCH - 3 : training on 3974 raw words (1582 effective words) took 0.0s, 135210 effective words/s
+2019-03-28 00:49:12,507 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 00:49:12,509 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 00:49:12,518 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 00:49:12,518 - INFO - EPOCH - 4 : training on 3974 raw words (1572 effective words) took 0.0s, 136539 effective words/s
+2019-03-28 00:49:12,522 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 00:49:12,523 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 00:49:12,532 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 00:49:12,533 - INFO - EPOCH - 5 : training on 3974 raw words (1587 effective words) took 0.0s, 135980 effective words/s
+2019-03-28 00:49:12,534 - INFO - training on a 19870 raw words (7913 effective words) took 0.1s, 104276 effective words/s
+2019-03-28 00:49:12,535 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 00:49:12,542 - INFO - Reading data done!
+2019-03-28 00:49:12,636 - INFO - MODEL HAS 10364933 params
+2019-03-28 00:49:12,675 - INFO - Computing model performance on validation data ...
+2019-03-28 00:49:12,677 - INFO - Finished decoding data: 0/500 ...
+2019-03-28 00:49:12,679 - INFO - precomputing L2-norms of doc weight vectors
+2019-03-28 00:49:32,242 - INFO - Finished decoding data: 100/500 ...
+2019-03-28 00:49:51,184 - INFO - Finished decoding data: 200/500 ...
+2019-03-28 00:50:11,683 - INFO - Finished decoding data: 300/500 ...
+2019-03-28 00:50:32,219 - INFO - Finished decoding data: 400/500 ...
+2019-03-28 00:50:52,331 - INFO - eval_precision: 0.012275
+2019-03-28 00:50:52,332 - INFO - eval_recall: 0.013847
+2019-03-28 00:50:52,333 - INFO - eval_edit_distance: 7.354000
+2019-03-28 00:50:52,334 - INFO - eval_rouge: 0.179693
+2019-03-28 00:53:47,542 - INFO - collecting all words and their counts
+2019-03-28 00:53:47,543 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 00:53:47,545 - INFO - collected 1077 word types and 500 unique tags from a corpus of 500 examples and 3974 words
+2019-03-28 00:53:47,546 - INFO - Loading a fresh vocabulary
+2019-03-28 00:53:47,547 - INFO - effective_min_count=5 retains 124 unique words (11% of original 1077, drops 953)
+2019-03-28 00:53:47,547 - INFO - effective_min_count=5 leaves 2582 word corpus (64% of original 3974, drops 1392)
+2019-03-28 00:53:47,548 - INFO - deleting the raw counts dictionary of 1077 items
+2019-03-28 00:53:47,549 - INFO - sample=0.001 downsamples 91 most-common words
+2019-03-28 00:53:47,550 - INFO - downsampling leaves estimated 1079 word corpus (41.8% of prior 2582)
+2019-03-28 00:53:47,551 - INFO - estimated required memory for 124 words and 100 dimensions: 461200 bytes
+2019-03-28 00:53:47,551 - INFO - resetting layer weights
+2019-03-28 00:53:47,562 - INFO - training model with 3 workers on 124 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 00:53:47,567 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 00:53:47,568 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 00:53:47,577 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 00:53:47,577 - INFO - EPOCH - 1 : training on 3974 raw words (1582 effective words) took 0.0s, 148744 effective words/s
+2019-03-28 00:53:47,581 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 00:53:47,582 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 00:53:47,591 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 00:53:47,591 - INFO - EPOCH - 2 : training on 3974 raw words (1590 effective words) took 0.0s, 155563 effective words/s
+2019-03-28 00:53:47,594 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 00:53:47,594 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 00:53:47,603 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 00:53:47,603 - INFO - EPOCH - 3 : training on 3974 raw words (1582 effective words) took 0.0s, 156568 effective words/s
+2019-03-28 00:53:47,606 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 00:53:47,607 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 00:53:47,616 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 00:53:47,616 - INFO - EPOCH - 4 : training on 3974 raw words (1572 effective words) took 0.0s, 153650 effective words/s
+2019-03-28 00:53:47,619 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 00:53:47,619 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 00:53:47,628 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 00:53:47,629 - INFO - EPOCH - 5 : training on 3974 raw words (1587 effective words) took 0.0s, 157877 effective words/s
+2019-03-28 00:53:47,629 - INFO - training on a 19870 raw words (7913 effective words) took 0.1s, 119177 effective words/s
+2019-03-28 00:53:47,630 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 00:53:47,635 - INFO - Reading data done!
+2019-03-28 00:53:47,818 - INFO - MODEL HAS 10364933 params
+2019-03-28 00:53:53,781 - INFO - Computing model performance on validation data ...
+2019-03-28 00:53:53,782 - INFO - Finished decoding data: 0/500 ...
+2019-03-28 00:53:53,784 - INFO - precomputing L2-norms of doc weight vectors
+2019-03-28 00:55:20,540 - INFO - Finished decoding data: 100/500 ...
+2019-03-28 00:56:40,776 - INFO - Finished decoding data: 200/500 ...
+2019-03-28 00:58:07,398 - INFO - Finished decoding data: 300/500 ...
+2019-03-28 00:59:34,192 - INFO - Finished decoding data: 400/500 ...
+2019-03-28 01:00:58,394 - INFO - eval_precision: 0.018720
+2019-03-28 01:00:58,396 - INFO - eval_recall: 0.012869
+2019-03-28 01:00:58,396 - INFO - eval_edit_distance: 7.496000
+2019-03-28 01:00:58,397 - INFO - eval_rouge: 0.164076
+2019-03-28 01:57:33,800 - INFO - collecting all words and their counts
+2019-03-28 01:57:33,801 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 01:57:33,803 - INFO - collected 1077 word types and 500 unique tags from a corpus of 500 examples and 3974 words
+2019-03-28 01:57:33,804 - INFO - Loading a fresh vocabulary
+2019-03-28 01:57:33,806 - INFO - effective_min_count=5 retains 124 unique words (11% of original 1077, drops 953)
+2019-03-28 01:57:33,806 - INFO - effective_min_count=5 leaves 2582 word corpus (64% of original 3974, drops 1392)
+2019-03-28 01:57:33,807 - INFO - deleting the raw counts dictionary of 1077 items
+2019-03-28 01:57:33,808 - INFO - sample=0.001 downsamples 91 most-common words
+2019-03-28 01:57:33,808 - INFO - downsampling leaves estimated 1079 word corpus (41.8% of prior 2582)
+2019-03-28 01:57:33,809 - INFO - estimated required memory for 124 words and 100 dimensions: 461200 bytes
+2019-03-28 01:57:33,810 - INFO - resetting layer weights
+2019-03-28 01:57:33,821 - INFO - training model with 3 workers on 124 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 01:57:33,825 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 01:57:33,826 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 01:57:33,835 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 01:57:33,835 - INFO - EPOCH - 1 : training on 3974 raw words (1582 effective words) took 0.0s, 151068 effective words/s
+2019-03-28 01:57:33,838 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 01:57:33,839 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 01:57:33,847 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 01:57:33,848 - INFO - EPOCH - 2 : training on 3974 raw words (1590 effective words) took 0.0s, 147809 effective words/s
+2019-03-28 01:57:33,850 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 01:57:33,851 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 01:57:33,860 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 01:57:33,860 - INFO - EPOCH - 3 : training on 3974 raw words (1582 effective words) took 0.0s, 154237 effective words/s
+2019-03-28 01:57:33,863 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 01:57:33,863 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 01:57:33,872 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 01:57:33,873 - INFO - EPOCH - 4 : training on 3974 raw words (1572 effective words) took 0.0s, 146763 effective words/s
+2019-03-28 01:57:33,875 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 01:57:33,876 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 01:57:33,885 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 01:57:33,885 - INFO - EPOCH - 5 : training on 3974 raw words (1587 effective words) took 0.0s, 152033 effective words/s
+2019-03-28 01:57:33,886 - INFO - training on a 19870 raw words (7913 effective words) took 0.1s, 122776 effective words/s
+2019-03-28 01:57:33,886 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 01:57:33,890 - INFO - Reading data done!
+2019-03-28 01:57:34,085 - INFO - MODEL HAS 10364933 params
+2019-03-28 01:57:40,628 - INFO - Computing model performance on validation data ...
+2019-03-28 01:57:40,629 - INFO - Finished decoding data: 0/500 ...
+2019-03-28 01:57:40,631 - INFO - precomputing L2-norms of doc weight vectors
+2019-03-28 02:02:09,218 - INFO - collecting all words and their counts
+2019-03-28 02:02:09,219 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 02:02:09,222 - INFO - collected 1077 word types and 500 unique tags from a corpus of 500 examples and 3974 words
+2019-03-28 02:02:09,222 - INFO - Loading a fresh vocabulary
+2019-03-28 02:02:09,223 - INFO - effective_min_count=5 retains 124 unique words (11% of original 1077, drops 953)
+2019-03-28 02:02:09,224 - INFO - effective_min_count=5 leaves 2582 word corpus (64% of original 3974, drops 1392)
+2019-03-28 02:02:09,225 - INFO - deleting the raw counts dictionary of 1077 items
+2019-03-28 02:02:09,226 - INFO - sample=0.001 downsamples 91 most-common words
+2019-03-28 02:02:09,226 - INFO - downsampling leaves estimated 1079 word corpus (41.8% of prior 2582)
+2019-03-28 02:02:09,227 - INFO - estimated required memory for 124 words and 100 dimensions: 461200 bytes
+2019-03-28 02:02:09,227 - INFO - resetting layer weights
+2019-03-28 02:02:09,239 - INFO - training model with 3 workers on 124 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 02:02:09,242 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:02:09,243 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:02:09,252 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:02:09,252 - INFO - EPOCH - 1 : training on 3974 raw words (1582 effective words) took 0.0s, 151072 effective words/s
+2019-03-28 02:02:09,255 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:02:09,256 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:02:09,265 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:02:09,265 - INFO - EPOCH - 2 : training on 3974 raw words (1590 effective words) took 0.0s, 154996 effective words/s
+2019-03-28 02:02:09,268 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:02:09,268 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:02:09,277 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:02:09,278 - INFO - EPOCH - 3 : training on 3974 raw words (1582 effective words) took 0.0s, 155204 effective words/s
+2019-03-28 02:02:09,280 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:02:09,281 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:02:09,289 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:02:09,290 - INFO - EPOCH - 4 : training on 3974 raw words (1572 effective words) took 0.0s, 159512 effective words/s
+2019-03-28 02:02:09,293 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:02:09,293 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:02:09,302 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:02:09,303 - INFO - EPOCH - 5 : training on 3974 raw words (1587 effective words) took 0.0s, 156271 effective words/s
+2019-03-28 02:02:09,303 - INFO - training on a 19870 raw words (7913 effective words) took 0.1s, 125181 effective words/s
+2019-03-28 02:02:09,304 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 02:02:09,309 - INFO - Reading data done!
+2019-03-28 02:02:09,502 - INFO - MODEL HAS 10364933 params
+2019-03-28 02:02:16,044 - INFO - Computing model performance on validation data ...
+2019-03-28 02:02:16,045 - INFO - Finished decoding data: 0/500 ...
+2019-03-28 02:02:16,047 - INFO - precomputing L2-norms of doc weight vectors
+2019-03-28 02:04:44,181 - INFO - collecting all words and their counts
+2019-03-28 02:04:44,182 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 02:04:44,184 - INFO - collected 1077 word types and 500 unique tags from a corpus of 500 examples and 3974 words
+2019-03-28 02:04:44,185 - INFO - Loading a fresh vocabulary
+2019-03-28 02:04:44,186 - INFO - effective_min_count=5 retains 124 unique words (11% of original 1077, drops 953)
+2019-03-28 02:04:44,186 - INFO - effective_min_count=5 leaves 2582 word corpus (64% of original 3974, drops 1392)
+2019-03-28 02:04:44,187 - INFO - deleting the raw counts dictionary of 1077 items
+2019-03-28 02:04:44,188 - INFO - sample=0.001 downsamples 91 most-common words
+2019-03-28 02:04:44,189 - INFO - downsampling leaves estimated 1079 word corpus (41.8% of prior 2582)
+2019-03-28 02:04:44,190 - INFO - estimated required memory for 124 words and 100 dimensions: 461200 bytes
+2019-03-28 02:04:44,190 - INFO - resetting layer weights
+2019-03-28 02:04:44,201 - INFO - training model with 3 workers on 124 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 02:04:44,204 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:04:44,205 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:04:44,216 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:04:44,217 - INFO - EPOCH - 1 : training on 3974 raw words (1582 effective words) took 0.0s, 123729 effective words/s
+2019-03-28 02:04:44,219 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:04:44,220 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:04:44,229 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:04:44,230 - INFO - EPOCH - 2 : training on 3974 raw words (1590 effective words) took 0.0s, 148469 effective words/s
+2019-03-28 02:04:44,232 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:04:44,233 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:04:44,242 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:04:44,242 - INFO - EPOCH - 3 : training on 3974 raw words (1582 effective words) took 0.0s, 154755 effective words/s
+2019-03-28 02:04:44,245 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:04:44,245 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:04:44,254 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:04:44,255 - INFO - EPOCH - 4 : training on 3974 raw words (1572 effective words) took 0.0s, 153373 effective words/s
+2019-03-28 02:04:44,257 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:04:44,258 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:04:44,267 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:04:44,267 - INFO - EPOCH - 5 : training on 3974 raw words (1587 effective words) took 0.0s, 157196 effective words/s
+2019-03-28 02:04:44,268 - INFO - training on a 19870 raw words (7913 effective words) took 0.1s, 120267 effective words/s
+2019-03-28 02:04:44,268 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 02:04:44,274 - INFO - Reading data done!
+2019-03-28 02:04:44,464 - INFO - MODEL HAS 10364933 params
+2019-03-28 02:04:50,822 - INFO - Computing model performance on validation data ...
+2019-03-28 02:04:50,823 - INFO - Finished decoding data: 0/500 ...
+2019-03-28 02:04:50,825 - INFO - precomputing L2-norms of doc weight vectors
+2019-03-28 02:07:02,402 - INFO - collecting all words and their counts
+2019-03-28 02:07:02,403 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 02:07:02,406 - INFO - collected 1077 word types and 500 unique tags from a corpus of 500 examples and 3974 words
+2019-03-28 02:07:02,407 - INFO - Loading a fresh vocabulary
+2019-03-28 02:07:02,408 - INFO - effective_min_count=5 retains 124 unique words (11% of original 1077, drops 953)
+2019-03-28 02:07:02,409 - INFO - effective_min_count=5 leaves 2582 word corpus (64% of original 3974, drops 1392)
+2019-03-28 02:07:02,410 - INFO - deleting the raw counts dictionary of 1077 items
+2019-03-28 02:07:02,411 - INFO - sample=0.001 downsamples 91 most-common words
+2019-03-28 02:07:02,412 - INFO - downsampling leaves estimated 1079 word corpus (41.8% of prior 2582)
+2019-03-28 02:07:02,413 - INFO - estimated required memory for 124 words and 100 dimensions: 461200 bytes
+2019-03-28 02:07:02,414 - INFO - resetting layer weights
+2019-03-28 02:07:02,426 - INFO - training model with 3 workers on 124 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 02:07:02,430 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:07:02,431 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:07:02,446 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:07:02,448 - INFO - EPOCH - 1 : training on 3974 raw words (1582 effective words) took 0.0s, 87022 effective words/s
+2019-03-28 02:07:02,451 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:07:02,452 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:07:02,462 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:07:02,463 - INFO - EPOCH - 2 : training on 3974 raw words (1590 effective words) took 0.0s, 123811 effective words/s
+2019-03-28 02:07:02,466 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:07:02,468 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:07:02,478 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:07:02,479 - INFO - EPOCH - 3 : training on 3974 raw words (1582 effective words) took 0.0s, 125905 effective words/s
+2019-03-28 02:07:02,482 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:07:02,484 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:07:02,494 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:07:02,494 - INFO - EPOCH - 4 : training on 3974 raw words (1572 effective words) took 0.0s, 129168 effective words/s
+2019-03-28 02:07:02,519 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:07:02,522 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:07:02,530 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:07:02,531 - INFO - EPOCH - 5 : training on 3974 raw words (1587 effective words) took 0.0s, 127075 effective words/s
+2019-03-28 02:07:02,532 - INFO - training on a 19870 raw words (7913 effective words) took 0.1s, 75786 effective words/s
+2019-03-28 02:07:02,533 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 02:07:02,540 - INFO - Reading data done!
+2019-03-28 02:07:02,640 - INFO - MODEL HAS 10364933 params
+2019-03-28 02:07:02,685 - INFO - Computing model performance on validation data ...
+2019-03-28 02:07:02,686 - INFO - Finished decoding data: 0/500 ...
+2019-03-28 02:07:02,689 - INFO - precomputing L2-norms of doc weight vectors
+2019-03-28 02:07:23,896 - INFO - collecting all words and their counts
+2019-03-28 02:07:23,897 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 02:07:23,900 - INFO - collected 1077 word types and 500 unique tags from a corpus of 500 examples and 3974 words
+2019-03-28 02:07:23,900 - INFO - Loading a fresh vocabulary
+2019-03-28 02:07:23,901 - INFO - effective_min_count=5 retains 124 unique words (11% of original 1077, drops 953)
+2019-03-28 02:07:23,902 - INFO - effective_min_count=5 leaves 2582 word corpus (64% of original 3974, drops 1392)
+2019-03-28 02:07:23,903 - INFO - deleting the raw counts dictionary of 1077 items
+2019-03-28 02:07:23,904 - INFO - sample=0.001 downsamples 91 most-common words
+2019-03-28 02:07:23,904 - INFO - downsampling leaves estimated 1079 word corpus (41.8% of prior 2582)
+2019-03-28 02:07:23,905 - INFO - estimated required memory for 124 words and 100 dimensions: 461200 bytes
+2019-03-28 02:07:23,907 - INFO - resetting layer weights
+2019-03-28 02:07:23,918 - INFO - training model with 3 workers on 124 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 02:07:23,921 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:07:23,922 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:07:23,931 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:07:23,932 - INFO - EPOCH - 1 : training on 3974 raw words (1582 effective words) took 0.0s, 147729 effective words/s
+2019-03-28 02:07:23,934 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:07:23,935 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:07:23,943 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:07:23,944 - INFO - EPOCH - 2 : training on 3974 raw words (1590 effective words) took 0.0s, 155936 effective words/s
+2019-03-28 02:07:23,946 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:07:23,947 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:07:23,956 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:07:23,957 - INFO - EPOCH - 3 : training on 3974 raw words (1582 effective words) took 0.0s, 153850 effective words/s
+2019-03-28 02:07:23,959 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:07:23,960 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:07:23,968 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:07:23,969 - INFO - EPOCH - 4 : training on 3974 raw words (1572 effective words) took 0.0s, 152905 effective words/s
+2019-03-28 02:07:23,971 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:07:23,972 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:07:23,981 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:07:23,981 - INFO - EPOCH - 5 : training on 3974 raw words (1587 effective words) took 0.0s, 156219 effective words/s
+2019-03-28 02:07:23,982 - INFO - training on a 19870 raw words (7913 effective words) took 0.1s, 125485 effective words/s
+2019-03-28 02:07:23,982 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 02:07:23,987 - INFO - Reading data done!
+2019-03-28 02:07:24,176 - INFO - MODEL HAS 10364933 params
+2019-03-28 02:07:30,590 - INFO - Computing model performance on validation data ...
+2019-03-28 02:07:30,590 - INFO - Finished decoding data: 0/500 ...
+2019-03-28 02:07:30,592 - INFO - precomputing L2-norms of doc weight vectors
+2019-03-28 02:29:56,047 - INFO - collecting all words and their counts
+2019-03-28 02:29:56,048 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 02:29:56,051 - INFO - collected 1077 word types and 500 unique tags from a corpus of 500 examples and 3974 words
+2019-03-28 02:29:56,051 - INFO - Loading a fresh vocabulary
+2019-03-28 02:29:56,052 - INFO - effective_min_count=5 retains 124 unique words (11% of original 1077, drops 953)
+2019-03-28 02:29:56,052 - INFO - effective_min_count=5 leaves 2582 word corpus (64% of original 3974, drops 1392)
+2019-03-28 02:29:56,053 - INFO - deleting the raw counts dictionary of 1077 items
+2019-03-28 02:29:56,054 - INFO - sample=0.001 downsamples 91 most-common words
+2019-03-28 02:29:56,055 - INFO - downsampling leaves estimated 1079 word corpus (41.8% of prior 2582)
+2019-03-28 02:29:56,056 - INFO - estimated required memory for 124 words and 100 dimensions: 461200 bytes
+2019-03-28 02:29:56,056 - INFO - resetting layer weights
+2019-03-28 02:29:56,067 - INFO - training model with 3 workers on 124 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 02:29:56,072 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:29:56,072 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:29:56,082 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:29:56,082 - INFO - EPOCH - 1 : training on 3974 raw words (1582 effective words) took 0.0s, 149069 effective words/s
+2019-03-28 02:29:56,085 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:29:56,085 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:29:56,094 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:29:56,095 - INFO - EPOCH - 2 : training on 3974 raw words (1590 effective words) took 0.0s, 154478 effective words/s
+2019-03-28 02:29:56,097 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:29:56,098 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:29:56,107 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:29:56,107 - INFO - EPOCH - 3 : training on 3974 raw words (1582 effective words) took 0.0s, 148741 effective words/s
+2019-03-28 02:29:56,110 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:29:56,110 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:29:56,120 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:29:56,120 - INFO - EPOCH - 4 : training on 3974 raw words (1572 effective words) took 0.0s, 147922 effective words/s
+2019-03-28 02:29:56,122 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:29:56,123 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:29:56,132 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:29:56,133 - INFO - EPOCH - 5 : training on 3974 raw words (1587 effective words) took 0.0s, 152661 effective words/s
+2019-03-28 02:29:56,133 - INFO - training on a 19870 raw words (7913 effective words) took 0.1s, 120896 effective words/s
+2019-03-28 02:29:56,134 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 02:29:56,139 - INFO - Reading data done!
+2019-03-28 02:29:56,324 - INFO - MODEL HAS 10364933 params
+2019-03-28 02:30:02,811 - INFO - Computing model performance on validation data ...
+2019-03-28 02:30:02,811 - INFO - Finished decoding data: 0/500 ...
+2019-03-28 02:30:02,813 - INFO - precomputing L2-norms of doc weight vectors
+2019-03-28 02:32:14,887 - INFO - collecting all words and their counts
+2019-03-28 02:32:14,888 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 02:32:14,896 - INFO - collected 2073 word types and 2000 unique tags from a corpus of 2000 examples and 17631 words
+2019-03-28 02:32:14,897 - INFO - Loading a fresh vocabulary
+2019-03-28 02:32:14,898 - INFO - effective_min_count=5 retains 429 unique words (20% of original 2073, drops 1644)
+2019-03-28 02:32:14,899 - INFO - effective_min_count=5 leaves 14983 word corpus (84% of original 17631, drops 2648)
+2019-03-28 02:32:14,900 - INFO - deleting the raw counts dictionary of 2073 items
+2019-03-28 02:32:14,901 - INFO - sample=0.001 downsamples 70 most-common words
+2019-03-28 02:32:14,902 - INFO - downsampling leaves estimated 8232 word corpus (54.9% of prior 14983)
+2019-03-28 02:32:14,903 - INFO - estimated required memory for 429 words and 100 dimensions: 1757700 bytes
+2019-03-28 02:32:14,904 - INFO - resetting layer weights
+2019-03-28 02:32:14,936 - INFO - training model with 3 workers on 429 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 02:32:14,941 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:32:14,989 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:32:14,995 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:32:14,995 - INFO - EPOCH - 1 : training on 17631 raw words (10261 effective words) took 0.1s, 189563 effective words/s
+2019-03-28 02:32:15,000 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:32:15,047 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:32:15,054 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:32:15,054 - INFO - EPOCH - 2 : training on 17631 raw words (10220 effective words) took 0.1s, 189205 effective words/s
+2019-03-28 02:32:15,059 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:32:15,106 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:32:15,112 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:32:15,113 - INFO - EPOCH - 3 : training on 17631 raw words (10208 effective words) took 0.1s, 185566 effective words/s
+2019-03-28 02:32:15,117 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:32:15,163 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:32:15,169 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:32:15,170 - INFO - EPOCH - 4 : training on 17631 raw words (10230 effective words) took 0.1s, 195746 effective words/s
+2019-03-28 02:32:15,175 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:32:15,223 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:32:15,229 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:32:15,230 - INFO - EPOCH - 5 : training on 17631 raw words (10296 effective words) took 0.1s, 188203 effective words/s
+2019-03-28 02:32:15,230 - INFO - training on a 88155 raw words (51215 effective words) took 0.3s, 174523 effective words/s
+2019-03-28 02:32:15,231 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 02:32:15,264 - INFO - collecting all words and their counts
+2019-03-28 02:32:15,264 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 02:32:15,267 - INFO - collected 1077 word types and 500 unique tags from a corpus of 500 examples and 3974 words
+2019-03-28 02:32:15,267 - INFO - Loading a fresh vocabulary
+2019-03-28 02:32:15,268 - INFO - effective_min_count=5 retains 124 unique words (11% of original 1077, drops 953)
+2019-03-28 02:32:15,269 - INFO - effective_min_count=5 leaves 2582 word corpus (64% of original 3974, drops 1392)
+2019-03-28 02:32:15,270 - INFO - deleting the raw counts dictionary of 1077 items
+2019-03-28 02:32:15,270 - INFO - sample=0.001 downsamples 91 most-common words
+2019-03-28 02:32:15,271 - INFO - downsampling leaves estimated 1079 word corpus (41.8% of prior 2582)
+2019-03-28 02:32:15,272 - INFO - estimated required memory for 124 words and 100 dimensions: 461200 bytes
+2019-03-28 02:32:15,272 - INFO - resetting layer weights
+2019-03-28 02:32:15,283 - INFO - training model with 3 workers on 124 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 02:32:15,288 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:32:15,289 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:32:15,297 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:32:15,298 - INFO - EPOCH - 1 : training on 3974 raw words (1582 effective words) took 0.0s, 146017 effective words/s
+2019-03-28 02:32:15,300 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:32:15,301 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:32:15,310 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:32:15,311 - INFO - EPOCH - 2 : training on 3974 raw words (1590 effective words) took 0.0s, 148184 effective words/s
+2019-03-28 02:32:15,313 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:32:15,314 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:32:15,323 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:32:15,323 - INFO - EPOCH - 3 : training on 3974 raw words (1582 effective words) took 0.0s, 152224 effective words/s
+2019-03-28 02:32:15,326 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:32:15,327 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:32:15,335 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:32:15,336 - INFO - EPOCH - 4 : training on 3974 raw words (1572 effective words) took 0.0s, 156348 effective words/s
+2019-03-28 02:32:15,338 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:32:15,339 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:32:15,348 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:32:15,349 - INFO - EPOCH - 5 : training on 3974 raw words (1587 effective words) took 0.0s, 150113 effective words/s
+2019-03-28 02:32:15,349 - INFO - training on a 19870 raw words (7913 effective words) took 0.1s, 120219 effective words/s
+2019-03-28 02:32:15,350 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 02:32:15,355 - INFO - Reading data done!
+2019-03-28 02:32:15,548 - INFO - MODEL HAS 10364933 params
+2019-03-28 02:32:22,306 - INFO - EPOCH: 68 ITER: 0/17721 WPS: 5056.55 LOSS: 0.0096 DEV_LOSS: 0.0000 DEV_ROUGE: 0.0000
+2019-03-28 02:32:36,103 - INFO - EPOCH: 68 ITER: 100/17721 WPS: 72.48 LOSS: 0.0213 DEV_LOSS: 0.0000 DEV_ROUGE: 0.0000
+2019-03-28 02:32:50,310 - INFO - collecting all words and their counts
+2019-03-28 02:32:50,311 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 02:32:50,313 - INFO - collected 1077 word types and 500 unique tags from a corpus of 500 examples and 3974 words
+2019-03-28 02:32:50,314 - INFO - Loading a fresh vocabulary
+2019-03-28 02:32:50,315 - INFO - effective_min_count=5 retains 124 unique words (11% of original 1077, drops 953)
+2019-03-28 02:32:50,315 - INFO - effective_min_count=5 leaves 2582 word corpus (64% of original 3974, drops 1392)
+2019-03-28 02:32:50,316 - INFO - deleting the raw counts dictionary of 1077 items
+2019-03-28 02:32:50,317 - INFO - sample=0.001 downsamples 91 most-common words
+2019-03-28 02:32:50,318 - INFO - downsampling leaves estimated 1079 word corpus (41.8% of prior 2582)
+2019-03-28 02:32:50,319 - INFO - estimated required memory for 124 words and 100 dimensions: 461200 bytes
+2019-03-28 02:32:50,319 - INFO - resetting layer weights
+2019-03-28 02:32:50,329 - INFO - training model with 3 workers on 124 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 02:32:50,333 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:32:50,334 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:32:50,345 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:32:50,345 - INFO - EPOCH - 1 : training on 3974 raw words (1582 effective words) took 0.0s, 131421 effective words/s
+2019-03-28 02:32:50,347 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:32:50,348 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:32:50,358 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:32:50,358 - INFO - EPOCH - 2 : training on 3974 raw words (1590 effective words) took 0.0s, 147840 effective words/s
+2019-03-28 02:32:50,360 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:32:50,361 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:32:50,370 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:32:50,371 - INFO - EPOCH - 3 : training on 3974 raw words (1582 effective words) took 0.0s, 145724 effective words/s
+2019-03-28 02:32:50,373 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:32:50,374 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:32:50,383 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:32:50,384 - INFO - EPOCH - 4 : training on 3974 raw words (1572 effective words) took 0.0s, 147600 effective words/s
+2019-03-28 02:32:50,386 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:32:50,387 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:32:50,396 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:32:50,397 - INFO - EPOCH - 5 : training on 3974 raw words (1587 effective words) took 0.0s, 147302 effective words/s
+2019-03-28 02:32:50,398 - INFO - training on a 19870 raw words (7913 effective words) took 0.1s, 118133 effective words/s
+2019-03-28 02:32:50,398 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 02:32:50,403 - INFO - Reading data done!
+2019-03-28 02:32:50,594 - INFO - MODEL HAS 10364933 params
+2019-03-28 02:32:56,938 - INFO - Computing model performance on validation data ...
+2019-03-28 02:32:56,938 - INFO - Finished decoding data: 0/500 ...
+2019-03-28 02:32:56,940 - INFO - precomputing L2-norms of doc weight vectors
+2019-03-28 02:34:19,298 - INFO - collecting all words and their counts
+2019-03-28 02:34:19,299 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 02:34:19,301 - INFO - collected 1077 word types and 500 unique tags from a corpus of 500 examples and 3974 words
+2019-03-28 02:34:19,302 - INFO - Loading a fresh vocabulary
+2019-03-28 02:34:19,303 - INFO - effective_min_count=5 retains 124 unique words (11% of original 1077, drops 953)
+2019-03-28 02:34:19,303 - INFO - effective_min_count=5 leaves 2582 word corpus (64% of original 3974, drops 1392)
+2019-03-28 02:34:19,304 - INFO - deleting the raw counts dictionary of 1077 items
+2019-03-28 02:34:19,305 - INFO - sample=0.001 downsamples 91 most-common words
+2019-03-28 02:34:19,306 - INFO - downsampling leaves estimated 1079 word corpus (41.8% of prior 2582)
+2019-03-28 02:34:19,306 - INFO - estimated required memory for 124 words and 100 dimensions: 461200 bytes
+2019-03-28 02:34:19,307 - INFO - resetting layer weights
+2019-03-28 02:34:19,318 - INFO - training model with 3 workers on 124 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 02:34:19,323 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:34:19,324 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:34:19,333 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:34:19,334 - INFO - EPOCH - 1 : training on 3974 raw words (1582 effective words) took 0.0s, 151833 effective words/s
+2019-03-28 02:34:19,338 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:34:19,338 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:34:19,347 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:34:19,348 - INFO - EPOCH - 2 : training on 3974 raw words (1590 effective words) took 0.0s, 152894 effective words/s
+2019-03-28 02:34:19,350 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:34:19,351 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:34:19,360 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:34:19,361 - INFO - EPOCH - 3 : training on 3974 raw words (1582 effective words) took 0.0s, 146834 effective words/s
+2019-03-28 02:34:19,363 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:34:19,364 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:34:19,373 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:34:19,373 - INFO - EPOCH - 4 : training on 3974 raw words (1572 effective words) took 0.0s, 153856 effective words/s
+2019-03-28 02:34:19,376 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:34:19,376 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:34:19,385 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:34:19,386 - INFO - EPOCH - 5 : training on 3974 raw words (1587 effective words) took 0.0s, 151925 effective words/s
+2019-03-28 02:34:19,386 - INFO - training on a 19870 raw words (7913 effective words) took 0.1s, 119569 effective words/s
+2019-03-28 02:34:19,387 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 02:34:19,392 - INFO - Reading data done!
+2019-03-28 02:34:19,584 - INFO - MODEL HAS 10364933 params
+2019-03-28 02:34:26,109 - INFO - Computing model performance on validation data ...
+2019-03-28 02:34:26,110 - INFO - Finished decoding data: 0/500 ...
+2019-03-28 02:34:26,112 - INFO - precomputing L2-norms of doc weight vectors
+2019-03-28 02:35:19,114 - INFO - collecting all words and their counts
+2019-03-28 02:35:19,115 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 02:35:19,117 - INFO - collected 1077 word types and 500 unique tags from a corpus of 500 examples and 3974 words
+2019-03-28 02:35:19,118 - INFO - Loading a fresh vocabulary
+2019-03-28 02:35:19,119 - INFO - effective_min_count=5 retains 124 unique words (11% of original 1077, drops 953)
+2019-03-28 02:35:19,120 - INFO - effective_min_count=5 leaves 2582 word corpus (64% of original 3974, drops 1392)
+2019-03-28 02:35:19,121 - INFO - deleting the raw counts dictionary of 1077 items
+2019-03-28 02:35:19,122 - INFO - sample=0.001 downsamples 91 most-common words
+2019-03-28 02:35:19,122 - INFO - downsampling leaves estimated 1079 word corpus (41.8% of prior 2582)
+2019-03-28 02:35:19,123 - INFO - estimated required memory for 124 words and 100 dimensions: 461200 bytes
+2019-03-28 02:35:19,124 - INFO - resetting layer weights
+2019-03-28 02:35:19,134 - INFO - training model with 3 workers on 124 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 02:35:19,139 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:35:19,140 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:35:19,149 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:35:19,149 - INFO - EPOCH - 1 : training on 3974 raw words (1582 effective words) took 0.0s, 155443 effective words/s
+2019-03-28 02:35:19,152 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:35:19,152 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:35:19,162 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:35:19,162 - INFO - EPOCH - 2 : training on 3974 raw words (1590 effective words) took 0.0s, 152910 effective words/s
+2019-03-28 02:35:19,164 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:35:19,165 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:35:19,174 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:35:19,175 - INFO - EPOCH - 3 : training on 3974 raw words (1582 effective words) took 0.0s, 145357 effective words/s
+2019-03-28 02:35:19,177 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:35:19,178 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:35:19,187 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:35:19,187 - INFO - EPOCH - 4 : training on 3974 raw words (1572 effective words) took 0.0s, 154829 effective words/s
+2019-03-28 02:35:19,190 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:35:19,190 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:35:19,199 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:35:19,200 - INFO - EPOCH - 5 : training on 3974 raw words (1587 effective words) took 0.0s, 150483 effective words/s
+2019-03-28 02:35:19,200 - INFO - training on a 19870 raw words (7913 effective words) took 0.1s, 121109 effective words/s
+2019-03-28 02:35:19,201 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 02:35:19,206 - INFO - Reading data done!
+2019-03-28 02:35:19,390 - INFO - MODEL HAS 10364933 params
+2019-03-28 02:35:25,676 - INFO - Computing model performance on validation data ...
+2019-03-28 02:35:25,677 - INFO - Finished decoding data: 0/500 ...
+2019-03-28 02:35:25,679 - INFO - precomputing L2-norms of doc weight vectors
+2019-03-28 02:36:13,017 - INFO - collecting all words and their counts
+2019-03-28 02:36:13,018 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 02:36:13,020 - INFO - collected 1077 word types and 500 unique tags from a corpus of 500 examples and 3974 words
+2019-03-28 02:36:13,021 - INFO - Loading a fresh vocabulary
+2019-03-28 02:36:13,022 - INFO - effective_min_count=5 retains 124 unique words (11% of original 1077, drops 953)
+2019-03-28 02:36:13,022 - INFO - effective_min_count=5 leaves 2582 word corpus (64% of original 3974, drops 1392)
+2019-03-28 02:36:13,023 - INFO - deleting the raw counts dictionary of 1077 items
+2019-03-28 02:36:13,024 - INFO - sample=0.001 downsamples 91 most-common words
+2019-03-28 02:36:13,025 - INFO - downsampling leaves estimated 1079 word corpus (41.8% of prior 2582)
+2019-03-28 02:36:13,026 - INFO - estimated required memory for 124 words and 100 dimensions: 461200 bytes
+2019-03-28 02:36:13,026 - INFO - resetting layer weights
+2019-03-28 02:36:13,037 - INFO - training model with 3 workers on 124 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 02:36:13,042 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:36:13,043 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:36:13,052 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:36:13,053 - INFO - EPOCH - 1 : training on 3974 raw words (1582 effective words) took 0.0s, 142910 effective words/s
+2019-03-28 02:36:13,056 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:36:13,057 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:36:13,065 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:36:13,066 - INFO - EPOCH - 2 : training on 3974 raw words (1590 effective words) took 0.0s, 158110 effective words/s
+2019-03-28 02:36:13,068 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:36:13,069 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:36:13,078 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:36:13,078 - INFO - EPOCH - 3 : training on 3974 raw words (1582 effective words) took 0.0s, 158226 effective words/s
+2019-03-28 02:36:13,081 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:36:13,081 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:36:13,090 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:36:13,090 - INFO - EPOCH - 4 : training on 3974 raw words (1572 effective words) took 0.0s, 160758 effective words/s
+2019-03-28 02:36:13,092 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:36:13,093 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:36:13,102 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:36:13,103 - INFO - EPOCH - 5 : training on 3974 raw words (1587 effective words) took 0.0s, 156750 effective words/s
+2019-03-28 02:36:13,103 - INFO - training on a 19870 raw words (7913 effective words) took 0.1s, 122238 effective words/s
+2019-03-28 02:36:13,103 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 02:36:13,109 - INFO - Reading data done!
+2019-03-28 02:36:13,309 - INFO - MODEL HAS 10364933 params
+2019-03-28 02:36:19,784 - INFO - Computing model performance on validation data ...
+2019-03-28 02:36:19,785 - INFO - Finished decoding data: 0/500 ...
+2019-03-28 02:36:19,787 - INFO - precomputing L2-norms of doc weight vectors
+2019-03-28 02:38:09,544 - INFO - collecting all words and their counts
+2019-03-28 02:38:09,545 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 02:38:09,547 - INFO - collected 1077 word types and 500 unique tags from a corpus of 500 examples and 3974 words
+2019-03-28 02:38:09,548 - INFO - Loading a fresh vocabulary
+2019-03-28 02:38:09,549 - INFO - effective_min_count=5 retains 124 unique words (11% of original 1077, drops 953)
+2019-03-28 02:38:09,550 - INFO - effective_min_count=5 leaves 2582 word corpus (64% of original 3974, drops 1392)
+2019-03-28 02:38:09,550 - INFO - deleting the raw counts dictionary of 1077 items
+2019-03-28 02:38:09,551 - INFO - sample=0.001 downsamples 91 most-common words
+2019-03-28 02:38:09,552 - INFO - downsampling leaves estimated 1079 word corpus (41.8% of prior 2582)
+2019-03-28 02:38:09,553 - INFO - estimated required memory for 124 words and 100 dimensions: 461200 bytes
+2019-03-28 02:38:09,553 - INFO - resetting layer weights
+2019-03-28 02:38:09,564 - INFO - training model with 3 workers on 124 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 02:38:09,569 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:38:09,570 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:38:09,579 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:38:09,579 - INFO - EPOCH - 1 : training on 3974 raw words (1582 effective words) took 0.0s, 152343 effective words/s
+2019-03-28 02:38:09,583 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:38:09,583 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:38:09,592 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:38:09,593 - INFO - EPOCH - 2 : training on 3974 raw words (1590 effective words) took 0.0s, 155763 effective words/s
+2019-03-28 02:38:09,595 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:38:09,596 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:38:09,605 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:38:09,605 - INFO - EPOCH - 3 : training on 3974 raw words (1582 effective words) took 0.0s, 154789 effective words/s
+2019-03-28 02:38:09,608 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:38:09,609 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:38:09,617 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:38:09,618 - INFO - EPOCH - 4 : training on 3974 raw words (1572 effective words) took 0.0s, 160397 effective words/s
+2019-03-28 02:38:09,620 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:38:09,621 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:38:09,630 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:38:09,631 - INFO - EPOCH - 5 : training on 3974 raw words (1587 effective words) took 0.0s, 151260 effective words/s
+2019-03-28 02:38:09,631 - INFO - training on a 19870 raw words (7913 effective words) took 0.1s, 118611 effective words/s
+2019-03-28 02:38:09,632 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 02:38:09,637 - INFO - Reading data done!
+2019-03-28 02:38:09,823 - INFO - MODEL HAS 10364933 params
+2019-03-28 02:38:16,342 - INFO - Computing model performance on validation data ...
+2019-03-28 02:38:16,343 - INFO - Finished decoding data: 0/500 ...
+2019-03-28 02:38:16,345 - INFO - precomputing L2-norms of doc weight vectors
+2019-03-28 02:39:06,099 - INFO - collecting all words and their counts
+2019-03-28 02:39:06,100 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 02:39:06,102 - INFO - collected 1077 word types and 500 unique tags from a corpus of 500 examples and 3974 words
+2019-03-28 02:39:06,103 - INFO - Loading a fresh vocabulary
+2019-03-28 02:39:06,104 - INFO - effective_min_count=5 retains 124 unique words (11% of original 1077, drops 953)
+2019-03-28 02:39:06,104 - INFO - effective_min_count=5 leaves 2582 word corpus (64% of original 3974, drops 1392)
+2019-03-28 02:39:06,105 - INFO - deleting the raw counts dictionary of 1077 items
+2019-03-28 02:39:06,107 - INFO - sample=0.001 downsamples 91 most-common words
+2019-03-28 02:39:06,107 - INFO - downsampling leaves estimated 1079 word corpus (41.8% of prior 2582)
+2019-03-28 02:39:06,108 - INFO - estimated required memory for 124 words and 100 dimensions: 461200 bytes
+2019-03-28 02:39:06,108 - INFO - resetting layer weights
+2019-03-28 02:39:06,119 - INFO - training model with 3 workers on 124 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 02:39:06,124 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:39:06,126 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:39:06,134 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:39:06,135 - INFO - EPOCH - 1 : training on 3974 raw words (1582 effective words) took 0.0s, 150110 effective words/s
+2019-03-28 02:39:06,138 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:39:06,139 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:39:06,148 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:39:06,148 - INFO - EPOCH - 2 : training on 3974 raw words (1590 effective words) took 0.0s, 152180 effective words/s
+2019-03-28 02:39:06,151 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:39:06,151 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:39:06,160 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:39:06,161 - INFO - EPOCH - 3 : training on 3974 raw words (1582 effective words) took 0.0s, 156438 effective words/s
+2019-03-28 02:39:06,163 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:39:06,164 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:39:06,173 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:39:06,173 - INFO - EPOCH - 4 : training on 3974 raw words (1572 effective words) took 0.0s, 155801 effective words/s
+2019-03-28 02:39:06,175 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:39:06,176 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:39:06,186 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:39:06,187 - INFO - EPOCH - 5 : training on 3974 raw words (1587 effective words) took 0.0s, 141431 effective words/s
+2019-03-28 02:39:06,187 - INFO - training on a 19870 raw words (7913 effective words) took 0.1s, 117595 effective words/s
+2019-03-28 02:39:06,187 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 02:39:06,192 - INFO - Reading data done!
+2019-03-28 02:39:06,389 - INFO - MODEL HAS 10364933 params
+2019-03-28 02:39:12,872 - INFO - Computing model performance on validation data ...
+2019-03-28 02:39:12,873 - INFO - Finished decoding data: 0/500 ...
+2019-03-28 02:39:12,875 - INFO - precomputing L2-norms of doc weight vectors
+2019-03-28 02:57:13,506 - INFO - collecting all words and their counts
+2019-03-28 02:57:13,507 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 02:57:13,510 - INFO - collected 1077 word types and 500 unique tags from a corpus of 500 examples and 3974 words
+2019-03-28 02:57:13,510 - INFO - Loading a fresh vocabulary
+2019-03-28 02:57:13,511 - INFO - effective_min_count=5 retains 124 unique words (11% of original 1077, drops 953)
+2019-03-28 02:57:13,512 - INFO - effective_min_count=5 leaves 2582 word corpus (64% of original 3974, drops 1392)
+2019-03-28 02:57:13,513 - INFO - deleting the raw counts dictionary of 1077 items
+2019-03-28 02:57:13,514 - INFO - sample=0.001 downsamples 91 most-common words
+2019-03-28 02:57:13,514 - INFO - downsampling leaves estimated 1079 word corpus (41.8% of prior 2582)
+2019-03-28 02:57:13,515 - INFO - estimated required memory for 124 words and 100 dimensions: 461200 bytes
+2019-03-28 02:57:13,515 - INFO - resetting layer weights
+2019-03-28 02:57:13,526 - INFO - training model with 3 workers on 124 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 02:57:13,531 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:57:13,532 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:57:13,540 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:57:13,541 - INFO - EPOCH - 1 : training on 3974 raw words (1582 effective words) took 0.0s, 161520 effective words/s
+2019-03-28 02:57:13,543 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:57:13,544 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:57:13,552 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:57:13,553 - INFO - EPOCH - 2 : training on 3974 raw words (1590 effective words) took 0.0s, 160830 effective words/s
+2019-03-28 02:57:13,555 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:57:13,556 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:57:13,564 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:57:13,565 - INFO - EPOCH - 3 : training on 3974 raw words (1582 effective words) took 0.0s, 167023 effective words/s
+2019-03-28 02:57:13,567 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:57:13,568 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:57:13,576 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:57:13,577 - INFO - EPOCH - 4 : training on 3974 raw words (1572 effective words) took 0.0s, 160644 effective words/s
+2019-03-28 02:57:13,579 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:57:13,580 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:57:13,588 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:57:13,589 - INFO - EPOCH - 5 : training on 3974 raw words (1587 effective words) took 0.0s, 157980 effective words/s
+2019-03-28 02:57:13,589 - INFO - training on a 19870 raw words (7913 effective words) took 0.1s, 126254 effective words/s
+2019-03-28 02:57:13,590 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 02:57:13,595 - INFO - Reading data done!
+2019-03-28 02:57:13,784 - INFO - MODEL HAS 10364933 params
+2019-03-28 02:57:20,140 - INFO - Computing model performance on validation data ...
+2019-03-28 02:57:20,140 - INFO - Finished decoding data: 0/500 ...
+2019-03-28 02:57:20,142 - INFO - precomputing L2-norms of doc weight vectors
+2019-03-28 02:59:01,513 - INFO - collecting all words and their counts
+2019-03-28 02:59:01,514 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 02:59:01,517 - INFO - collected 1077 word types and 500 unique tags from a corpus of 500 examples and 3974 words
+2019-03-28 02:59:01,517 - INFO - Loading a fresh vocabulary
+2019-03-28 02:59:01,518 - INFO - effective_min_count=5 retains 124 unique words (11% of original 1077, drops 953)
+2019-03-28 02:59:01,519 - INFO - effective_min_count=5 leaves 2582 word corpus (64% of original 3974, drops 1392)
+2019-03-28 02:59:01,520 - INFO - deleting the raw counts dictionary of 1077 items
+2019-03-28 02:59:01,521 - INFO - sample=0.001 downsamples 91 most-common words
+2019-03-28 02:59:01,522 - INFO - downsampling leaves estimated 1079 word corpus (41.8% of prior 2582)
+2019-03-28 02:59:01,522 - INFO - estimated required memory for 124 words and 100 dimensions: 461200 bytes
+2019-03-28 02:59:01,523 - INFO - resetting layer weights
+2019-03-28 02:59:01,533 - INFO - training model with 3 workers on 124 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 02:59:01,538 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:59:01,539 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:59:01,547 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:59:01,548 - INFO - EPOCH - 1 : training on 3974 raw words (1582 effective words) took 0.0s, 155585 effective words/s
+2019-03-28 02:59:01,550 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:59:01,551 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:59:01,560 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:59:01,560 - INFO - EPOCH - 2 : training on 3974 raw words (1590 effective words) took 0.0s, 158549 effective words/s
+2019-03-28 02:59:01,563 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:59:01,563 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:59:01,572 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:59:01,573 - INFO - EPOCH - 3 : training on 3974 raw words (1582 effective words) took 0.0s, 157147 effective words/s
+2019-03-28 02:59:01,575 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:59:01,576 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:59:01,585 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:59:01,585 - INFO - EPOCH - 4 : training on 3974 raw words (1572 effective words) took 0.0s, 145345 effective words/s
+2019-03-28 02:59:01,587 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 02:59:01,588 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 02:59:01,597 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 02:59:01,598 - INFO - EPOCH - 5 : training on 3974 raw words (1587 effective words) took 0.0s, 155870 effective words/s
+2019-03-28 02:59:01,598 - INFO - training on a 19870 raw words (7913 effective words) took 0.1s, 122883 effective words/s
+2019-03-28 02:59:01,598 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 02:59:01,604 - INFO - Reading data done!
+2019-03-28 02:59:01,797 - INFO - MODEL HAS 10364933 params
+2019-03-28 02:59:08,096 - INFO - Computing model performance on validation data ...
+2019-03-28 02:59:08,097 - INFO - Finished decoding data: 0/500 ...
+2019-03-28 02:59:08,099 - INFO - precomputing L2-norms of doc weight vectors
+2019-03-28 03:00:33,419 - INFO - collecting all words and their counts
+2019-03-28 03:00:33,420 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 03:00:33,423 - INFO - collected 1077 word types and 500 unique tags from a corpus of 500 examples and 3974 words
+2019-03-28 03:00:33,423 - INFO - Loading a fresh vocabulary
+2019-03-28 03:00:33,424 - INFO - effective_min_count=5 retains 124 unique words (11% of original 1077, drops 953)
+2019-03-28 03:00:33,425 - INFO - effective_min_count=5 leaves 2582 word corpus (64% of original 3974, drops 1392)
+2019-03-28 03:00:33,426 - INFO - deleting the raw counts dictionary of 1077 items
+2019-03-28 03:00:33,427 - INFO - sample=0.001 downsamples 91 most-common words
+2019-03-28 03:00:33,427 - INFO - downsampling leaves estimated 1079 word corpus (41.8% of prior 2582)
+2019-03-28 03:00:33,428 - INFO - estimated required memory for 124 words and 100 dimensions: 461200 bytes
+2019-03-28 03:00:33,431 - INFO - resetting layer weights
+2019-03-28 03:00:33,442 - INFO - training model with 3 workers on 124 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 03:00:33,445 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:00:33,446 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:00:33,455 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:00:33,455 - INFO - EPOCH - 1 : training on 3974 raw words (1582 effective words) took 0.0s, 153695 effective words/s
+2019-03-28 03:00:33,458 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:00:33,459 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:00:33,468 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:00:33,469 - INFO - EPOCH - 2 : training on 3974 raw words (1590 effective words) took 0.0s, 142040 effective words/s
+2019-03-28 03:00:33,471 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:00:33,472 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:00:33,482 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:00:33,482 - INFO - EPOCH - 3 : training on 3974 raw words (1582 effective words) took 0.0s, 139026 effective words/s
+2019-03-28 03:00:33,485 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:00:33,486 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:00:33,494 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:00:33,495 - INFO - EPOCH - 4 : training on 3974 raw words (1572 effective words) took 0.0s, 150421 effective words/s
+2019-03-28 03:00:33,497 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:00:33,498 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:00:33,507 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:00:33,507 - INFO - EPOCH - 5 : training on 3974 raw words (1587 effective words) took 0.0s, 155031 effective words/s
+2019-03-28 03:00:33,508 - INFO - training on a 19870 raw words (7913 effective words) took 0.1s, 121568 effective words/s
+2019-03-28 03:00:33,508 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 03:00:33,513 - INFO - Reading data done!
+2019-03-28 03:00:33,703 - INFO - MODEL HAS 10364933 params
+2019-03-28 03:00:40,090 - INFO - Computing model performance on validation data ...
+2019-03-28 03:00:40,091 - INFO - Finished decoding data: 0/500 ...
+2019-03-28 03:00:40,093 - INFO - precomputing L2-norms of doc weight vectors
+2019-03-28 03:01:27,383 - INFO - collecting all words and their counts
+2019-03-28 03:01:27,384 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 03:01:27,387 - INFO - collected 1077 word types and 500 unique tags from a corpus of 500 examples and 3974 words
+2019-03-28 03:01:27,387 - INFO - Loading a fresh vocabulary
+2019-03-28 03:01:27,388 - INFO - effective_min_count=5 retains 124 unique words (11% of original 1077, drops 953)
+2019-03-28 03:01:27,389 - INFO - effective_min_count=5 leaves 2582 word corpus (64% of original 3974, drops 1392)
+2019-03-28 03:01:27,390 - INFO - deleting the raw counts dictionary of 1077 items
+2019-03-28 03:01:27,391 - INFO - sample=0.001 downsamples 91 most-common words
+2019-03-28 03:01:27,391 - INFO - downsampling leaves estimated 1079 word corpus (41.8% of prior 2582)
+2019-03-28 03:01:27,392 - INFO - estimated required memory for 124 words and 100 dimensions: 461200 bytes
+2019-03-28 03:01:27,393 - INFO - resetting layer weights
+2019-03-28 03:01:27,403 - INFO - training model with 3 workers on 124 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 03:01:27,408 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:01:27,409 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:01:27,418 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:01:27,418 - INFO - EPOCH - 1 : training on 3974 raw words (1582 effective words) took 0.0s, 154550 effective words/s
+2019-03-28 03:01:27,421 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:01:27,422 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:01:27,430 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:01:27,431 - INFO - EPOCH - 2 : training on 3974 raw words (1590 effective words) took 0.0s, 153700 effective words/s
+2019-03-28 03:01:27,434 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:01:27,434 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:01:27,443 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:01:27,443 - INFO - EPOCH - 3 : training on 3974 raw words (1582 effective words) took 0.0s, 158813 effective words/s
+2019-03-28 03:01:27,446 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:01:27,446 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:01:27,455 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:01:27,456 - INFO - EPOCH - 4 : training on 3974 raw words (1572 effective words) took 0.0s, 152026 effective words/s
+2019-03-28 03:01:27,458 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:01:27,459 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:01:27,468 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:01:27,468 - INFO - EPOCH - 5 : training on 3974 raw words (1587 effective words) took 0.0s, 155287 effective words/s
+2019-03-28 03:01:27,469 - INFO - training on a 19870 raw words (7913 effective words) took 0.1s, 120740 effective words/s
+2019-03-28 03:01:27,469 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 03:01:27,474 - INFO - Reading data done!
+2019-03-28 03:01:27,665 - INFO - MODEL HAS 10364933 params
+2019-03-28 03:01:34,063 - INFO - Computing model performance on validation data ...
+2019-03-28 03:01:34,064 - INFO - Finished decoding data: 0/500 ...
+2019-03-28 03:01:34,066 - INFO - precomputing L2-norms of doc weight vectors
+2019-03-28 03:02:33,054 - INFO - collecting all words and their counts
+2019-03-28 03:02:33,055 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 03:02:33,057 - INFO - collected 1077 word types and 500 unique tags from a corpus of 500 examples and 3974 words
+2019-03-28 03:02:33,057 - INFO - Loading a fresh vocabulary
+2019-03-28 03:02:33,058 - INFO - effective_min_count=5 retains 124 unique words (11% of original 1077, drops 953)
+2019-03-28 03:02:33,059 - INFO - effective_min_count=5 leaves 2582 word corpus (64% of original 3974, drops 1392)
+2019-03-28 03:02:33,060 - INFO - deleting the raw counts dictionary of 1077 items
+2019-03-28 03:02:33,061 - INFO - sample=0.001 downsamples 91 most-common words
+2019-03-28 03:02:33,061 - INFO - downsampling leaves estimated 1079 word corpus (41.8% of prior 2582)
+2019-03-28 03:02:33,062 - INFO - estimated required memory for 124 words and 100 dimensions: 461200 bytes
+2019-03-28 03:02:33,063 - INFO - resetting layer weights
+2019-03-28 03:02:33,073 - INFO - training model with 3 workers on 124 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 03:02:33,078 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:02:33,080 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:02:33,088 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:02:33,088 - INFO - EPOCH - 1 : training on 3974 raw words (1582 effective words) took 0.0s, 159916 effective words/s
+2019-03-28 03:02:33,090 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:02:33,091 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:02:33,100 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:02:33,101 - INFO - EPOCH - 2 : training on 3974 raw words (1590 effective words) took 0.0s, 149489 effective words/s
+2019-03-28 03:02:33,103 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:02:33,104 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:02:33,113 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:02:33,114 - INFO - EPOCH - 3 : training on 3974 raw words (1582 effective words) took 0.0s, 149546 effective words/s
+2019-03-28 03:02:33,116 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:02:33,117 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:02:33,126 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:02:33,126 - INFO - EPOCH - 4 : training on 3974 raw words (1572 effective words) took 0.0s, 153435 effective words/s
+2019-03-28 03:02:33,129 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:02:33,130 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:02:33,138 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:02:33,139 - INFO - EPOCH - 5 : training on 3974 raw words (1587 effective words) took 0.0s, 154056 effective words/s
+2019-03-28 03:02:33,139 - INFO - training on a 19870 raw words (7913 effective words) took 0.1s, 120771 effective words/s
+2019-03-28 03:02:33,140 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 03:02:33,145 - INFO - Reading data done!
+2019-03-28 03:02:33,338 - INFO - MODEL HAS 10364933 params
+2019-03-28 03:02:39,771 - INFO - Computing model performance on validation data ...
+2019-03-28 03:02:39,772 - INFO - Finished decoding data: 0/500 ...
+2019-03-28 03:02:39,774 - INFO - precomputing L2-norms of doc weight vectors
+2019-03-28 03:02:59,660 - INFO - Finished decoding data: 100/500 ...
+2019-03-28 03:03:20,131 - INFO - Finished decoding data: 200/500 ...
+2019-03-28 03:04:00,248 - INFO - collecting all words and their counts
+2019-03-28 03:04:00,249 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 03:04:00,251 - INFO - collected 1077 word types and 500 unique tags from a corpus of 500 examples and 3974 words
+2019-03-28 03:04:00,252 - INFO - Loading a fresh vocabulary
+2019-03-28 03:04:00,253 - INFO - effective_min_count=5 retains 124 unique words (11% of original 1077, drops 953)
+2019-03-28 03:04:00,254 - INFO - effective_min_count=5 leaves 2582 word corpus (64% of original 3974, drops 1392)
+2019-03-28 03:04:00,254 - INFO - deleting the raw counts dictionary of 1077 items
+2019-03-28 03:04:00,255 - INFO - sample=0.001 downsamples 91 most-common words
+2019-03-28 03:04:00,256 - INFO - downsampling leaves estimated 1079 word corpus (41.8% of prior 2582)
+2019-03-28 03:04:00,257 - INFO - estimated required memory for 124 words and 100 dimensions: 461200 bytes
+2019-03-28 03:04:00,257 - INFO - resetting layer weights
+2019-03-28 03:04:00,268 - INFO - training model with 3 workers on 124 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 03:04:00,272 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:04:00,273 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:04:00,282 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:04:00,283 - INFO - EPOCH - 1 : training on 3974 raw words (1582 effective words) took 0.0s, 147097 effective words/s
+2019-03-28 03:04:00,285 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:04:00,286 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:04:00,295 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:04:00,295 - INFO - EPOCH - 2 : training on 3974 raw words (1590 effective words) took 0.0s, 158322 effective words/s
+2019-03-28 03:04:00,298 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:04:00,298 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:04:00,307 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:04:00,308 - INFO - EPOCH - 3 : training on 3974 raw words (1582 effective words) took 0.0s, 152649 effective words/s
+2019-03-28 03:04:00,310 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:04:00,311 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:04:00,320 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:04:00,320 - INFO - EPOCH - 4 : training on 3974 raw words (1572 effective words) took 0.0s, 154254 effective words/s
+2019-03-28 03:04:00,323 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:04:00,324 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:04:00,332 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:04:00,333 - INFO - EPOCH - 5 : training on 3974 raw words (1587 effective words) took 0.0s, 156737 effective words/s
+2019-03-28 03:04:00,333 - INFO - training on a 19870 raw words (7913 effective words) took 0.1s, 123597 effective words/s
+2019-03-28 03:04:00,334 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 03:04:00,339 - INFO - Reading data done!
+2019-03-28 03:04:00,531 - INFO - MODEL HAS 10364933 params
+2019-03-28 03:04:06,906 - INFO - Computing model performance on validation data ...
+2019-03-28 03:04:06,907 - INFO - Finished decoding data: 0/500 ...
+2019-03-28 03:04:06,908 - INFO - precomputing L2-norms of doc weight vectors
+2019-03-28 03:04:24,149 - INFO - Finished decoding data: 100/500 ...
+2019-03-28 03:04:45,321 - INFO - Finished decoding data: 200/500 ...
+2019-03-28 03:05:03,651 - INFO - Finished decoding data: 300/500 ...
+2019-03-28 03:05:24,058 - INFO - Finished decoding data: 400/500 ...
+2019-03-28 03:05:44,436 - INFO - eval_precision: 0.025358
+2019-03-28 03:05:44,437 - INFO - eval_recall: 0.042975
+2019-03-28 03:05:44,438 - INFO - eval_edit_distance: 9.852000
+2019-03-28 03:05:44,439 - INFO - eval_rouge: 0.083230
+2019-03-28 03:17:06,498 - INFO - collecting all words and their counts
+2019-03-28 03:17:06,499 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 03:17:06,507 - INFO - collected 2073 word types and 2000 unique tags from a corpus of 2000 examples and 17631 words
+2019-03-28 03:17:06,507 - INFO - Loading a fresh vocabulary
+2019-03-28 03:17:06,509 - INFO - effective_min_count=5 retains 429 unique words (20% of original 2073, drops 1644)
+2019-03-28 03:17:06,509 - INFO - effective_min_count=5 leaves 14983 word corpus (84% of original 17631, drops 2648)
+2019-03-28 03:17:06,511 - INFO - deleting the raw counts dictionary of 2073 items
+2019-03-28 03:17:06,512 - INFO - sample=0.001 downsamples 70 most-common words
+2019-03-28 03:17:06,513 - INFO - downsampling leaves estimated 8232 word corpus (54.9% of prior 14983)
+2019-03-28 03:17:06,514 - INFO - estimated required memory for 429 words and 100 dimensions: 1757700 bytes
+2019-03-28 03:17:06,514 - INFO - resetting layer weights
+2019-03-28 03:17:06,549 - INFO - training model with 3 workers on 429 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 03:17:06,553 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:17:06,600 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:17:06,607 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:17:06,607 - INFO - EPOCH - 1 : training on 17631 raw words (10265 effective words) took 0.1s, 188481 effective words/s
+2019-03-28 03:17:06,611 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:17:06,659 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:17:06,665 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:17:06,665 - INFO - EPOCH - 2 : training on 17631 raw words (10281 effective words) took 0.1s, 188905 effective words/s
+2019-03-28 03:17:06,669 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:17:06,716 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:17:06,722 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:17:06,723 - INFO - EPOCH - 3 : training on 17631 raw words (10248 effective words) took 0.1s, 192474 effective words/s
+2019-03-28 03:17:06,727 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:17:06,773 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:17:06,779 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:17:06,779 - INFO - EPOCH - 4 : training on 17631 raw words (10244 effective words) took 0.1s, 195467 effective words/s
+2019-03-28 03:17:06,782 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:17:06,830 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:17:06,836 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:17:06,836 - INFO - EPOCH - 5 : training on 17631 raw words (10282 effective words) took 0.1s, 191840 effective words/s
+2019-03-28 03:17:06,837 - INFO - training on a 88155 raw words (51320 effective words) took 0.3s, 178540 effective words/s
+2019-03-28 03:17:06,837 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 03:17:06,870 - INFO - collecting all words and their counts
+2019-03-28 03:17:06,871 - INFO - PROGRESS: at example #0, processed 0 words (0/s), 0 word types, 0 tags
+2019-03-28 03:17:06,873 - INFO - collected 1077 word types and 500 unique tags from a corpus of 500 examples and 3974 words
+2019-03-28 03:17:06,873 - INFO - Loading a fresh vocabulary
+2019-03-28 03:17:06,874 - INFO - effective_min_count=5 retains 124 unique words (11% of original 1077, drops 953)
+2019-03-28 03:17:06,875 - INFO - effective_min_count=5 leaves 2582 word corpus (64% of original 3974, drops 1392)
+2019-03-28 03:17:06,876 - INFO - deleting the raw counts dictionary of 1077 items
+2019-03-28 03:17:06,876 - INFO - sample=0.001 downsamples 91 most-common words
+2019-03-28 03:17:06,877 - INFO - downsampling leaves estimated 1079 word corpus (41.8% of prior 2582)
+2019-03-28 03:17:06,878 - INFO - estimated required memory for 124 words and 100 dimensions: 461200 bytes
+2019-03-28 03:17:06,878 - INFO - resetting layer weights
+2019-03-28 03:17:06,889 - INFO - training model with 3 workers on 124 vocabulary and 100 features, using sg=0 hs=0 sample=0.001 negative=5 window=5
+2019-03-28 03:17:06,891 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:17:06,893 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:17:06,903 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:17:06,904 - INFO - EPOCH - 1 : training on 3974 raw words (1582 effective words) took 0.0s, 124501 effective words/s
+2019-03-28 03:17:06,906 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:17:06,907 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:17:06,917 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:17:06,917 - INFO - EPOCH - 2 : training on 3974 raw words (1590 effective words) took 0.0s, 144338 effective words/s
+2019-03-28 03:17:06,919 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:17:06,920 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:17:06,929 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:17:06,929 - INFO - EPOCH - 3 : training on 3974 raw words (1582 effective words) took 0.0s, 154263 effective words/s
+2019-03-28 03:17:06,932 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:17:06,933 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:17:06,941 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:17:06,941 - INFO - EPOCH - 4 : training on 3974 raw words (1572 effective words) took 0.0s, 163393 effective words/s
+2019-03-28 03:17:06,944 - INFO - worker thread finished; awaiting finish of 2 more threads
+2019-03-28 03:17:06,944 - INFO - worker thread finished; awaiting finish of 1 more threads
+2019-03-28 03:17:06,953 - INFO - worker thread finished; awaiting finish of 0 more threads
+2019-03-28 03:17:06,953 - INFO - EPOCH - 5 : training on 3974 raw words (1587 effective words) took 0.0s, 162704 effective words/s
+2019-03-28 03:17:06,954 - INFO - training on a 19870 raw words (7913 effective words) took 0.1s, 123353 effective words/s
+2019-03-28 03:17:06,954 - WARNING - under 10 jobs per worker: consider setting a smaller `batch_words' for smoother alpha decay
+2019-03-28 03:17:06,959 - INFO - Reading data done!
+2019-03-28 03:17:07,152 - INFO - MODEL HAS 10364933 params
+2019-03-28 03:17:13,923 - INFO - EPOCH: 68 ITER: 0/17721 WPS: 4066.42 LOSS: 0.0115 DEV_LOSS: 0.0000 DEV_ROUGE: 0.0000

@@ -260,29 +260,35 @@ def inference_rouge(model, src, tgt, config):
         _, output_data_tgt, tgtlens, tgtmask, _ = outputs
         
         tgt_dist_measurer = tgt['dist_measurer']
-        related_content_tgt = tgt_dist_measurer.most_similar(j, 1)   # list of n seq_str
+        related_content_tgt = tgt_dist_measurer.most_similar(j, 10)   # list of n seq_str
         # related_content_tgt = source_content_str, target_content_str, target_att_str, idx, score
         
+        # Put all the retrieved attributes together
+        retrieved_attrs = ''
+        for single_data_tgt in related_content_tgt:
+            retrieved_attrs += single_data_tgt[2] + ' '
+        
+        input_ids_aux, auxlens, auxmask = word2id(retrieved_attrs, None, tgt, config['data']['max_len'])
+        
         n_decoded_sents = []
-        for i, single_data_tgt in enumerate(related_content_tgt):
-            # retrieve related attributes
-            input_ids_aux, auxlens, auxmask = word2id(single_data_tgt[2], None, tgt, config['data']['max_len'])
-            input_ids_aux = Variable(torch.LongTensor(input_ids_aux))
-            auxlens = Variable(torch.LongTensor(auxlens))
-            auxmask = Variable(torch.LongTensor(auxmask))
+        
+        input_ids_aux = Variable(torch.LongTensor(input_ids_aux))
+        auxlens = Variable(torch.LongTensor(auxlens))
+        auxmask = Variable(torch.LongTensor(auxmask))
             
-            if CUDA:
-                input_ids_aux = input_ids_aux.cuda()
-                auxlens = auxlens.cuda()
-                auxmask = auxmask.cuda()
+        if CUDA:
+            input_ids_aux = input_ids_aux.cuda()
+            auxlens = auxlens.cuda()
+            auxmask = auxmask.cuda()
             
-            _, decoded_data_tgt = searcher(input_content_src, srcmask, srclens,
+        _, decoded_data_tgt = searcher(input_content_src, srcmask, srclens,
                                            input_ids_aux, auxmask, auxlens,
                                            20, tgt['tok2id']['<s>'])
-            decode_sent = id2word(decoded_data_tgt, tgt)
-            n_decoded_sents.append(decode_sent)
-#        print('Source content sentence:'+' '.join(related_content_tgt[0][1]))
-#        print('Decoded data sentence:'+n_decoded_sents[0])
+        
+        decode_sent = id2word(decoded_data_tgt, tgt)
+        n_decoded_sents.append(decode_sent)
+        #print('Source content sentence:'+' '.join(related_content_tgt[0][1]))
+        #print('Decoded data sentence:'+n_decoded_sents[0])
         input_sent = id2word(input_content_src, src)
         initial_inputs.append(input_sent.split())
         pred_sent = n_decoded_sents[0]
