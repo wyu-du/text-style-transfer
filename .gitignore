@@ -1,0 +1,5 @@
+sample_local_run/*
+.ipynb_checkpoints/*
+*/.ipynb_checkpoints/*
+*/*/.ipynb_checkpoints/*
+__pycache__/*
