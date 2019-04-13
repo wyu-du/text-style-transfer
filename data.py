@@ -310,7 +310,7 @@ def get_minibatch(lines, tok2id, index, batch_size, max_len, sort=False, idx=Non
         [tok2id['<pad>']] * (max_len - len(line) + 1)
         for line in lines
     ]
-
+    
     output_lines = [
         [tok2id.get(w, unk_id) for w in line[1:]] +
         [tok2id['<pad>']] * (max_len - len(line) + 1)

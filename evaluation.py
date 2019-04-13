@@ -258,6 +258,7 @@ def inference_rouge(model, src, tgt, config):
                                             is_test=True)
         input_content_src, _, srclens, srcmask, _ = inputs
         _, output_data_tgt, tgtlens, tgtmask, _ = outputs
+       
         
         tgt_dist_measurer = tgt['dist_measurer']
         related_content_tgt = tgt_dist_measurer.most_similar(j, 10)   # list of n seq_str
@@ -287,7 +288,7 @@ def inference_rouge(model, src, tgt, config):
         
         decode_sent = id2word(decoded_data_tgt, tgt)
         n_decoded_sents.append(decode_sent)
-        #print('Source content sentence:'+' '.join(related_content_tgt[0][1]))
+        #print('Source content sentence:'+''.join(related_content_tgt[0][1]))
         #print('Decoded data sentence:'+n_decoded_sents[0])
         input_sent = id2word(input_content_src, src)
         initial_inputs.append(input_sent.split())
