@@ -11,6 +11,8 @@ from cuda import CUDA
 
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 
+from tools.make_attribute_vocab import make_attribute
+
 class CorpusSearcher(object):
     def __init__(self, query_corpus, key_corpus, value_corpus, vectorizer, make_binary=True, use_doc2vec=False):
         self.use_doc2vec = use_doc2vec
@@ -73,7 +75,8 @@ class CorpusSearcher(object):
         #    print("\n\nQuery: " + query)
         #    print("\n\tSelected: ")
         #    for select in selected:
-        #        print("\ti: " + str(select[3]) + " key_corpus[i]: " + str(select[1]) + " value_corpus[i]: " + str(select[2]))
+        #        print("\ti: " + str(select[3]) + "\tkey_corpus[i]: " + str(select[1]) + "\tvalue_corpus[i]: " + str(select[2]) + "\tscore: " + str(select[4]))
+        #return
 
         return selected
 
@@ -104,14 +107,24 @@ def build_vocab_maps(vocab_file):
     return tok_to_id, id_to_tok
 
 
-def extract_attributes(line, attribute_vocab):
-    content = []
-    attribute = []
+def extract_attributes(line, tok_weights_dict):
+    # Decide how many attributes to be picked
+    attr_num = 2 if len(line) > 4 else 1
+    
+    line_tok_dict = {}
     for tok in line:
-        if tok in attribute_vocab:
-            attribute.append(tok)
-        else:
+        line_tok_dict[tok] = tok_weights_dict.get(tok, -1)
+    
+    attribute = sorted(line_tok_dict, key=lambda k: line_tok_dict[k], reverse=True)[:attr_num]
+    
+    content = []
+    for tok in line:
+        if tok not in attribute:
             content.append(tok)
+
+    #print("line: " + ' '.join(line))
+    #print("content: " + str(content))
+    #print("attribute: " + str(attribute))
     return line, content, attribute
 
 
@@ -172,12 +185,12 @@ def read_nmt_data(src, config, tgt, attribute_vocab, train_src=None, train_tgt=N
     return src, tgt
 
 
-def gen_train_data(src, attribute_vocab, config):
-    attribute_vocab = set([x.strip() for x in open(attribute_vocab)])
+def gen_train_data(src, tgt, config):
+    tok_weights_dict = make_attribute(src, tgt)
 
     src_lines = [l.strip().split() for l in open(src, 'r')]
     src_lines, src_content, src_attribute = list(zip(
-        *[extract_attributes(line, attribute_vocab) for line in src_lines]
+        *[extract_attributes(line, tok_weights_dict) for line in src_lines]
     ))
     src_tok2id, src_id2tok = build_vocab_maps(config['data']['src_vocab'])
     # train time: just pick attributes that are close to the current (using word distance)
@@ -195,15 +208,13 @@ def gen_train_data(src, attribute_vocab, config):
         'tok2id': src_tok2id, 'id2tok': src_id2tok, 'dist_measurer': src_dist_measurer
     }
 
-    return src
+    return src, tok_weights_dict
 
 
-def gen_dev_data(src, tgt, attribute_vocab, config):
-    attribute_vocab = set([x.strip() for x in open(attribute_vocab)])
-
+def gen_dev_data(src, tgt, tok_weights_dict, config):
     src_lines = [l.strip().split() for l in open(src, 'r')]
     src_lines, src_content, src_attribute = list(zip(
-        *[extract_attributes(line, attribute_vocab) for line in src_lines]
+        *[extract_attributes(line, tok_weights_dict) for line in src_lines]
     ))
     src_tok2id, src_id2tok = build_vocab_maps(config['data']['src_vocab'])
     # train time: just pick attributes that are close to the current (using word distance)
@@ -223,7 +234,7 @@ def gen_dev_data(src, tgt, attribute_vocab, config):
 
     tgt_lines = [l.strip().split() for l in open(tgt, 'r')] if tgt else None
     tgt_lines, tgt_content, tgt_attribute = list(zip(
-        *[extract_attributes(line, attribute_vocab) for line in tgt_lines]
+        *[extract_attributes(line, tok_weights_dict) for line in tgt_lines]
     ))
     tgt_tok2id, tgt_id2tok = build_vocab_maps(config['data']['tgt_vocab'])
     tgt_dist_measurer = CorpusSearcher(

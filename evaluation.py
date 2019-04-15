@@ -14,8 +14,6 @@ import models
 from utils import word2id, id2word
 from cuda import CUDA
 
-from tools.make_attribute_vocab import make_attribute
-
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # BLEU functions from https://github.com/MaximumEntropy/Seq2Seq-PyTorch
@@ -263,7 +261,7 @@ def inference_rouge(model, src, tgt, config):
        
         
         tgt_dist_measurer = tgt['dist_measurer']
-        related_content_tgt = tgt_dist_measurer.most_similar(j, 3)   # list of n seq_str
+        related_content_tgt = tgt_dist_measurer.most_similar(j, n=3)   # list of n seq_str
         # related_content_tgt = source_content_str, target_content_str, target_att_str, idx, score
         
         # Put all the retrieved attributes together
