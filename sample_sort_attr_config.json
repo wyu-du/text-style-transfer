@@ -1,0 +1,39 @@
+{
+  "training": {
+    "optimizer": "adadelta",
+    "learning_rate": 1.0,
+    "max_norm": 2.0,
+    "epochs": 80,
+    "batches_per_report": 100,
+    "batches_per_sampling": 500,
+    "random_seed": 1
+  },
+  "data": {
+    "src": "data/yelp/sentiment.train.0",
+    "tgt": "data/yelp/sentiment.train.1",
+    "src_dev": "data/yelp/sentiment.dev.1",
+    "tgt_dev": "data/yelp/sentiment.dev.0",
+    "src_truth": "data/yelp/sentiment.truth.1",
+    "tgt_truth": "data/yelp/sentiment.truth.0",
+    "src_vocab": "data/yelp/dict.20k",
+    "tgt_vocab": "data/yelp/dict.20k",
+    "share_vocab": true,
+    "attribute_vocab": "data/yelp/dict_att.20k",
+    "batch_size": 10,
+    "max_len": 50,
+    "working_dir": "sample_run"
+  },
+    "model": {
+        "model_type": "delete_retrieve",
+        "emb_dim": 128,
+        "attention": false,
+        "encoder": "lstm",
+        "enc_hidden_dim": 512,
+        "enc_layers": 1,
+        "bidirectional": true,
+        "dec_hidden_dim": 512,
+        "dec_layers": 1,
+        "decode": "greedy",
+        "dropout": 0.2
+    }
+}

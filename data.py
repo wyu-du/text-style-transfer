@@ -71,11 +71,20 @@ class CorpusSearcher(object):
                 for (score, i) in selected
             ]
     
+<<<<<<< HEAD
         #print("\n\nQuery: " + query)
         #print("\n\tSelected: ")
         #for select in selected:
         #    print("\ti: " + str(select[3]) + "\tkey_corpus[i]: " + str(select[1]) + "\tvalue_corpus[i]: " + str(select[2]) + "\tscore: " + str(select[4]))
         #return []
+=======
+        #if(self.use_doc2vec):
+        #    print("\n\nQuery: " + query)
+        #    print("\n\tSelected: ")
+        #    for select in selected:
+        #        print("\ti: " + str(select[3]) + "\tkey_corpus[i]: " + str(select[1]) + "\tvalue_corpus[i]: " + str(select[2]) + "\tscore: " + str(select[4]))
+        #return
+>>>>>>> d4ad87463e98df34ad93d58bcf7f7f69695eda76
 
         return selected
 
@@ -108,7 +117,11 @@ def build_vocab_maps(vocab_file):
 
 def extract_attributes(line, tok_weights_dict):
     # Decide how many attributes to be picked
+<<<<<<< HEAD
     attr_num = 3 if len(line) > 8 else 2 if len(line) > 4 else 1
+=======
+    attr_num = 2 if len(line) > 4 else 1
+>>>>>>> d4ad87463e98df34ad93d58bcf7f7f69695eda76
     
     line_tok_dict = {}
     for tok in line:

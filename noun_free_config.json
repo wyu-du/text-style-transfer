@@ -18,7 +18,7 @@
     "src_vocab": "data/yelp/dict.20k",
     "tgt_vocab": "data/yelp/dict.20k",
     "share_vocab": true,
-    "attribute_vocab": "data/yelp/dict_no_NN_attr.20k",
+    "attribute_vocab": "data/yelp/dict_attr_top500.20k",
     "batch_size": 10,
     "max_len": 50,
     "working_dir": "noun_free_run"
