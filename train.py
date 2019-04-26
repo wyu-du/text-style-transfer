@@ -25,7 +25,9 @@ def build_model(src, config):
     
     if config['model']['model_type'] == 'delete_retrieve':
         model = models.DeleteRetrieveModel(vocab_size=len(src['tok2id']), pad_id=src['tok2id']['<pad>'], config=config)
-    else:
+    if config['model']['model_type'] == 'pointer':
+        model = models.PointerModel(vocab_size=len(src['tok2id']), pad_id=src['tok2id']['<pad>'], config=config)
+    if config['model']['model_type'] == 'delete':
         model = models.DeleteModel(vocab_size=len(src['tok2id']), pad_id=src['tok2id']['<pad>'], config=config)
     return model
 
