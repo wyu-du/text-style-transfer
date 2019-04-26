@@ -214,21 +214,25 @@ def decode_dataset(model, src, tgt, config):
 
 def inference_bleu(model, src, tgt, config):
     """ decode and evaluate bleu """
-    inputs, preds, ground_truths, auxs = decode_dataset(model, src, tgt, config)
+    searcher, rouge_list, initial_inputs, preds, ground_truths, auxs = my_decode_dataset(model, src, tgt, config)
 
     bleu = get_bleu(preds, ground_truths)
     edit_distance = get_edit_distance(preds, ground_truths)
-    precisions, recalls = get_precisions_recalls(inputs, preds, ground_truths)
+    precisions, recalls = get_precisions_recalls(initial_inputs, preds, ground_truths)
 
     precision = np.average(precisions)
     recall = np.average(recalls)
 
-    inputs = [' '.join(seq) for seq in inputs]
+    initial_inputs = [' '.join(seq) for seq in initial_inputs]
     preds = [' '.join(seq) for seq in preds]
     ground_truths = [' '.join(seq) for seq in ground_truths]
-    auxs = [' '.join(seq) for seq in auxs]
+    for i, seq in enumerate(auxs):
+        if len(seq) == 1:
+            auxs[i] = seq[0]
+        else:
+            auxs[i] = ' '.join(seq)
 
-    return bleu, edit_distance, precision, recall, inputs, preds, ground_truths, auxs
+    return bleu, edit_distance, precision, recall, initial_inputs, preds, ground_truths, auxs
 
 
 def inference_rouge(model, src, tgt, config):
@@ -240,70 +244,7 @@ def inference_rouge(model, src, tgt, config):
         tgt: target data object (i.e. data 0, learnt by the model)
     """
         
-    searcher = models.GreedySearchDecoder(model)
-    
-    rouge_list = []
-    initial_inputs = []
-    preds = []
-    ground_truths = []
-    auxs = []
-    for j in range(0, len(src['data'])):
-        if j%100 == 0:
-            logging.info('Finished decoding data: %d/%d ...'% (j, len(src['data'])))
-        
-        # batch_size = 1
-        inputs, _, outputs = data.minibatch(src, tgt, j, 1, 
-                                            config['data']['max_len'], 
-                                            config['model']['model_type'], 
-                                            is_test=True)
-        input_content_src, _, srclens, srcmask, _ = inputs
-        _, output_data_tgt, tgtlens, tgtmask, _ = outputs
-       
-        
-        tgt_dist_measurer = tgt['dist_measurer']
-        related_content_tgt = tgt_dist_measurer.most_similar(j, n=3)   # list of n seq_str
-        # related_content_tgt = source_content_str, target_content_str, target_att_str, idx, score
-        
-        # Put all the retrieved attributes together
-        retrieved_attrs_set = set()
-        for single_data_tgt in related_content_tgt:
-            sp = single_data_tgt[2].split()
-            for attr in sp:
-                retrieved_attrs_set.add(attr)
-                    
-        retrieved_attrs = ' '.join(retrieved_attrs_set)
-        
-        input_ids_aux, auxlens, auxmask = word2id(retrieved_attrs, None, tgt, config['data']['max_len'])
-        
-        n_decoded_sents = []
-        
-        input_ids_aux = Variable(torch.LongTensor(input_ids_aux))
-        auxlens = Variable(torch.LongTensor(auxlens))
-        auxmask = Variable(torch.LongTensor(auxmask))
-            
-        if CUDA:
-            input_ids_aux = input_ids_aux.cuda()
-            auxlens = auxlens.cuda()
-            auxmask = auxmask.cuda()
-            
-        _, decoded_data_tgt = searcher(input_content_src, srcmask, srclens,
-                                           input_ids_aux, auxmask, auxlens,
-                                           20, tgt['tok2id']['<s>'])
-        
-        decode_sent = id2word(decoded_data_tgt, tgt)
-        n_decoded_sents.append(decode_sent)
-        #print('Source content sentence:'+''.join(related_content_tgt[0][1]))
-        #print('Decoded data sentence:'+n_decoded_sents[0])
-        input_sent = id2word(input_content_src, src)
-        initial_inputs.append(input_sent.split())
-        pred_sent = n_decoded_sents[0]
-        preds.append(pred_sent.split())
-        truth_sent = id2word(output_data_tgt, tgt)
-        ground_truths.append(truth_sent.split())
-        aux_sent = id2word(input_ids_aux, src)
-        auxs.append(aux_sent.split())
-        rouge_cur = rouge_2(truth_sent, pred_sent)
-        rouge_list.append(rouge_cur)
+    searcher, rouge_list, initial_inputs, preds, ground_truths, auxs = my_decode_dataset(model, src, tgt, config)
         
     rouge = np.mean(rouge_list)
     edit_distance = get_edit_distance(preds, ground_truths)
@@ -398,3 +339,71 @@ def evaluate_rouge(model, src, tgt, config):
         #print('Decoded data sentence:'+decoded_sent)
 
     return np.mean(rouge_list), decoded_results
+
+def my_decode_dataset(model, src, tgt, config):
+    searcher = models.GreedySearchDecoder(model)
+    rouge_list = []
+    initial_inputs = []
+    preds = []
+    ground_truths = []
+    auxs = []
+    
+    for j in range(0, len(src['data'])):
+        if j%100 == 0:
+            logging.info('Finished decoding data: %d/%d ...'% (j, len(src['data'])))
+        
+        # batch_size = 1
+        inputs, _, outputs = data.minibatch(src, tgt, j, 1, 
+                                            config['data']['max_len'], 
+                                            config['model']['model_type'], 
+                                            is_test=True)
+        input_content_src, _, srclens, srcmask, _ = inputs
+        _, output_data_tgt, tgtlens, tgtmask, _ = outputs
+       
+        
+        tgt_dist_measurer = tgt['dist_measurer']
+        related_content_tgt = tgt_dist_measurer.most_similar(j, n=3)   # list of n seq_str
+        # related_content_tgt = source_content_str, target_content_str, target_att_str, idx, score
+        
+        # Put all the retrieved attributes together
+        retrieved_attrs_set = set()
+        for single_data_tgt in related_content_tgt:
+            sp = single_data_tgt[2].split()
+            for attr in sp:
+                retrieved_attrs_set.add(attr)
+                    
+        retrieved_attrs = ' '.join(retrieved_attrs_set)
+        
+        input_ids_aux, auxlens, auxmask = word2id(retrieved_attrs, None, tgt, config['data']['max_len'])
+        
+        n_decoded_sents = []
+        
+        input_ids_aux = Variable(torch.LongTensor(input_ids_aux))
+        auxlens = Variable(torch.LongTensor(auxlens))
+        auxmask = Variable(torch.LongTensor(auxmask))
+            
+        if CUDA:
+            input_ids_aux = input_ids_aux.cuda()
+            auxlens = auxlens.cuda()
+            auxmask = auxmask.cuda()
+            
+        _, decoded_data_tgt = searcher(input_content_src, srcmask, srclens,
+                                           input_ids_aux, auxmask, auxlens,
+                                           20, tgt['tok2id']['<s>'])
+        
+        decode_sent = id2word(decoded_data_tgt, tgt)
+        n_decoded_sents.append(decode_sent)
+        #print('Source content sentence:'+''.join(related_content_tgt[0][1]))
+        #print('Decoded data sentence:'+n_decoded_sents[0])
+        input_sent = id2word(input_content_src, src)
+        initial_inputs.append(input_sent.split())
+        pred_sent = n_decoded_sents[0]
+        preds.append(pred_sent.split())
+        truth_sent = id2word(output_data_tgt, tgt)
+        ground_truths.append(truth_sent.split())
+        aux_sent = id2word(input_ids_aux, src)
+        auxs.append(aux_sent.split())
+        rouge_cur = rouge_2(truth_sent, pred_sent)
+        rouge_list.append(rouge_cur)
+    
+    return searcher, rouge_list, initial_inputs, preds, ground_truths, auxs

@@ -22,10 +22,10 @@ def make_attribute(train_corpus0, train_corpus1, test_corpus0=None, test_corpus1
     def build_dataset(corpus0, corpus1):
         X = []
         Y = []
-        for line in open(corpus0):
+        for line in open(corpus0, encoding="utf8"):
             X.append(line)
             Y.append(0)
-        for line in open(corpus1):
+        for line in open(corpus1, encoding="utf8"):
             X.append(line)
             Y.append(1)
         return X, Y

@@ -71,20 +71,17 @@ class CorpusSearcher(object):
                 for (score, i) in selected
             ]
     
-<<<<<<< HEAD
         #print("\n\nQuery: " + query)
         #print("\n\tSelected: ")
         #for select in selected:
         #    print("\ti: " + str(select[3]) + "\tkey_corpus[i]: " + str(select[1]) + "\tvalue_corpus[i]: " + str(select[2]) + "\tscore: " + str(select[4]))
         #return []
-=======
         #if(self.use_doc2vec):
         #    print("\n\nQuery: " + query)
         #    print("\n\tSelected: ")
         #    for select in selected:
         #        print("\ti: " + str(select[3]) + "\tkey_corpus[i]: " + str(select[1]) + "\tvalue_corpus[i]: " + str(select[2]) + "\tscore: " + str(select[4]))
         #return
->>>>>>> d4ad87463e98df34ad93d58bcf7f7f69695eda76
 
         return selected
 
@@ -96,7 +93,7 @@ def build_vocab_maps(vocab_file):
     sos = '<s>'
     eos = '</s>'
 
-    lines = [x.strip() for x in open(vocab_file)]
+    lines = [x.strip() for x in open(vocab_file, encoding="utf8")]
 
     assert lines[0] == unk and lines[1] == pad and lines[2] == sos and lines[3] == eos, \
         "The first words in %s are not %s, %s, %s, %s" % (vocab_file, unk, pad, sos, eos)
@@ -117,11 +114,7 @@ def build_vocab_maps(vocab_file):
 
 def extract_attributes(line, tok_weights_dict):
     # Decide how many attributes to be picked
-<<<<<<< HEAD
     attr_num = 3 if len(line) > 8 else 2 if len(line) > 4 else 1
-=======
-    attr_num = 2 if len(line) > 4 else 1
->>>>>>> d4ad87463e98df34ad93d58bcf7f7f69695eda76
     
     line_tok_dict = {}
     for tok in line:
@@ -200,7 +193,7 @@ def read_nmt_data(src, config, tgt, attribute_vocab, train_src=None, train_tgt=N
 def gen_train_data(src, tgt, config):
     tok_weights_dict = make_attribute(src, tgt)
 
-    src_lines = [l.strip().split() for l in open(src, 'r')]
+    src_lines = [l.strip().split() for l in open(src, 'r', encoding="utf8")]
     src_lines, src_content, src_attribute = list(zip(
         *[extract_attributes(line, tok_weights_dict) for line in src_lines]
     ))
@@ -224,7 +217,7 @@ def gen_train_data(src, tgt, config):
 
 
 def gen_dev_data(src, tgt, tok_weights_dict, config):
-    src_lines = [l.strip().split() for l in open(src, 'r')]
+    src_lines = [l.strip().split() for l in open(src, 'r', encoding="utf8")]
     src_lines, src_content, src_attribute = list(zip(
         *[extract_attributes(line, tok_weights_dict) for line in src_lines]
     ))
@@ -244,7 +237,7 @@ def gen_dev_data(src, tgt, tok_weights_dict, config):
         'tok2id': src_tok2id, 'id2tok': src_id2tok, 'dist_measurer': src_dist_measurer
     }
 
-    tgt_lines = [l.strip().split() for l in open(tgt, 'r')] if tgt else None
+    tgt_lines = [l.strip().split() for l in open(tgt, 'r', encoding="utf8")] if tgt else None
     tgt_lines, tgt_content, tgt_attribute = list(zip(
         *[extract_attributes(line, tok_weights_dict) for line in tgt_lines]
     ))
