@@ -28,9 +28,9 @@ def build_model(src, config):
 
 def test(config, working_dir):
     # load data
-    src = data.gen_train_data(src=config['data']['src'], attribute_vocab=config['data']['attribute_vocab'], config=config)
+    src, tok_weights_dict = data.gen_train_data(src=config['data']['src'], tgt=config['data']['tgt'], config=config)
     src_truth, tgt_truth = data.gen_dev_data(src=config['data']['src_truth'], tgt=config['data']['tgt_truth'],
-                                             attribute_vocab=config['data']['attribute_vocab'], config=config)
+                                             tok_weights_dict=tok_weights_dict, config=config)
     logging.info('Reading data done!')
     
     # build model
@@ -147,7 +147,7 @@ if __name__=='__main__':
     
     # set up logging
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s',
-                        filename='%s/train_log' % working_dir)
+                        filename='%s/test_log' % working_dir)
     console = logging.StreamHandler()
     console.setLevel(logging.INFO)
     console.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))

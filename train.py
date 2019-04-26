@@ -34,11 +34,11 @@ def build_model(src, config):
 
 def train(config, working_dir):
     # load data
-    src = data.gen_train_data(src=config['data']['src'], attribute_vocab=config['data']['attribute_vocab'], config=config)
-    src_dev, tgt_dev = data.gen_dev_data(src=config['data']['src_dev'], tgt=config['data']['tgt_dev'],
-                                         attribute_vocab=config['data']['attribute_vocab'], config=config)
+    src, tok_weights_dict = data.gen_train_data(src=config['data']['src'], tgt=config['data']['tgt'], config=config)
+    src_dev, tgt_dev = data.gen_dev_data(src=config['data']['src_dev'], tgt=config['data']['tgt_dev'], 
+                                         tok_weights_dict=tok_weights_dict, config=config)
     src_truth, tgt_truth = data.gen_dev_data(src=config['data']['src_truth'], tgt=config['data']['tgt_truth'],
-                                             attribute_vocab=config['data']['attribute_vocab'], config=config)
+                                             tok_weights_dict=tok_weights_dict, config=config)
     logging.info('Reading data done!')
     
     # build model
