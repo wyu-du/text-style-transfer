@@ -47,7 +47,7 @@ class DeleteModel(nn.Module):
         self.c_bridge.bias.data.fill_(0)
         self.output_projection.bias.data.fill_(0)
         
-    def forward(self, input_con, con_mask, con_len, input_attr, attr_mask, attr_len, input_data):
+    def forward(self, input_con, con_mask, con_len, input_attr, attr_mask, attr_len, input_data, mode):
         con_emb = self.embedding(input_con)
         con_mask = (1-con_mask).byte()
         output_con, (con_h_t, con_c_t) = self.encoder(con_emb, con_len, con_mask)
@@ -139,7 +139,7 @@ class DeleteRetrieveModel(nn.Module):
         self.c_bridge.bias.data.fill_(0)
         self.output_projection.bias.data.fill_(0)
         
-    def forward(self, input_con, con_mask, con_len, input_attr, attr_mask, attr_len, input_data):
+    def forward(self, input_con, con_mask, con_len, input_attr, attr_mask, attr_len, input_data, mode):
         # [batch, max_len, word_dim]
         con_emb = self.embedding(input_con)
         con_mask = (1-con_mask).byte()
