@@ -37,8 +37,6 @@ def train(config, working_dir):
     src, tok_weights_dict = data.gen_train_data(src=config['data']['src'], tgt=config['data']['tgt'], config=config)
     src_dev, tgt_dev = data.gen_dev_data(src=config['data']['src_dev'], tgt=config['data']['tgt_dev'], 
                                          tok_weights_dict=tok_weights_dict, config=config)
-    src_truth, tgt_truth = data.gen_dev_data(src=config['data']['src_truth'], tgt=config['data']['tgt_truth'],
-                                             tok_weights_dict=tok_weights_dict, config=config)
     logging.info('Reading data done!')
     
     # build model
@@ -136,7 +134,7 @@ def train(config, working_dir):
         
         # compute validation loss
         logging.info('Computing dev_loss on validation data ...')
-        dev_loss = evaluation.evaluate_lpp(model=model, src=src_dev, tgt=src_dev, config=config)
+        dev_loss = evaluation.evaluate_lpp(model=model, src=tgt_dev, tgt=tgt_dev, config=config)
         dev_rouge, decoded_sents = evaluation.evaluate_rouge(model=model, src=tgt_dev, tgt=tgt_dev, config=config)
         logging.info('...done!')
     

@@ -337,9 +337,10 @@ class PointerModel(nn.Module):
 
 
 class GreedySearchDecoder(nn.Module):
-    def __init__(self, model):
+    def __init__(self, model, config):
         super(GreedySearchDecoder, self).__init__()
         self.model = model
+        self.config = config
         
         
     def forward(self, input_con, con_mask, con_len, input_attr, attr_mask, attr_len, max_len, start_id):
@@ -350,6 +351,8 @@ class GreedySearchDecoder(nn.Module):
         for i in range(max_len):
             decoder_logit, word_prob = self.model(input_con, con_mask, con_len, 
                                              input_attr, attr_mask, attr_len, input_data)
+            if self.config['model']['model_type'] == 'pointer':
+                word_prob = word_prob.squeeze()
             decoder_argmax = word_prob.data.cpu().numpy().argmax(axis=-1)
             next_pred = Variable(torch.from_numpy(decoder_argmax[:, -1]))
             if CUDA:
