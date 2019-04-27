@@ -128,18 +128,18 @@ def train(config, working_dir):
                 start_since_last_report = time.time()
                 losses_since_last_report = []
 
-            # start evaluate the model on entire dev set
-            logging.info('EPOCH %s COMPLETE. VALIDATING...' % epoch)
-            model.eval()
-            
-            # compute validation loss
-            logging.info('Computing dev_loss on validation data ...')
-            dev_loss = evaluation.evaluate_lpp(model=model, src=tgt_dev, tgt=tgt_dev, config=config)
-            dev_rouge, decoded_sents = evaluation.evaluate_rouge(model=model, src=tgt_dev, tgt=tgt_dev, config=config)
-            logging.info('...done!')
+        # start evaluate the model on entire dev set
+        logging.info('EPOCH %s COMPLETE. VALIDATING...' % epoch)
+        model.eval()
         
-            # switch back to train mode
-            model.train()
+        # compute validation loss
+        logging.info('Computing dev_loss on validation data ...')
+        dev_loss = evaluation.evaluate_lpp(model=model, src=tgt_dev, tgt=tgt_dev, config=config)
+        dev_rouge, decoded_sents = evaluation.evaluate_rouge(model=model, src=tgt_dev, tgt=tgt_dev, config=config)
+        logging.info('...done!')
+    
+        # switch back to train mode
+        model.train()
 
     
 if __name__=='__main__':

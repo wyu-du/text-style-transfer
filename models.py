@@ -330,6 +330,8 @@ class PointerModel(nn.Module):
             # [batch, hidden_dim]
             output_data, (h_t, c_t) = self.decoder(y_data_emb, (h_t, c_t), output_con, con_mask)
             
+            h_t = h_t.squeeze(dim=0)
+            c_t = c_t.squeeze(dim=0)
             dec_dist = torch.cat((h_t, c_t), 1)
             attr_dist = torch.cat((a_ht, a_ct), 1)
             p_gen_input = torch.cat((dec_dist, attr_dist), 1)
