@@ -101,7 +101,7 @@ def train(config, working_dir):
             
             # train the model with current training data batch
             decoder_logit, decoder_probs = model(input_content_src, srcmask, srclens,
-                                                 input_ids_aux, auxmask, auxlens, input_data_tgt)
+                                                 input_ids_aux, auxmask, auxlens, input_data_tgt, mode='train')
             # setup the optimizer
             optimizer.zero_grad()
             loss = loss_criterion(decoder_logit.contiguous().view(-1, len(src['tok2id'])),
@@ -128,18 +128,18 @@ def train(config, working_dir):
                 start_since_last_report = time.time()
                 losses_since_last_report = []
 
-        # start evaluate the model on entire dev set
-        logging.info('EPOCH %s COMPLETE. VALIDATING...' % epoch)
-        model.eval()
+            # start evaluate the model on entire dev set
+            logging.info('EPOCH %s COMPLETE. VALIDATING...' % epoch)
+            model.eval()
+            
+            # compute validation loss
+            logging.info('Computing dev_loss on validation data ...')
+            dev_loss = evaluation.evaluate_lpp(model=model, src=tgt_dev, tgt=tgt_dev, config=config)
+            dev_rouge, decoded_sents = evaluation.evaluate_rouge(model=model, src=tgt_dev, tgt=tgt_dev, config=config)
+            logging.info('...done!')
         
-        # compute validation loss
-        logging.info('Computing dev_loss on validation data ...')
-        dev_loss = evaluation.evaluate_lpp(model=model, src=tgt_dev, tgt=tgt_dev, config=config)
-        dev_rouge, decoded_sents = evaluation.evaluate_rouge(model=model, src=tgt_dev, tgt=tgt_dev, config=config)
-        logging.info('...done!')
-    
-        # switch back to train mode
-        model.train()
+            # switch back to train mode
+            model.train()
 
     
 if __name__=='__main__':

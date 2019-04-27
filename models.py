@@ -374,7 +374,7 @@ class GreedySearchDecoder(nn.Module):
         
         for i in range(max_len):
             decoder_logit, word_prob = self.model(input_con, con_mask, con_len, 
-                                             input_attr, attr_mask, attr_len, input_data)
+                                             input_attr, attr_mask, attr_len, input_data, mode='dev')
             decoder_argmax = word_prob.data.cpu().numpy().argmax(axis=-1)
             next_pred = Variable(torch.from_numpy(decoder_argmax[:, -1]))
             if CUDA:
