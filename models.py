@@ -247,7 +247,7 @@ class PointerModel(nn.Module):
         self.c_bridge.bias.data.fill_(0)
         self.output_projection.bias.data.fill_(0)
         
-    def forward(self, input_con, con_mask, con_len, input_attr, attr_mask, attr_len, input_data):
+    def forward(self, input_con, con_mask, con_len, input_attr, attr_mask, attr_len, input_data, mode):
         # [batch, max_len, word_dim]
         con_emb = self.embedding(input_con)
         con_mask = (1-con_mask).byte()
@@ -284,17 +284,51 @@ class PointerModel(nn.Module):
         c_t = self.c_bridge(c_t)
         h_t = self.h_bridge(h_t)
         
-        decoder_logit_list = []
-        final_dist_list = []
-        for di in range(min(self.config['data']['max_len'], input_data.size()[1])):
-            y_t = input_data[:, di]
-            y_data_emb = self.embedding(y_t)
-            y_data_emb = y_data_emb.unsqueeze(dim=1)
-            # [batch, 1, hidden_dim]
-            output_data, (h_t, c_t) = self.decoder(y_data_emb, (h_t, c_t), output_con, con_mask)
+        if mode == 'train':
+            decoder_logit_list = []
+            final_dist_list = []
+            for di in range(min(self.config['data']['max_len'], input_data.size()[1])):
+                y_t = input_data[:, di]
+                y_data_emb = self.embedding(y_t)
+                y_data_emb = y_data_emb.unsqueeze(dim=1)
+                # [batch, 1, hidden_dim]
+                output_data, (h_t, c_t) = self.decoder(y_data_emb, (h_t, c_t), output_con, con_mask)
+                
+                h_t = h_t.squeeze()
+                c_t = c_t.squeeze()
+                
+                dec_dist = torch.cat((h_t, c_t), 1)
+                attr_dist = torch.cat((a_ht, a_ct), 1)
+                p_gen_input = torch.cat((dec_dist, attr_dist), 1)
+                p_gen = self.p_gen_linear(p_gen_input)
+                p_gen = torch.sigmoid(p_gen)
             
-            h_t = h_t.squeeze()
-            c_t = c_t.squeeze()
+                # [batch, hidden_dim]
+                output_data_reshape = output_data.contiguous().view(output_data.size()[0]*output_data.size()[1], 
+                                                         output_data.size()[2])
+                # [batch, vocab_size]
+                decoder_logit = self.output_projection(output_data_reshape)
+                # [batch, vocab_size]
+                dec_probs = self.softmax(decoder_logit)
+                
+                # [batch, vocab_size]
+                attr_logit = self.output_projection(a_ht)
+                # [batch, vocab_size]
+                attr_probs = self.softmax(attr_logit)
+                
+                dec_probs = p_gen * dec_probs
+                attr_probs = (1-p_gen) * attr_probs
+                final_dist = dec_probs + attr_probs
+                
+                decoder_logit_list.append(decoder_logit)
+                final_dist_list.append(final_dist)
+            
+            decoder_logits = torch.stack(decoder_logit_list, 1)
+            final_dists = torch.stack(final_dist_list, 1)
+        else:
+            y_data_emb = self.embedding(input_data)
+            # [batch, hidden_dim]
+            output_data, (h_t, c_t) = self.decoder(y_data_emb, (h_t, c_t), output_con, con_mask)
             
             dec_dist = torch.cat((h_t, c_t), 1)
             attr_dist = torch.cat((a_ht, a_ct), 1)
@@ -302,13 +336,10 @@ class PointerModel(nn.Module):
             p_gen = self.p_gen_linear(p_gen_input)
             p_gen = torch.sigmoid(p_gen)
         
-            # [batch, hidden_dim]
-            output_data_reshape = output_data.contiguous().view(output_data.size()[0]*output_data.size()[1], 
-                                                     output_data.size()[2])
             # [batch, vocab_size]
-            decoder_logit = self.output_projection(output_data_reshape)
+            decoder_logits = self.output_projection(output_data)
             # [batch, vocab_size]
-            dec_probs = self.softmax(decoder_logit)
+            dec_probs = self.softmax(decoder_logits)
             
             # [batch, vocab_size]
             attr_logit = self.output_projection(a_ht)
@@ -317,13 +348,7 @@ class PointerModel(nn.Module):
             
             dec_probs = p_gen * dec_probs
             attr_probs = (1-p_gen) * attr_probs
-            final_dist = dec_probs + attr_probs
-            
-            decoder_logit_list.append(decoder_logit)
-            final_dist_list.append(final_dist)
-        
-        decoder_logits = torch.stack(decoder_logit_list, 1)
-        final_dists = torch.stack(final_dist_list, 1)
+            final_dists = dec_probs + attr_probs
         
         return decoder_logits, final_dists
     
@@ -337,10 +362,9 @@ class PointerModel(nn.Module):
 
 
 class GreedySearchDecoder(nn.Module):
-    def __init__(self, model, config):
+    def __init__(self, model):
         super(GreedySearchDecoder, self).__init__()
         self.model = model
-        self.config = config
         
         
     def forward(self, input_con, con_mask, con_len, input_attr, attr_mask, attr_len, max_len, start_id):
@@ -351,8 +375,6 @@ class GreedySearchDecoder(nn.Module):
         for i in range(max_len):
             decoder_logit, word_prob = self.model(input_con, con_mask, con_len, 
                                              input_attr, attr_mask, attr_len, input_data)
-            if self.config['model']['model_type'] == 'pointer':
-                word_prob = word_prob.squeeze()
             decoder_argmax = word_prob.data.cpu().numpy().argmax(axis=-1)
             next_pred = Variable(torch.from_numpy(decoder_argmax[:, -1]))
             if CUDA:

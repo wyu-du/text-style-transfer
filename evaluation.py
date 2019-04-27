@@ -312,7 +312,7 @@ def evaluate_rouge(model, src, tgt, config):
         weight_mask = weight_mask.cuda()
     weight_mask[tgt['tok2id']['<pad>']] = 0
         
-    searcher = models.GreedySearchDecoder(model, config)
+    searcher = models.GreedySearchDecoder(model)
 
     rouge_list = []
     decoded_results = []
@@ -341,7 +341,7 @@ def evaluate_rouge(model, src, tgt, config):
     return np.mean(rouge_list), decoded_results
 
 def my_decode_dataset(model, src, tgt, config):
-    searcher = models.GreedySearchDecoder(model, config)
+    searcher = models.GreedySearchDecoder(model)
     rouge_list = []
     initial_inputs = []
     preds = []
