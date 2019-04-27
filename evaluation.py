@@ -290,7 +290,7 @@ def evaluate_lpp(model, src, tgt, config):
         input_data_tgt, output_data_tgt, _, _, _ = output
 
         decoder_logit, decoder_probs = model(input_content_src, srcmask, srclens,
-                                             input_ids_aux, auxmask, auxlens, input_data_tgt)
+                                             input_ids_aux, auxmask, auxlens, input_data_tgt, mode='train')
 
         loss = loss_criterion(decoder_logit.contiguous().view(-1, len(tgt['tok2id'])),
                               output_data_tgt.view(-1))
