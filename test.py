@@ -84,50 +84,6 @@ def test(config, working_dir):
         logging.info('eval_recall: %f' % recall)
         logging.info('eval_edit_distance: %f' % edit_distance)
         logging.info('eval_rouge: %f' % cur_metric)
-    
-
-def predict_unaligned(epoch, model, src, tgt, config, working_dir):
-    searcher = models.GreedySearchDecoder(model)
-    
-    logging.info('Generating alter styled sentences on validation data ...')
-    decoded_results = []
-    for j in range(0, len(src['data'])):
-        # batch_size = 1
-        input_content, _, _ = data.minibatch(src, tgt, j, 1, 
-                                             config['data']['max_len'], 
-                                             config['model']['model_type'], 
-                                             is_test=True)
-        input_content_src, _, srclens, srcmask, _ = input_content
-        
-        tgt_dist_measurer = tgt['dist_measurer']
-        related_content_tgt = tgt_dist_measurer.most_similar(j)   # list of n seq_str
-        # related_content_tgt = source_content_str, target_content_str, target_att_str, idx, score
-        
-        n_decoded_sents = []
-        for i, single_data_tgt in enumerate(related_content_tgt):
-            # retrieve related attributes
-            input_ids_aux, auxlens, auxmask = word2id(single_data_tgt[2], None, tgt, config['data']['max_len'])
-            input_ids_aux = Variable(torch.LongTensor(input_ids_aux))
-            auxlens = Variable(torch.LongTensor(auxlens))
-            auxmask = Variable(torch.LongTensor(auxmask))
-            
-            if CUDA:
-                input_ids_aux = input_ids_aux.cuda()
-                auxlens = auxlens.cuda()
-                auxmask = auxmask.cuda()
-            
-            _, decoded_data_tgt = searcher(model, input_content_src, srcmask, srclens,
-                                           input_ids_aux, auxmask, auxlens,
-                                           20, tgt['tok2id']['<s>'])
-            n_decoded_sents.append(id2word(decoded_data_tgt, tgt))
-        decoded_results.append(n_decoded_sents)
-#        print('Source content sentence:'+' '.join(related_content_tgt[0][1]))
-#        print('Decoded data sentence:'+n_decoded_sents[0])
-        
-    with open(working_dir + '/transfered.%s' % epoch, 'w') as f:
-        for line in decoded_results:
-            f.write(' ||| '.join(line))
-            f.write('\n')
 
     
 if __name__=='__main__':

@@ -126,68 +126,7 @@ def extract_attributes(line, tok_weights_dict):
     for tok in line:
         if tok not in attribute:
             content.append(tok)
-
-    #print("line: " + ' '.join(line))
-    #print("content: " + str(content))
-    #print("attribute: " + str(attribute))
     return line, content, attribute
-
-
-def read_nmt_data(src, config, tgt, attribute_vocab, train_src=None, train_tgt=None):
-    attribute_vocab = set([x.strip() for x in open(attribute_vocab)])
-
-    src_lines = [l.strip().split() for l in open(src, 'r')]
-    src_lines, src_content, src_attribute = list(zip(
-        *[extract_attributes(line, attribute_vocab) for line in src_lines]
-    ))
-    src_tok2id, src_id2tok = build_vocab_maps(config['data']['src_vocab'])
-    # train time: just pick attributes that are close to the current (using word distance)
-    # we never need to do the TFIDF thing with the source because 
-    # test time is strictly in the src => tgt direction
-    src_dist_measurer = CorpusSearcher(
-        query_corpus=[' '.join(x) for x in src_attribute],
-        key_corpus=[' '.join(x) for x in src_attribute],
-        value_corpus=[' '.join(x) for x in src_attribute],
-        vectorizer=CountVectorizer(vocabulary=src_tok2id),
-        make_binary=True
-    )
-    src = {
-        'data': src_lines, 'content': src_content, 'attribute': src_attribute,
-        'tok2id': src_tok2id, 'id2tok': src_id2tok, 'dist_measurer': src_dist_measurer
-    }
-
-    tgt_lines = [l.strip().split() for l in open(tgt, 'r')] if tgt else None
-    tgt_lines, tgt_content, tgt_attribute = list(zip(
-        *[extract_attributes(line, attribute_vocab) for line in tgt_lines]
-    ))
-    tgt_tok2id, tgt_id2tok = build_vocab_maps(config['data']['tgt_vocab'])
-    # train time: just pick attributes that are close to the current (using word distance)
-    if train_src is None or train_tgt is None:
-        tgt_dist_measurer = CorpusSearcher(
-            query_corpus=[' '.join(x) for x in tgt_attribute],
-            key_corpus=[' '.join(x) for x in tgt_attribute],
-            value_corpus=[' '.join(x) for x in tgt_attribute],
-            vectorizer=CountVectorizer(vocabulary=tgt_tok2id),
-            make_binary=True
-        )
-    # at test time, scan through train content (using tfidf) and retrieve corresponding attributes
-    else:
-        tgt_dist_measurer = CorpusSearcher(
-            query_corpus=[' '.join(x) for x in train_src['content']],
-            #key_corpus=[' '.join(x) for x in train_tgt['content']],
-            key_corpus=train_tgt['content'],
-            value_corpus=[' '.join(x) for x in train_tgt['attribute']],
-            #vectorizer=TfidfVectorizer(vocabulary=tgt_tok2id),
-            vectorizer=Doc2Vec,
-            make_binary=False,
-            use_doc2vec=True,
-        )
-    tgt = {
-        'data': tgt_lines, 'content': tgt_content, 'attribute': tgt_attribute,
-        'tok2id': tgt_tok2id, 'id2tok': tgt_id2tok, 'dist_measurer': tgt_dist_measurer
-    }
-
-    return src, tgt
 
 
 def gen_train_data(src, tgt, config):
@@ -242,14 +181,6 @@ def gen_dev_data(src, tgt, tok_weights_dict, config):
         *[extract_attributes(line, tok_weights_dict) for line in tgt_lines]
     ))
     tgt_tok2id, tgt_id2tok = build_vocab_maps(config['data']['tgt_vocab'])
-    #tgt_dist_measurer = CorpusSearcher(
-    #    query_corpus=[' '.join(x) for x in src_content],
-    #    key_corpus=tgt_content,
-    #    value_corpus=[' '.join(x) for x in tgt_attribute],
-    #    vectorizer=Doc2Vec,
-    #    make_binary=False,
-    #    use_doc2vec=True,
-    #)
     tgt_dist_measurer = CorpusSearcher(
         query_corpus=[' '.join(x) for x in src_content],
         key_corpus=[' '.join(x) for x in tgt_content],

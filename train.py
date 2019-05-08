@@ -135,7 +135,7 @@ def train(config, working_dir):
         # compute validation loss
         logging.info('Computing dev_loss on validation data ...')
         dev_loss = evaluation.evaluate_lpp(model=model, src=tgt_dev, tgt=tgt_dev, config=config)
-        dev_rouge, decoded_sents = evaluation.evaluate_rouge(model=model, src=tgt_dev, tgt=tgt_dev, config=config)
+        dev_rouge, decoded_sents = evaluation.evaluate_rouge(model=model, src=src_dev, tgt=tgt_dev, config=config)
         logging.info('...done!')
     
         # switch back to train mode
