@@ -10,9 +10,9 @@ In this project we want to build a system that can transfer a language style int
 
 This task is non-trivial, because normally we do not have sufficient data that have aligned sentences with the same content but expressed in different styles. Therefore, we have to learn a model which can disentangle style attributes and content given only unaligned sentences.
 
-**System Architecture**: 
+**Model Architecture**: 
 <br>
-<img src="https://github.com/ddddwy/text-style-transfer/raw/master/data/model.png" width=45%>
+<img src="https://github.com/ddddwy/text-style-transfer/raw/master/data/model.png">
 <br>
 
 # Usage
