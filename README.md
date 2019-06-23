@@ -19,7 +19,9 @@ This task is non-trivial, because normally we do not have sufficient data that h
 
 ### Training
 
-`python train.py --config sample_config.json`
+```
+python train.py --config sample_config.json
+```
 
 Train a **negative** auto-encoder based on data `data/yelp/sentiment.train.0`, which takes the neutral content and negative attributes as inputs,
 and will output a negative comment. <br>
@@ -28,7 +30,9 @@ You can also train a positive auto-encoder by simply modifying the `"src": "data
 
 ### Testing
 
-`python test.py --config sample_config.json --bleu`
+```
+python test.py --config sample_config.json --bleu
+```
 
 Generate a negative comment based on positive comment dataset `data/yelp/sentiment.truth.1`, the procedure is as follows:
 
